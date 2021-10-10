@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>hexo_word_count</title>
+    <url>/2021/10/10/hexo-word-count/</url>
+    <content><![CDATA[<p>给Hexo添加字数统计和阅读时间统计主要涉及到hexo-wordcount，hexo-symbol-count-time和eslint这三个插件的安装，以及相关配置文件的修改。步骤不复杂，按照步骤操作就可以。</p>
+<span id="more"></span>
+
+<h3 id="1-插件安装"><a href="#1-插件安装" class="headerlink" title="1. 插件安装"></a>1. 插件安装</h3><p>实现字数统计和阅读统计涉及到三个插件（hexo-wordcount，hexo-symbols-count-time，eslint），安装命令如下：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm install hexo<span class="literal">-wordcount</span> -<span class="literal">-save</span></span><br><span class="line">npm install hexo<span class="literal">-symbols</span><span class="literal">-count</span><span class="literal">-time</span> -<span class="literal">-save</span></span><br><span class="line">npm install eslint -<span class="literal">-save</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-配置文件设置"><a href="#2-配置文件设置" class="headerlink" title="2. 配置文件设置"></a>2. 配置文件设置</h3><p>配置文件涉及到两个，分别是站点配置文件和主题配置文件。站点配置文件为博客根目录下的_config.yml文件，主题配置文件为主题文件夹内的_config.yml文件。</p>
+<h4 id="2-1-站点配置文件"><a href="#2-1-站点配置文件" class="headerlink" title="2.1 站点配置文件"></a>2.1 站点配置文件</h4><p>在站点配置文件中添加如下内容：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">symbols:</span> <span class="literal">true</span>                         <span class="comment"># 文章字数统计</span></span><br><span class="line">  <span class="attr">time:</span> <span class="literal">true</span>                            <span class="comment"># 文章阅读时长</span></span><br><span class="line">  <span class="attr">total_symbols:</span> <span class="literal">false</span>                  <span class="comment"># 站点总字数统计</span></span><br><span class="line">  <span class="attr">total_time:</span> <span class="literal">false</span>                     <span class="comment"># 站点总阅读时长</span></span><br><span class="line">  <span class="attr">exclude_codeblock:</span> <span class="literal">false</span>              <span class="comment"># 排除代码字数统计</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-主题配置文件"><a href="#2-2-主题配置文件" class="headerlink" title="2.2 主题配置文件"></a>2.2 主题配置文件</h4><p>主题配置文件涉及到两处修改，第一处为symbol_count_time，该处原配置文件中已有，只需按照如下内容修改即可：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Post wordcount display settings</span></span><br><span class="line"><span class="comment"># Dependencies: https://github.com/theme-next/hexo-symbols-count-time</span></span><br><span class="line"><span class="attr">symbols_count_time:</span></span><br><span class="line">  <span class="attr">separated_meta:</span> <span class="literal">false</span>          <span class="comment"># 是否另起一行，true表示不和发表时间一行</span></span><br><span class="line">  <span class="attr">item_text_post:</span> <span class="literal">true</span>           <span class="comment"># 是否显示文字描述（本文字数，阅读时长）</span></span><br><span class="line">  <span class="attr">item_text_total:</span> <span class="literal">false</span>         <span class="comment"># 页面底部是否显示文字描述</span></span><br><span class="line">  <span class="attr">awl:</span> <span class="number">4</span>                         <span class="comment"># 每个word的平均长度</span></span><br><span class="line">  <span class="attr">wpm:</span> <span class="number">275</span>                       <span class="comment"># 每分钟阅读的word</span></span><br><span class="line">  <span class="attr">suffix:</span> <span class="string">mins</span>                   <span class="comment"># 单位后缀</span></span><br></pre></td></tr></table></figure>
+
+<p>第二处为post_wordcount，此处原配置文件中不包含，可在配置文件最后自行添加如下内容：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">post_wordcount:</span></span><br><span class="line">  <span class="attr">item_text:</span> <span class="literal">true</span>                 <span class="comment"># 是否显示文字</span></span><br><span class="line">  <span class="attr">wordcount:</span> <span class="literal">true</span>                 <span class="comment"># 是否显示字数</span></span><br><span class="line">  <span class="attr">min2read:</span> <span class="literal">true</span>                  <span class="comment"># 是否显示阅读时间</span></span><br><span class="line">  <span class="attr">totalcount:</span> <span class="literal">false</span>               <span class="comment"># 是否显示站点总数</span></span><br><span class="line">  <span class="attr">separated_meta:</span> <span class="literal">false</span>           <span class="comment"># 是否分离</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-效果"><a href="#3-效果" class="headerlink" title="3. 效果"></a>3. 效果</h3><p>完成全部设置后，效果如下图所示：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010215632724.png" alt="image-20211010215632724"></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux命令之tar</title>
+    <url>/2021/10/10/tar/</url>
+    <content><![CDATA[<p>tar命令可以将多个文件和目录打包成一个大的文件，并结合gzip/bzip2进行压缩。本文首先介绍常用的压缩命令，然后介绍tar命令。</p>
+<span id="more"></span>
+
+<h3 id="1-常用压缩命令"><a href="#1-常用压缩命令" class="headerlink" title="1.常用压缩命令"></a>1.常用压缩命令</h3><p>Linux上的压缩命令非常多，不同的压缩命令对应不同的扩展名。因此，需要知道常见的扩展名所对应的压缩命令，才能使用相应的压缩命令对其进行解压缩。</p>
+<table>
+<thead>
+<tr>
+<th>扩展名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.gz</td>
+<td>gzip程序的压缩文件</td>
+</tr>
+<tr>
+<td>.bz2</td>
+<td>bzip2程序的压缩文件</td>
+</tr>
+<tr>
+<td>.tar</td>
+<td>tar程序的打包文件，并没有经过压缩</td>
+</tr>
+<tr>
+<td>.tar.gz</td>
+<td>tar程序的打包文件，并经过gzip的压缩</td>
+</tr>
+<tr>
+<td>.tar.bz2</td>
+<td>tar程序的打包文件，并经过bzip2的压缩</td>
+</tr>
+</tbody></table>
+<h4 id="1-1-gzip"><a href="#1-1-gzip" class="headerlink" title="1.1 gzip"></a>1.1 gzip</h4><p>gzip命令的语法如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gzip [-cdtv<span class="comment">#] filename</span></span><br></pre></td></tr></table></figure>
+
+<p>各个选项的含义如下：</p>
+<ul>
+<li>-c：将压缩后的数据输出的屏幕上，可以结合重定向进行使用</li>
+<li>-d：解压缩</li>
+<li>-t：校验压缩文件是否正确无误</li>
+<li>-v：对文件进行压缩，并显示压缩比</li>
+<li>-#：通过数字指定压缩等级，-1最快，但是压缩比最低；-9最慢，但是压缩比最高。默认为6</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gzip test.txt             <span class="comment"># 压缩test.txt，并生成test.txt.gz</span></span><br><span class="line">$ gzip -c test.txt          <span class="comment"># 输出test.txt压缩后的信息，并不产生test.txt.gz</span></span><br><span class="line">$ gzip -d test.txt.gz       <span class="comment"># 解压test.txt.gz</span></span><br><span class="line">$ gzip -v test.txt          <span class="comment"># 对test.txt进行压缩，并显示压缩比</span></span><br><span class="line">$ gzip -9 test.txt          <span class="comment"># 以压缩等级9对test.txt进行压缩</span></span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，使用gzip对文件压缩或者解压缩时，均不会保留原文件或者压缩文件，如果想要保留原始文件，可以结合-c选项和重定向，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gzip -c test.txt &gt; test.txt.gz  <span class="comment"># 将屏幕输出重定向至test.txt.gz，从而保留原文件 </span></span><br><span class="line">$ gzip -<span class="built_in">cd</span> test.txt.gz &gt; test.txt <span class="comment"># 将解压信息重定向至test.txt，从而保留原文件</span></span><br></pre></td></tr></table></figure>
+
+<p>上述选项也可结合使用，实现综合功能，如：</p>
+<ul>
+<li><p>比较不同压缩等级下的压缩比</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gzip -cv1 test.txt     <span class="comment"># 显示压缩信息和压缩等级，并不产生压缩文件</span></span><br><span class="line">$ gzip -cv9 test.txt</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>需要注意的是，gzip是对单个文件的压缩，并不能对整个目录进行压缩。虽然可以通过-r选项来对目录进行操作，但这也只是对目录里的文件分别进行压缩。</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010163234547.png" alt="image-20211010163234547"></p>
+<h4 id="1-2-bzip2"><a href="#1-2-bzip2" class="headerlink" title="1.2 bzip2"></a>1.2 bzip2</h4><p>bzip2的用法几乎与gzip相同，bzip2命令的语法如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ bzip2 [-cdkzv$] filename</span><br></pre></td></tr></table></figure>
+
+<p>各个选项的作用如下：</p>
+<ul>
+<li>-c：将压缩过程产生的数据输出至屏幕上</li>
+<li>-d：解压缩</li>
+<li>-k：保留原文件</li>
+<li>-z：压缩的参数</li>
+<li>-v：显示压缩比信息</li>
+<li>-#：与gzip相同，压缩参数，1最快，9压缩比最高</li>
+</ul>
+<p>相比gzip，bzip2提供了-k选项，在压缩文件的同时，可以保留原文件。当然也可以使用-c选项和重定向来实现，不过这显得有些麻烦了。</p>
+<p>和gzip一样，bzip2也仅能对单个文件进行压缩，而无法对多个文件或者文件夹进行压缩。</p>
+<h3 id="2-tar命令"><a href="#2-tar命令" class="headerlink" title="2. tar命令"></a>2. tar命令</h3><p>tar是Linux中的归档命令，用于打包多个文件，并且可以结合压缩命令进行使用，tar命令的语法如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar [-j|-z] [cv] [-f new_filename] object1 object2 ...    <span class="comment"># 压缩</span></span><br><span class="line">$ tar [-j|-z] [tv] [-f new_filename]         <span class="comment"># 查看文件名</span></span><br><span class="line">$ tar [-j|-z] [xv] [-f new_filename] [-C folder]            <span class="comment"># 解压</span></span><br></pre></td></tr></table></figure>
+
+<p>这些常用选项的作用如下：</p>
+<ul>
+<li>-c：新建打包文件，结合-v可以查看打包过程中的文件</li>
+<li>-t：查看打包文件中包含的文件名，结合-v可以显示文件的详细信息</li>
+<li>-x：解打包或者解压缩，注意：-c，-t，-x不可能在命令中同时出现</li>
+<li>-j：通过bzip2的支持进行压缩和解压缩，此时文件扩展名为*.tar.bz2</li>
+<li>-z：通过gzip的支持进行压缩和解压缩，此时文件扩展名为*.tar.gz</li>
+<li>-f：后面跟打包文件的名字，建议单独出来写</li>
+<li>-C：指定解打包的目录</li>
+</ul>
+<p>实际比较常用的打包，查看和解打包涉及到的命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar -jcv -f all_test.tar.bz2 <span class="built_in">test</span>*.txt      <span class="comment"># 使用bzip2进行压缩</span></span><br><span class="line">$ tar -zcv -f all_test.tar.gz <span class="built_in">test</span>*.txt       <span class="comment"># 使用gzip进行压缩</span></span><br><span class="line">$ tar -jtv -f all_test.tar.bz2                <span class="comment"># 查看打包文件名</span></span><br><span class="line">$ tar -ztv -f all_test.tar.gz                 <span class="comment"># 查看打包文件名</span></span><br><span class="line">$ tar -jxv -f all_test.tar.bz2                <span class="comment"># 解打包*.tar.bz2</span></span><br><span class="line">$ tar -zxv -f all_test.tar.gz                 <span class="comment"># 解打包*.tar.gz</span></span><br><span class="line">$ tar -zxv -f all_test.tar.gz -C target_folder/    <span class="comment"># 指定目录解打包</span></span><br></pre></td></tr></table></figure>
+
+<p>tar还有两个比较常用的功能：</p>
+<ul>
+<li><p>解打包某一个文件</p>
+<p>使用上述的解打包命令时，会把所有的文件都解出来，但有时候我们可能只需要其中的某个文件，这时候可以指定需要的文件，用法如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar -jxv -f filename.tar.bz2 -C targer_folder file1</span><br></pre></td></tr></table></figure>
+
+<p>其中，filename.tar.bz2为需要解打包的文件，file1为需要的目标文件，targer_folder为目标目录。</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010174744834.png" alt="image-20211010174744834"></p>
+</li>
+<li><p>打包时，排除某些文件</p>
+<p>可以使用–exclude来排除不需要打包的文件，示例如下：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010175823219.png" alt="image-20211010175823219"></p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux命令之sed</title>
+    <url>/2021/09/26/sed/</url>
+    <content><![CDATA[<h3 id="1-sed简介"><a href="#1-sed简介" class="headerlink" title="1. sed简介"></a>1. sed简介</h3><p>​        sed是Linux中的流编辑器，与传统的编辑器（如Vim）相比，它没有交互式的界面进行操作，而是通过命令来处理数据流中的数据。sed会对数据做如下操作：</p>
+<ol>
+<li><p>一次从输入中读取一行数据</p>
+</li>
+<li><p>根据提供的命令对数据进行处理（选取，删除，替换，新增）</p>
+</li>
+<li><p>将处理后的结果输出至stdout</p>
+</li>
+</ol>
+<span id="more"></span>
+
+<p>​        sed对一行处理完毕后，会读取下一行并继续进行上述操作，直至将所有的行处理完毕。sed命令的使用格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed options <span class="string">&#x27;actions&#x27;</span> file</span><br></pre></td></tr></table></figure>
+
+<p>其中，options为sed命令支持的选项，actions为编辑动作。</p>
+<h4 id="1-1-options"><a href="#1-1-options" class="headerlink" title="1.1 options"></a>1.1 options</h4><p>sed命令支持的选项和对应的功能如下所示：</p>
+<table>
+<thead>
+<tr>
+<th align="center">选项</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">-n</td>
+<td align="left">silent模式，只有经过sed处理的行会被输出至stdout</td>
+</tr>
+<tr>
+<td align="center">-e</td>
+<td align="left">允许对输入数据应用多条sed命令编辑</td>
+</tr>
+<tr>
+<td align="center">-i</td>
+<td align="left">用sed修改的结果直接修改读取数据的文件，而不是由屏幕输出</td>
+</tr>
+<tr>
+<td align="center">-f</td>
+<td align="left">从文件中读取编辑命令</td>
+</tr>
+</tbody></table>
+<h4 id="1-2-actions"><a href="#1-2-actions" class="headerlink" title="1.2 actions"></a>1.2 actions</h4><p>sed命令支持的编辑动作如下所示：</p>
+<table>
+<thead>
+<tr>
+<th align="center">编辑动作</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">a</td>
+<td>追加，在当前行后添加一行或多行</td>
+</tr>
+<tr>
+<td align="center">c</td>
+<td>行替换，用c后面的字符串替换原数据行，可替换多行</td>
+</tr>
+<tr>
+<td align="center">i</td>
+<td>插入，在当前行前插入一行或多行</td>
+</tr>
+<tr>
+<td align="center">d</td>
+<td>删除，删除指定的行</td>
+</tr>
+<tr>
+<td align="center">p</td>
+<td>打印，输出指定的行</td>
+</tr>
+<tr>
+<td align="center">s</td>
+<td>字符串替换，用一个字符串替换另一个字符串</td>
+</tr>
+</tbody></table>
+<h4 id="1-3-sed寻址方式"><a href="#1-3-sed寻址方式" class="headerlink" title="1.3 sed寻址方式"></a>1.3 sed寻址方式</h4><p>在默认情况下，sed命令会对所有行进行相同的操作，但是，某些时候，我们只想对输入数据的部分行进行操作，这个时候则需要进行寻址。sed命令支持两种寻址方式：</p>
+<ul>
+<li>以数字形式表示行区间</li>
+<li>用文本模式进行匹配过滤</li>
+</ul>
+<p><strong>A. 以数字形式表示行区间</strong></p>
+<p>我们可以使用数字来指定处理的行，可以是指定特定的某一行，也可以是指定某个行区间。例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打印第三行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;3p&#x27;</span> file.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印第三到五行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;3,5p&#x27;</span> file.txt</span><br></pre></td></tr></table></figure>
+
+<p>指定行区间，则是用起始行号，逗号以及结尾行号来表示一定区间范围内的行。需要注意的是，sed中对于行的编号是从1开始的。</p>
+<p><strong>B.以文本模式进行匹配过滤</strong></p>
+<p>sed命令也允许指定文本模式来过滤出命令要作用的行，格式如下：/pattern/actions。sed命令会过滤出包含pattern的行，并用actions对这些行进行处理</p>
+<p>例如，只想打印出/etc/passwd文件中包含/bin/bash的行，则可以使用如下的sed命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed -n <span class="string">&#x27;/\/bin\/bash/p&#x27;</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p>当然，使用grep命令可以更简单的实现相同的效果。此处，举这个例子来演示sed命令的文本匹配过滤功能。</p>
+<h3 id="2-sed之打印-p"><a href="#2-sed之打印-p" class="headerlink" title="2. sed之打印(p)"></a>2. sed之打印(p)</h3><p>sed进行打印时，常与-n一同使用，只打印符号条件的行。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed -n <span class="string">&#x27;2p&#x27;</span> test.txt           <span class="comment"># 打印第2行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;2,4p&#x27;</span> test.txt         <span class="comment"># 打印第2到4行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;/hello/p&#x27;</span> test.txt     <span class="comment"># 打印包含hello的行</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-sed之追加-a-，插入-i-，删除-d"><a href="#3-sed之追加-a-，插入-i-，删除-d" class="headerlink" title="3. sed之追加(a)，插入(i)，删除(d)"></a>3. sed之追加(a)，插入(i)，删除(d)</h3><p>使用a进行追加时，可以追加1行，也可以使用“ \ ”追加多行。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;2a hello world&#x27;</span> test.txt      <span class="comment"># 在第2行后添加一行hello world</span></span><br><span class="line">$ sed <span class="string">&#x27;2a hello\</span></span><br><span class="line"><span class="string">&gt; world&#x27;</span> test.txt                    <span class="comment"># 在第二行后添加2行，分别为hello和world</span></span><br></pre></td></tr></table></figure>
+
+<p>i的用法与a的用法类似，不同的是i是在指定的行前进行插入，a是在指定的行后追加。</p>
+<p>d可以用来删除指定的某一行，或者某个范围内的行，或者使用模式进行匹配删除。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;2d&#x27;</span> test.txt                 <span class="comment"># 删除第2行</span></span><br><span class="line">$ sed <span class="string">&#x27;3,5d&#x27;</span> test.txt               <span class="comment"># 删除第3到5行</span></span><br><span class="line">$ sed <span class="string">&#x27;/hello/d&#x27;</span> test.txt           <span class="comment"># 删除匹配到hello的行</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-sed之行替换-c"><a href="#4-sed之行替换-c" class="headerlink" title="4. sed之行替换(c)"></a>4. sed之行替换(c)</h3><p>使用c可以对指定的行进行替换，可以替换一行，也可以替换多行，替换的内容可以是一行，也可以是多行。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;2c hello world&#x27;</span> test.txt          <span class="comment"># 将第2行替换为hello world</span></span><br><span class="line">$ sed <span class="string">&#x27;2,3c hello world&#x27;</span> test.txt        <span class="comment"># 将第2到第3行替换为hello world</span></span><br><span class="line">$ sed <span class="string">&#x27;2,3c hello world1\</span></span><br><span class="line"><span class="string">&gt; hello world2&#x27;</span> test.txt                 <span class="comment"># 将第2到3行替换为两行内容</span></span><br><span class="line">$ sed <span class="string">&#x27;/hello/c c_hello&#x27;</span> test.txt        <span class="comment"># 对包含hello的行进行替换</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-sed之字符串替换-s"><a href="#5-sed之字符串替换-s" class="headerlink" title="5. sed之字符串替换(s)"></a>5. sed之字符串替换(s)</h3><p>使用s进行字符串替换时的格式如下：s/pattern/replacement/flags</p>
+<p>有4中可用的标记（flag），作用分别如下：</p>
+<ul>
+<li>数字：表明新文本将替换第几处模式匹配的地方</li>
+<li>g：表明新文本将会替换所有匹配的文本</li>
+<li>p：表明将进行了替换操作的行打印出来</li>
+<li>w：将行替换的结果写到文件中</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;s/test/trail/2&#x27;</span> test.txt     <span class="comment"># 只替换每行第2次匹配到的文本</span></span><br><span class="line">$ sed <span class="string">&#x27;s/test/trail/g&#x27;</span> test.txt     <span class="comment"># 替换所有匹配到的文本</span></span><br><span class="line">$ sed -n <span class="string">&#x27;s/test/trail/p&#x27;</span> test.txt  <span class="comment"># 将被替换的行打印出来</span></span><br><span class="line">$ sed <span class="string">&#x27;s/test/trail/w result.txt&#x27;</span> test.txt <span class="comment"># 将行替换的结果写入文件</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：可以将上述flags进行组合使用，达到效果的叠加。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
+</search>
