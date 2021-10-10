@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>hexo_word_count</title>
+    <title>hexo添加文本字数和阅读时间统计</title>
     <url>/2021/10/10/hexo-word-count/</url>
     <content><![CDATA[<p>给Hexo添加字数统计和阅读时间统计主要涉及到hexo-wordcount，hexo-symbol-count-time和eslint这三个插件的安装，以及相关配置文件的修改。步骤不复杂，按照步骤操作就可以。</p>
 <span id="more"></span>
