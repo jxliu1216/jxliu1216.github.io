@@ -1,5 +1,5 @@
 ---
-title: hexo_word_count
+title: hexo添加文本字数和阅读时间统计
 date: 2021-10-10 21:32:21
 tags:
 - Hexo
