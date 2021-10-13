@@ -20,25 +20,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="tar命令可以将多个文件和目录打包成一个大的文件，并结合gzip&#x2F;bzip2进行压缩。本文首先介绍常用的压缩命令，然后介绍tar命令。">
+  <meta name="description" content="1.数据流Linux中涉及到的数据流有如下三个：    设备 设备文件名 文件描述符 类型    键盘 &#x2F;dev&#x2F;stdin 0 标准输入   显示器 &#x2F;dev&#x2F;stdout 1 标准输出   显示器 &#x2F;dev&#x2F;stderr 2 错误标准输出">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux命令之tar">
-<meta property="og:url" content="http://example.com/2021/10/10/tar/index.html">
+<meta property="og:title" content="数据流重定向">
+<meta property="og:url" content="http://example.com/2021/10/12/%E9%87%8D%E5%AE%9A%E5%90%91/index.html">
 <meta property="og:site_name" content="兔八哥的博客">
-<meta property="og:description" content="tar命令可以将多个文件和目录打包成一个大的文件，并结合gzip&#x2F;bzip2进行压缩。本文首先介绍常用的压缩命令，然后介绍tar命令。">
+<meta property="og:description" content="1.数据流Linux中涉及到的数据流有如下三个：    设备 设备文件名 文件描述符 类型    键盘 &#x2F;dev&#x2F;stdin 0 标准输入   显示器 &#x2F;dev&#x2F;stdout 1 标准输出   显示器 &#x2F;dev&#x2F;stderr 2 错误标准输出">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010163234547.png">
-<meta property="og:image" content="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010174744834.png">
-<meta property="og:image" content="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010175823219.png">
-<meta property="article:published_time" content="2021-10-09T16:40:48.000Z">
-<meta property="article:modified_time" content="2021-10-10T14:06:10.934Z">
+<meta property="article:published_time" content="2021-10-12T14:30:42.000Z">
+<meta property="article:modified_time" content="2021-10-13T14:47:15.258Z">
 <meta property="article:author" content="Liu Jinxue">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="Bash">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010163234547.png">
 
-<link rel="canonical" href="http://example.com/2021/10/10/tar/">
+<link rel="canonical" href="http://example.com/2021/10/12/%E9%87%8D%E5%AE%9A%E5%90%91/">
 
 
 <script id="page-configurations">
@@ -51,7 +47,7 @@
   };
 </script>
 
-  <title>Linux命令之tar | 兔八哥的博客</title>
+  <title>数据流重定向 | 兔八哥的博客</title>
   
 
 
@@ -195,7 +191,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/10/tar/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/12/%E9%87%8D%E5%AE%9A%E5%90%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -208,7 +204,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Linux命令之tar
+          数据流重定向
         </h1>
 
         <div class="post-meta">
@@ -217,10 +213,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-10-10 00:40:48 / 修改时间：22:06:10" itemprop="dateCreated datePublished" datetime="2021-10-10T00:40:48+08:00">2021-10-10</time>
+              <time title="创建时间：2021-10-12 22:30:42" itemprop="dateCreated datePublished" datetime="2021-10-12T22:30:42+08:00">2021-10-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-13 22:47:15" itemprop="dateModified" datetime="2021-10-13T22:47:15+08:00">2021-10-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -244,14 +246,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>1 分钟</span>
             </span>
 
         </div>
@@ -263,106 +265,56 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>tar命令可以将多个文件和目录打包成一个大的文件，并结合gzip/bzip2进行压缩。本文首先介绍常用的压缩命令，然后介绍tar命令。</p>
-<span id="more"></span>
-
-<h3 id="1-常用压缩命令"><a href="#1-常用压缩命令" class="headerlink" title="1.常用压缩命令"></a>1.常用压缩命令</h3><p>Linux上的压缩命令非常多，不同的压缩命令对应不同的扩展名。因此，需要知道常见的扩展名所对应的压缩命令，才能使用相应的压缩命令对其进行解压缩。</p>
+        <h3 id="1-数据流"><a href="#1-数据流" class="headerlink" title="1.数据流"></a>1.数据流</h3><p>Linux中涉及到的数据流有如下三个：</p>
 <table>
 <thead>
 <tr>
-<th>扩展名</th>
-<th>描述</th>
+<th align="center">设备</th>
+<th align="center">设备文件名</th>
+<th align="center">文件描述符</th>
+<th align="center">类型</th>
 </tr>
 </thead>
 <tbody><tr>
-<td>.gz</td>
-<td>gzip程序的压缩文件</td>
+<td align="center">键盘</td>
+<td align="center">/dev/stdin</td>
+<td align="center">0</td>
+<td align="center">标准输入</td>
 </tr>
 <tr>
-<td>.bz2</td>
-<td>bzip2程序的压缩文件</td>
+<td align="center">显示器</td>
+<td align="center">/dev/stdout</td>
+<td align="center">1</td>
+<td align="center">标准输出</td>
 </tr>
 <tr>
-<td>.tar</td>
-<td>tar程序的打包文件，并没有经过压缩</td>
-</tr>
-<tr>
-<td>.tar.gz</td>
-<td>tar程序的打包文件，并经过gzip的压缩</td>
-</tr>
-<tr>
-<td>.tar.bz2</td>
-<td>tar程序的打包文件，并经过bzip2的压缩</td>
+<td align="center">显示器</td>
+<td align="center">/dev/stderr</td>
+<td align="center">2</td>
+<td align="center">错误标准输出</td>
 </tr>
 </tbody></table>
-<h4 id="1-1-gzip"><a href="#1-1-gzip" class="headerlink" title="1.1 gzip"></a>1.1 gzip</h4><p>gzip命令的语法如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gzip [-cdtv<span class="comment">#] filename</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
 
-<p>各个选项的含义如下：</p>
+<h3 id="2-输出重定向"><a href="#2-输出重定向" class="headerlink" title="2. 输出重定向"></a>2. 输出重定向</h3><p>输出重定向实在Linux中使用较多的，可以将其理解为将标准输出（包括标准输出和标准错误输出）存入一个文件中，而不是显示在屏幕上。这样有什么作用呢？比如我们执行一个bash脚本，我们可能无法实时在屏幕前看脚本的输出，或者脚本的输出很多，我们一时也看不过来。这个时候就可以使用输出重定向，将脚本执行过程中的输出记录至文件中。脚本执行结束后，直接去查看记录文件中的内容，就可以知道脚本的执行情况。</p>
+<p>输出重定向使用分为标准输出重定向和标准错误输出重定向，标准输出重定向使用&gt;或者&gt;&gt;，标准错误输出使用2&gt;或者2&gt;&gt;，分别对应如下4种情况：</p>
 <ul>
-<li>-c：将压缩后的数据输出的屏幕上，可以结合重定向进行使用</li>
-<li>-d：解压缩</li>
-<li>-t：校验压缩文件是否正确无误</li>
-<li>-v：对文件进行压缩，并显示压缩比</li>
-<li>-#：通过数字指定压缩等级，-1最快，但是压缩比最低；-9最慢，但是压缩比最高。默认为6</li>
+<li>&gt;：以覆盖的方式将标准输出存放至指定的文件或设备</li>
+<li>&gt;&gt;：以追加的方式将标准输出存放至指定的文件或设备</li>
+<li>2&gt;：以覆盖的方式将标准错误输出存放至指定的文件或设备</li>
+<li>2&gt;&gt;：以追加的方式将标准错误输出存放至指定的文件或设备</li>
 </ul>
-<p>示例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ gzip test.txt             <span class="comment"># 压缩test.txt，并生成test.txt.gz</span></span><br><span class="line">$ gzip -c test.txt          <span class="comment"># 输出test.txt压缩后的信息，并不产生test.txt.gz</span></span><br><span class="line">$ gzip -d test.txt.gz       <span class="comment"># 解压test.txt.gz</span></span><br><span class="line">$ gzip -v test.txt          <span class="comment"># 对test.txt进行压缩，并显示压缩比</span></span><br><span class="line">$ gzip -9 test.txt          <span class="comment"># 以压缩等级9对test.txt进行压缩</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-1-技巧1：将stdout和stderr输出至不同的文件"><a href="#2-1-技巧1：将stdout和stderr输出至不同的文件" class="headerlink" title="2.1 技巧1：将stdout和stderr输出至不同的文件"></a>2.1 技巧1：将stdout和stderr输出至不同的文件</h4><p>有时候我们不知道一条命令的执行结果是正确的还是错误的，这个时候我们可以将stdout和stderr分别重定向至不同的文件中，示例如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -name .bashrc &gt; list_right 2&gt; list_error</span><br></pre></td></tr></table></figure>
 
-<p>需要注意的是，使用gzip对文件压缩或者解压缩时，均不会保留原文件或者压缩文件，如果想要保留原始文件，可以结合-c选项和重定向，命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ gzip -c test.txt &gt; test.txt.gz  <span class="comment"># 将屏幕输出重定向至test.txt.gz，从而保留原文件 </span></span><br><span class="line">$ gzip -<span class="built_in">cd</span> test.txt.gz &gt; test.txt <span class="comment"># 将解压信息重定向至test.txt，从而保留原文件</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-2-技巧2：将stdout和stderr输出至同一个文件"><a href="#2-2-技巧2：将stdout和stderr输出至同一个文件" class="headerlink" title="2.2 技巧2：将stdout和stderr输出至同一个文件"></a>2.2 技巧2：将stdout和stderr输出至同一个文件</h4><p>stdin和stderr输出至不同的文件一方面查看不方便，另一方面也无法体现出输出的先后顺序，可以将这二者输出至同一个文件中，示例如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -name .bashrc &gt; <span class="built_in">log</span> 2&gt;&amp;1     <span class="comment"># 方法1</span></span><br><span class="line">$ find /home -name .bashrc &amp;&gt;             <span class="comment"># 方法2</span></span><br></pre></td></tr></table></figure>
 
-<p>上述选项也可结合使用，实现综合功能，如：</p>
-<ul>
-<li><p>比较不同压缩等级下的压缩比</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ gzip -cv1 test.txt     <span class="comment"># 显示压缩信息和压缩等级，并不产生压缩文件</span></span><br><span class="line">$ gzip -cv9 test.txt</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>需要注意的是，gzip是对单个文件的压缩，并不能对整个目录进行压缩。虽然可以通过-r选项来对目录进行操作，但这也只是对目录里的文件分别进行压缩。</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010163234547.png" alt="image-20211010163234547"></p>
-<h4 id="1-2-bzip2"><a href="#1-2-bzip2" class="headerlink" title="1.2 bzip2"></a>1.2 bzip2</h4><p>bzip2的用法几乎与gzip相同，bzip2命令的语法如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bzip2 [-cdkzv$] filename</span><br></pre></td></tr></table></figure>
+<h4 id="2-3-技巧3：-dev-null"><a href="#2-3-技巧3：-dev-null" class="headerlink" title="2.3 技巧3：/dev/null"></a>2.3 技巧3：/dev/null</h4><p>有时我们知道错误会发生，但是想将它忽略，这时候黑洞设备/dev/null就很重要了，/dev/null会吃掉任何导向至这个设备的信息，示例如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -name .bashrc 2&gt; /dev/null       <span class="comment"># 将错误信息丢弃 </span></span><br></pre></td></tr></table></figure>
 
-<p>各个选项的作用如下：</p>
-<ul>
-<li>-c：将压缩过程产生的数据输出至屏幕上</li>
-<li>-d：解压缩</li>
-<li>-k：保留原文件</li>
-<li>-z：压缩的参数</li>
-<li>-v：显示压缩比信息</li>
-<li>-#：与gzip相同，压缩参数，1最快，9压缩比最高</li>
-</ul>
-<p>相比gzip，bzip2提供了-k选项，在压缩文件的同时，可以保留原文件。当然也可以使用-c选项和重定向来实现，不过这显得有些麻烦了。</p>
-<p>和gzip一样，bzip2也仅能对单个文件进行压缩，而无法对多个文件或者文件夹进行压缩。</p>
-<h3 id="2-tar命令"><a href="#2-tar命令" class="headerlink" title="2. tar命令"></a>2. tar命令</h3><p>tar是Linux中的归档命令，用于打包多个文件，并且可以结合压缩命令进行使用，tar命令的语法如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ tar [-j|-z] [cv] [-f new_filename] object1 object2 ...    <span class="comment"># 压缩</span></span><br><span class="line">$ tar [-j|-z] [tv] [-f new_filename]         <span class="comment"># 查看文件名</span></span><br><span class="line">$ tar [-j|-z] [xv] [-f new_filename] [-C folder]            <span class="comment"># 解压</span></span><br></pre></td></tr></table></figure>
-
-<p>这些常用选项的作用如下：</p>
-<ul>
-<li>-c：新建打包文件，结合-v可以查看打包过程中的文件</li>
-<li>-t：查看打包文件中包含的文件名，结合-v可以显示文件的详细信息</li>
-<li>-x：解打包或者解压缩，注意：-c，-t，-x不可能在命令中同时出现</li>
-<li>-j：通过bzip2的支持进行压缩和解压缩，此时文件扩展名为*.tar.bz2</li>
-<li>-z：通过gzip的支持进行压缩和解压缩，此时文件扩展名为*.tar.gz</li>
-<li>-f：后面跟打包文件的名字，建议单独出来写</li>
-<li>-C：指定解打包的目录</li>
-</ul>
-<p>实际比较常用的打包，查看和解打包涉及到的命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ tar -jcv -f all_test.tar.bz2 <span class="built_in">test</span>*.txt      <span class="comment"># 使用bzip2进行压缩</span></span><br><span class="line">$ tar -zcv -f all_test.tar.gz <span class="built_in">test</span>*.txt       <span class="comment"># 使用gzip进行压缩</span></span><br><span class="line">$ tar -jtv -f all_test.tar.bz2                <span class="comment"># 查看打包文件名</span></span><br><span class="line">$ tar -ztv -f all_test.tar.gz                 <span class="comment"># 查看打包文件名</span></span><br><span class="line">$ tar -jxv -f all_test.tar.bz2                <span class="comment"># 解打包*.tar.bz2</span></span><br><span class="line">$ tar -zxv -f all_test.tar.gz                 <span class="comment"># 解打包*.tar.gz</span></span><br><span class="line">$ tar -zxv -f all_test.tar.gz -C target_folder/    <span class="comment"># 指定目录解打包</span></span><br></pre></td></tr></table></figure>
-
-<p>tar还有两个比较常用的功能：</p>
-<ul>
-<li><p>解打包某一个文件</p>
-<p>使用上述的解打包命令时，会把所有的文件都解出来，但有时候我们可能只需要其中的某个文件，这时候可以指定需要的文件，用法如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -jxv -f filename.tar.bz2 -C targer_folder file1</span><br></pre></td></tr></table></figure>
-
-<p>其中，filename.tar.bz2为需要解打包的文件，file1为需要的目标文件，targer_folder为目标目录。</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010174744834.png" alt="image-20211010174744834"></p>
-</li>
-<li><p>打包时，排除某些文件</p>
-<p>可以使用–exclude来排除不需要打包的文件，示例如下：</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010175823219.png" alt="image-20211010175823219"></p>
-</li>
-</ul>
+<h3 id="3-输入重定向"><a href="#3-输入重定向" class="headerlink" title="3. 输入重定向"></a>3. 输入重定向</h3><p>输入重定向可以理解为将原来需要由键盘进行输入的数据改由文件输入，使用&lt;，如法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> &lt; file</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -382,13 +334,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/09/26/sed/" rel="prev" title="Linux命令之sed">
-      <i class="fa fa-chevron-left"></i> Linux命令之sed
+    <a href="/2021/10/10/hexo-word-count/" rel="prev" title="hexo添加文本字数和阅读时间统计">
+      <i class="fa fa-chevron-left"></i> hexo添加文本字数和阅读时间统计
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/10/10/hexo-word-count/" rel="next" title="hexo添加文本字数和阅读时间统计">
-      hexo添加文本字数和阅读时间统计 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -447,7 +396,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%B8%B8%E7%94%A8%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="nav-text">1.常用压缩命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-gzip"><span class="nav-text">1.1 gzip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-bzip2"><span class="nav-text">1.2 bzip2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-tar%E5%91%BD%E4%BB%A4"><span class="nav-text">2. tar命令</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="nav-text">1.数据流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-text">2. 输出重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E6%8A%80%E5%B7%A71%EF%BC%9A%E5%B0%86stdout%E5%92%8Cstderr%E8%BE%93%E5%87%BA%E8%87%B3%E4%B8%8D%E5%90%8C%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-text">2.1 技巧1：将stdout和stderr输出至不同的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E6%8A%80%E5%B7%A72%EF%BC%9A%E5%B0%86stdout%E5%92%8Cstderr%E8%BE%93%E5%87%BA%E8%87%B3%E5%90%8C%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-text">2.2 技巧2：将stdout和stderr输出至同一个文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E6%8A%80%E5%B7%A73%EF%BC%9A-dev-null"><span class="nav-text">2.3 技巧3：&#x2F;dev&#x2F;null</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%BE%93%E5%85%A5%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-text">3. 输入重定向</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
