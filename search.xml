@@ -328,4 +328,32 @@
         <tag>Bash</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Linux命令之awk</title>
+    <url>/2021/10/15/awk/</url>
+    <content><![CDATA[<p>awk是Linux中的一个非常强大的数据编辑处理工具，说它是一门编程语言也毫不过分（的确有介绍awk变成语言的书籍）。awk的功能太过于强大，以至于无法对其进行全面的总结。本文目前只总结介绍一些常见的基本功能，在后续的学习过程中，会不断总结更新对awk工具的认识，并更新本文。</p>
+<span id="more"></span>
+
+<h3 id="1-awk简介"><a href="#1-awk简介" class="headerlink" title="1. awk简介"></a>1. awk简介</h3><p>Linux中的很多命令是将其功能所对应的英文进行缩写而得到的，那么awk这个名字是怎么由来的呢？awk是由该工具的三位创作者（Alfred Aho，Peter Weinberger和Brain Kernighan）的family name的首字母构成。</p>
+<p>相比于sed对一整行数据进行处理，awk则是将一整行分解为若干个“数据段”进行处理。其使用方法可以表示如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ awk <span class="string">&#x27;condition 1 &#123;action 1&#125; condition 2 &#123;action 2&#125; ...&#x27;</span> filename</span><br></pre></td></tr></table></figure>
+
+<p>根据上述使用方法，我们可以知道：</p>
+<ul>
+<li>awk可以执行多个处理动作（action）</li>
+<li>可以根据不同的条件（condition）执行不同的动作（action）</li>
+</ul>
+<p>前文说到awk是将每一行分解成若干个数据段进行处理，那么是如何进行数据段分解的呢？awk默认使用空格或者tab作为分割符，当然也可以通过命令指定分割符，有如下两种方式：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ awk -F <span class="string">&quot;:&quot;</span> <span class="string">&#x27;condition 1 &#123;action 1&#125; condition 2 &#123;action 2&#125; ...&#x27;</span> filename <span class="comment"># 使用:作为分隔符，method 1</span></span><br><span class="line">$ awk <span class="string">&#x27;BEGIN &#123;FS=&quot;:&quot;&#125; contition 1 &#123;action 1&#125; condition 2 &#123;action 2&#125; ...&#x27;</span> filename <span class="comment"># 使用:作为分隔符，method 2</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-awk的若干常见用法"><a href="#2-awk的若干常见用法" class="headerlink" title="2. awk的若干常见用法"></a>2. awk的若干常见用法</h3><p>ToDo</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
 </search>
