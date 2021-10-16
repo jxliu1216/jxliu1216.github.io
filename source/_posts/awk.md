@@ -33,6 +33,29 @@ $ awk -F ":" 'condition 1 {action 1} condition 2 {action 2} ...' filename # 使�
 $ awk 'BEGIN {FS=":"} contition 1 {action 1} condition 2 {action 2} ...' filename # 使用:作为分隔符，method 2
 ```
 
+那么对数据进行分段后，如何表示每一个分段呢？awk使用$符号加数字来表示每一个分段，$1表示第一个分段，$2表示第二个分段，以此类推。
+
 ### 2. awk的若干常见用法
 
-ToDo
+#### 2.1 结合print打印相关字段
+
+我们此处以/etc/passwd为例，/etc/passwd文件记录了用户信息，每一行都使用“:”将各个字段隔离开，如果我们只想获取用户名，则可以使用如下命令：
+
+```bash
+$ awk 'BEGIN {FS=":"} {print $1}' /etc/passwd
+```
+
+BEGIN {FS=":"}用于指定分隔符为“:“，{print $1}表示打印第一个字段，即用户名。也可以打印多个字段，如：
+
+```bash
+$ awk 'BEGIN {FS=":"} {print $1 "\t" $3}' /etc/passwd
+```
+
+打印第1和第3个字段，并且中间使用tab作为分隔符。
+
+还可以结合grep进行过滤，再用awk筛选相关字段，例如：我想要输出登录shell为/bin/bash的所有用户名，可以使用如下命令：
+
+```bash
+$ grep "/bin/bash" /etc/passwd | awk awk 'BEGIN {FS=":"} {print $1}'
+```
+
