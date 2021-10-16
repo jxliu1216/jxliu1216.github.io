@@ -346,7 +346,17 @@
 <p>前文说到awk是将每一行分解成若干个数据段进行处理，那么是如何进行数据段分解的呢？awk默认使用空格或者tab作为分割符，当然也可以通过命令指定分割符，有如下两种方式：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ awk -F <span class="string">&quot;:&quot;</span> <span class="string">&#x27;condition 1 &#123;action 1&#125; condition 2 &#123;action 2&#125; ...&#x27;</span> filename <span class="comment"># 使用:作为分隔符，method 1</span></span><br><span class="line">$ awk <span class="string">&#x27;BEGIN &#123;FS=&quot;:&quot;&#125; contition 1 &#123;action 1&#125; condition 2 &#123;action 2&#125; ...&#x27;</span> filename <span class="comment"># 使用:作为分隔符，method 2</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="2-awk的若干常见用法"><a href="#2-awk的若干常见用法" class="headerlink" title="2. awk的若干常见用法"></a>2. awk的若干常见用法</h3><p>ToDo</p>
+<p>那么对数据进行分段后，如何表示每一个分段呢？awk使用$符号加数字来表示每一个分段，$1表示第一个分段，$2表示第二个分段，以此类推。</p>
+<h3 id="2-awk的若干常见用法"><a href="#2-awk的若干常见用法" class="headerlink" title="2. awk的若干常见用法"></a>2. awk的若干常见用法</h3><h4 id="2-1-结合print打印相关字段"><a href="#2-1-结合print打印相关字段" class="headerlink" title="2.1 结合print打印相关字段"></a>2.1 结合print打印相关字段</h4><p>我们此处以/etc/passwd为例，/etc/passwd文件记录了用户信息，每一行都使用“:”将各个字段隔离开，如果我们只想获取用户名，则可以使用如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ awk <span class="string">&#x27;BEGIN &#123;FS=&quot;:&quot;&#125; &#123;print $1&#125;&#x27;</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p>BEGIN {FS=”:”}用于指定分隔符为“:“，{print $1}表示打印第一个字段，即用户名。也可以打印多个字段，如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ awk <span class="string">&#x27;BEGIN &#123;FS=&quot;:&quot;&#125; &#123;print $1 &quot;\t&quot; $3&#125;&#x27;</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p>打印第1和第3个字段，并且中间使用tab作为分隔符。</p>
+<p>还可以结合grep进行过滤，再用awk筛选相关字段，例如：我想要输出登录shell为/bin/bash的所有用户名，可以使用如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ grep <span class="string">&quot;/bin/bash&quot;</span> /etc/passwd | awk awk <span class="string">&#x27;BEGIN &#123;FS=&quot;:&quot;&#125; &#123;print $1&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>Linux</category>
