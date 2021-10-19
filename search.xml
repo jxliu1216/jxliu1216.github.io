@@ -382,7 +382,7 @@
 
 <p>这个示例内容过长，就不截图展示了。</p>
 <p>需要注意的是：使用cut命令的时候不建议使用空格符作为分隔符，当有多个连续的空格符时，比较容易出问题。</p>
-<h4 id="2-以字符的形式截取"><a href="#2-以字符的形式截取" class="headerlink" title="2. 以字符的形式截取"></a>2. 以字符的形式截取</h4><p>cut可以通过-c以字符为单位截取信息，例如：</p>
+<h3 id="2-以字符的形式截取"><a href="#2-以字符的形式截取" class="headerlink" title="2. 以字符的形式截取"></a>2. 以字符的形式截取</h3><p>cut可以通过-c以字符为单位截取信息，例如：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">export</span> | cut -c 12-         <span class="comment"># 截取从第12个字符开始到结尾的所有字符</span></span><br><span class="line">$ <span class="built_in">export</span> | cut -c 10-15       <span class="comment"># 截取第10个字符到第15个字符</span></span><br></pre></td></tr></table></figure>
 
 
