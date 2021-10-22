@@ -396,4 +396,46 @@
         <tag>Bash</tag>
       </tags>
   </entry>
+  <entry>
+    <title>git使用（一）</title>
+    <url>/2021/10/23/git_1/</url>
+    <content><![CDATA[<p>本文主要记录git中的一些常见命令的使用，包含如下命令：</p>
+<ul>
+<li><a href="#git_diff">git diff</a></li>
+</ul>
+<span id="more"></span>
+
+<h3 id="1-git-diff"><a href="#1-git-diff" class="headerlink" title="1. git diff "></a><a name="git_diff">1. git diff </a></h3><p>git diff用于比较文件之间的差异，通常有如下几种用法：</p>
+<ul>
+<li>git diff [filename]：用于比较当前工作区和暂存区之间的差异</li>
+<li>git diff –cached [filename]：用于比较暂存区和上一次提交之间的差异</li>
+</ul>
+<p>git diff后的结果如下图所示，下面解释各个部分的含义</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211023003548174.png" alt="image-20211023003548174"></p>
+<p>git diff的输出结果大致可以分为两个部分，第一部分是进行对比的两个文件的基本信息，第二部分是对比的结果。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">diff --git a/backup.sh b/backup.sh</span><br></pre></td></tr></table></figure>
+
+<p>这一行的意思是使用git版本的diff进行文件对比，对比的两个文件为a版本的backup.sh（即修改前），和b版本的backup.sh（即修改后）。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">index 7cf56ad..14ff882 100644</span><br></pre></td></tr></table></figure>
+
+<p>这一行表示的是git哈希值，意思是index区域的7cf56ad对象与工作区域的14ff882对象进行对比，100644代表的含义暂不清楚。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">--- a/backup.sh</span><br><span class="line">+++ b/backup.sh</span><br></pre></td></tr></table></figure>
+
+<p>这两行表示对比的两个文件，— a/backup.sh表示修改前的文件，+++ b/backup.sh表示修改后的文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">@@ -12,5 +12,6 @@ ...</span><br></pre></td></tr></table></figure>
+
+<p>从这行开始就是对差异信息的总结。两个@@之间的数字的意思是：原文件从12行开始的5行和目标文件从12行开始的6行存在差异，且差异信息显示在后面：</p>
+<ul>
+<li>以空格开头的白色的行是两个文件中都有的内容</li>
+<li>以-开头的的红色的行是原文件中有的内容</li>
+<li>以+开头的绿色的行是目标文件中有的内容</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
+  </entry>
 </search>
