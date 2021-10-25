@@ -513,4 +513,32 @@ f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
         <tag>Bash</tag>
       </tags>
   </entry>
+  <entry>
+    <title>hexo博客公式渲染</title>
+    <url>/2021/10/25/hexo-equations/</url>
+    <content><![CDATA[<p>NexT提供了两个渲染引擎（MathJax和Katex）用来显示公式，本文介绍Hexo NexT主题下配置MathJax进行数学公式渲染。</p>
+<span id="more"></span>
+<h3 id="安装插件">1. 安装插件</h3>
+<p>如果使用MathJax进行公式渲染，需要安装如下两个插件之一：hexo-renderer-pandoc或者hexo-renderer-kramed（不推荐），本文采用hexo-renderer-pandoc，运行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save         <span class="comment"># 卸载原有的渲染插件</span></span><br><span class="line">npm install hexo-renderer-pandoc --save           <span class="comment"># 安装hexo-renderer-pandoc插件</span></span><br></pre></td></tr></table></figure>
+<p>hexo-renderer-pandoc正常运行还需要安装pandoc软件，软件下载链接如下：<a href="https://github.com/jgm/pandoc/releases">pandoc</a>。安装完成后，重启电脑，使得相关配置生效。</p>
+<h3 id="配置">2. 配置</h3>
+<p>对next/_config.yml中的math部分进行如下配置：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line">  <span class="attr">mathjax:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>per_page参数的含义是：是否对每一篇博客都按需进行数学公式渲染。如果设置为false，则默认对每篇博客都进行数学公式渲染。若设置为true，则按需对博客进行数学公式渲染。对于需要开启数学公式渲染的博客，在其Markdown文件的Front-matter部分添加mathjax: true，如下所示：</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;!-- This post will render the Math Equations --&gt;</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">title: &#x27;Will Render Math&#x27;</span><br><span class="line"><span class="section">mathjax: true</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">....</span><br></pre></td></tr></table></figure>
+<p>上述两步执行完毕后，执行如下命令，即可正常渲染公式：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<h3 id="注意事项">3. 注意事项</h3>
+<ol type="1">
+<li>行内数学公式显示（$...$）：在第一个$后和第二个$前，不要有空格，否则无法正常渲染公式。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
 </search>
