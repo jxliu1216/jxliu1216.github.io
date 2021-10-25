@@ -1,6 +1,7 @@
 ---
 title: 线性回归与非线性回归
 date: 2021-10-24 17:09:35
+mathjax: true
 tags:
 - linear regression
 - non-linear regression
@@ -28,13 +29,13 @@ In statistics, [**nonlinear regression**](https://en.wikipedia.org/wiki/Nonlinea
 $$
 \mathbf{y} \sim f(\mathbf{x},\mathbf{\beta})
 $$
-其中，$ \mathbf{x}=\{x_1,x_2,\cdots,x_n\} $为自变量向量，$ \mathbf{y}=\{y_1,y_2,\cdots,y_n\} $为观测因变量向量，$ \mathbf{\beta}=\{\beta_1,\beta_2,\cdots,\beta_n\} $为模型参数向量。
+其中，$\mathbf{x}=\{x_1,x_2,\cdots,x_n\}$ 为自变量向量，$\mathbf{y}=\{y_1,y_2,\cdots,y_n\}$为观测因变量向量，$\mathbf{\beta}=\{\beta_1,\beta_2,\cdots,\beta_n\}$为模型参数向量。
 
 假设某个模型由一个自变量，和两个参数构成，即：
 $$
 f(\mathbf{x},\mathbf{\beta})=\frac{\beta_1x}{\beta_2+x}
 $$
-显然，函数模型$f$无法表示成模型参数$\beta_1$和$\beta_2$的线性组合，因此，这个函数是非线性的。
+显然，函数模型$f$无法表示成模型参数$\beta_1 $和$  \beta_2$的线性组合，因此，这个函数是非线性的。
 
 ### 2. 线性回归
 
