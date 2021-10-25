@@ -8,6 +8,8 @@ categories: Hexo
 
 NexT提供了两个渲染引擎（MathJax和Katex）用来显示公式，本文介绍Hexo NexT主题下配置MathJax进行数学公式渲染。
 
+<!--more-->
+
 ### 1. 安装插件
 
 如果使用MathJax进行公式渲染，需要安装如下两个插件之一：hexo-renderer-pandoc或者hexo-renderer-kramed（不推荐），本文采用hexo-renderer-pandoc，运行如下命令：
