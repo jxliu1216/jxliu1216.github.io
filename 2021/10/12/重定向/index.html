@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="1.数据流Linux中涉及到的数据流有如下三个：    设备 设备文件名 文件描述符 类型    键盘 &#x2F;dev&#x2F;stdin 0 标准输入   显示器 &#x2F;dev&#x2F;stdout 1 标准输出   显示器 &#x2F;dev&#x2F;stderr 2 错误标准输出">
+  <meta name="description" content="1.数据流 Linux中涉及到的数据流有如下三个：    设备 设备文件名 文件描述符 类型     键盘 &#x2F;dev&#x2F;stdin 0 标准输入   显示器 &#x2F;dev&#x2F;stdout 1 标准输出   显示器 &#x2F;dev&#x2F;stderr 2 错误标准输出">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据流重定向">
 <meta property="og:url" content="http://example.com/2021/10/12/%E9%87%8D%E5%AE%9A%E5%90%91/index.html">
 <meta property="og:site_name" content="兔八哥的博客">
-<meta property="og:description" content="1.数据流Linux中涉及到的数据流有如下三个：    设备 设备文件名 文件描述符 类型    键盘 &#x2F;dev&#x2F;stdin 0 标准输入   显示器 &#x2F;dev&#x2F;stdout 1 标准输出   显示器 &#x2F;dev&#x2F;stderr 2 错误标准输出">
+<meta property="og:description" content="1.数据流 Linux中涉及到的数据流有如下三个：    设备 设备文件名 文件描述符 类型     键盘 &#x2F;dev&#x2F;stdin 0 标准输入   显示器 &#x2F;dev&#x2F;stdout 1 标准输出   显示器 &#x2F;dev&#x2F;stderr 2 错误标准输出">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-10-12T14:30:42.000Z">
 <meta property="article:modified_time" content="2021-10-13T14:47:15.258Z">
@@ -265,38 +265,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="1-数据流"><a href="#1-数据流" class="headerlink" title="1.数据流"></a>1.数据流</h3><p>Linux中涉及到的数据流有如下三个：</p>
+        <h3 id="数据流">1.数据流</h3>
+<p>Linux中涉及到的数据流有如下三个：</p>
 <table>
 <thead>
-<tr>
-<th align="center">设备</th>
-<th align="center">设备文件名</th>
-<th align="center">文件描述符</th>
-<th align="center">类型</th>
+<tr class="header">
+<th style="text-align: center;">设备</th>
+<th style="text-align: center;">设备文件名</th>
+<th style="text-align: center;">文件描述符</th>
+<th style="text-align: center;">类型</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">键盘</td>
-<td align="center">/dev/stdin</td>
-<td align="center">0</td>
-<td align="center">标准输入</td>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">键盘</td>
+<td style="text-align: center;">/dev/stdin</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">标准输入</td>
 </tr>
-<tr>
-<td align="center">显示器</td>
-<td align="center">/dev/stdout</td>
-<td align="center">1</td>
-<td align="center">标准输出</td>
+<tr class="even">
+<td style="text-align: center;">显示器</td>
+<td style="text-align: center;">/dev/stdout</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">标准输出</td>
 </tr>
-<tr>
-<td align="center">显示器</td>
-<td align="center">/dev/stderr</td>
-<td align="center">2</td>
-<td align="center">错误标准输出</td>
+<tr class="odd">
+<td style="text-align: center;">显示器</td>
+<td style="text-align: center;">/dev/stderr</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">错误标准输出</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <span id="more"></span>
-
-<h3 id="2-输出重定向"><a href="#2-输出重定向" class="headerlink" title="2. 输出重定向"></a>2. 输出重定向</h3><p>输出重定向实在Linux中使用较多的，可以将其理解为将标准输出（包括标准输出和标准错误输出）存入一个文件中，而不是显示在屏幕上。这样有什么作用呢？比如我们执行一个bash脚本，我们可能无法实时在屏幕前看脚本的输出，或者脚本的输出很多，我们一时也看不过来。这个时候就可以使用输出重定向，将脚本执行过程中的输出记录至文件中。脚本执行结束后，直接去查看记录文件中的内容，就可以知道脚本的执行情况。</p>
+<h3 id="输出重定向">2. 输出重定向</h3>
+<p>输出重定向实在Linux中使用较多的，可以将其理解为将标准输出（包括标准输出和标准错误输出）存入一个文件中，而不是显示在屏幕上。这样有什么作用呢？比如我们执行一个bash脚本，我们可能无法实时在屏幕前看脚本的输出，或者脚本的输出很多，我们一时也看不过来。这个时候就可以使用输出重定向，将脚本执行过程中的输出记录至文件中。脚本执行结束后，直接去查看记录文件中的内容，就可以知道脚本的执行情况。</p>
 <p>输出重定向使用分为标准输出重定向和标准错误输出重定向，标准输出重定向使用&gt;或者&gt;&gt;，标准错误输出使用2&gt;或者2&gt;&gt;，分别对应如下4种情况：</p>
 <ul>
 <li>&gt;：以覆盖的方式将标准输出存放至指定的文件或设备</li>
@@ -304,16 +307,17 @@
 <li>2&gt;：以覆盖的方式将标准错误输出存放至指定的文件或设备</li>
 <li>2&gt;&gt;：以追加的方式将标准错误输出存放至指定的文件或设备</li>
 </ul>
-<h4 id="2-1-技巧1：将stdout和stderr输出至不同的文件"><a href="#2-1-技巧1：将stdout和stderr输出至不同的文件" class="headerlink" title="2.1 技巧1：将stdout和stderr输出至不同的文件"></a>2.1 技巧1：将stdout和stderr输出至不同的文件</h4><p>有时候我们不知道一条命令的执行结果是正确的还是错误的，这个时候我们可以将stdout和stderr分别重定向至不同的文件中，示例如下：</p>
+<h4 id="技巧1将stdout和stderr输出至不同的文件">2.1 技巧1：将stdout和stderr输出至不同的文件</h4>
+<p>有时候我们不知道一条命令的执行结果是正确的还是错误的，这个时候我们可以将stdout和stderr分别重定向至不同的文件中，示例如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -name .bashrc &gt; list_right 2&gt; list_error</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-2-技巧2：将stdout和stderr输出至同一个文件"><a href="#2-2-技巧2：将stdout和stderr输出至同一个文件" class="headerlink" title="2.2 技巧2：将stdout和stderr输出至同一个文件"></a>2.2 技巧2：将stdout和stderr输出至同一个文件</h4><p>stdin和stderr输出至不同的文件一方面查看不方便，另一方面也无法体现出输出的先后顺序，可以将这二者输出至同一个文件中，示例如下：</p>
+<h4 id="技巧2将stdout和stderr输出至同一个文件">2.2 技巧2：将stdout和stderr输出至同一个文件</h4>
+<p>stdin和stderr输出至不同的文件一方面查看不方便，另一方面也无法体现出输出的先后顺序，可以将这二者输出至同一个文件中，示例如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -name .bashrc &gt; <span class="built_in">log</span> 2&gt;&amp;1     <span class="comment"># 方法1</span></span><br><span class="line">$ find /home -name .bashrc &amp;&gt;             <span class="comment"># 方法2</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="2-3-技巧3：-dev-null"><a href="#2-3-技巧3：-dev-null" class="headerlink" title="2.3 技巧3：/dev/null"></a>2.3 技巧3：/dev/null</h4><p>有时我们知道错误会发生，但是想将它忽略，这时候黑洞设备/dev/null就很重要了，/dev/null会吃掉任何导向至这个设备的信息，示例如下：</p>
+<h4 id="技巧3devnull">2.3 技巧3：/dev/null</h4>
+<p>有时我们知道错误会发生，但是想将它忽略，这时候黑洞设备/dev/null就很重要了，/dev/null会吃掉任何导向至这个设备的信息，示例如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ find /home -name .bashrc 2&gt; /dev/null       <span class="comment"># 将错误信息丢弃 </span></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-输入重定向"><a href="#3-输入重定向" class="headerlink" title="3. 输入重定向"></a>3. 输入重定向</h3><p>输入重定向可以理解为将原来需要由键盘进行输入的数据改由文件输入，使用&lt;，如法如下：</p>
+<h3 id="输入重定向">3. 输入重定向</h3>
+<p>输入重定向可以理解为将原来需要由键盘进行输入的数据改由文件输入，使用&lt;，如法如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> &lt; file</span><br></pre></td></tr></table></figure>
 
     </div>
@@ -399,7 +403,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="nav-text">1.数据流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-text">2. 输出重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E6%8A%80%E5%B7%A71%EF%BC%9A%E5%B0%86stdout%E5%92%8Cstderr%E8%BE%93%E5%87%BA%E8%87%B3%E4%B8%8D%E5%90%8C%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-text">2.1 技巧1：将stdout和stderr输出至不同的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E6%8A%80%E5%B7%A72%EF%BC%9A%E5%B0%86stdout%E5%92%8Cstderr%E8%BE%93%E5%87%BA%E8%87%B3%E5%90%8C%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-text">2.2 技巧2：将stdout和stderr输出至同一个文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E6%8A%80%E5%B7%A73%EF%BC%9A-dev-null"><span class="nav-text">2.3 技巧3：&#x2F;dev&#x2F;null</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%BE%93%E5%85%A5%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-text">3. 输入重定向</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="nav-text">1.数据流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-text">2. 输出重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%80%E5%B7%A71%E5%B0%86stdout%E5%92%8Cstderr%E8%BE%93%E5%87%BA%E8%87%B3%E4%B8%8D%E5%90%8C%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-text">2.1 技巧1：将stdout和stderr输出至不同的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%80%E5%B7%A72%E5%B0%86stdout%E5%92%8Cstderr%E8%BE%93%E5%87%BA%E8%87%B3%E5%90%8C%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="nav-text">2.2 技巧2：将stdout和stderr输出至同一个文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%80%E5%B7%A73devnull"><span class="nav-text">2.3 技巧3：&#x2F;dev&#x2F;null</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-text">3. 输入重定向</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -534,6 +538,8 @@
 
 
 
+
+  
 
   
 

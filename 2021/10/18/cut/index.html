@@ -248,7 +248,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>479</span>
+              <span>502</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -269,22 +269,20 @@
       
         <p>cut是Linux中的一个重要数据选取工具，cut以“行”单位，从中提取出我们想要的信息。cut命令非常适用于处理格式上非常具有规律的数据。</p>
 <span id="more"></span>
-
-<h3 id="1-指定分隔符"><a href="#1-指定分隔符" class="headerlink" title="1. 指定分隔符"></a>1. 指定分隔符</h3><p>通过指定分隔符来选取我们想要的信息是cut命令的第一种用法，命令格式如下：</p>
+<h3 id="指定分隔符">1. 指定分隔符</h3>
+<p>通过指定分隔符来选取我们想要的信息是cut命令的第一种用法，命令格式如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cut -d <span class="string">&quot;分隔符&quot;</span> -f field</span><br></pre></td></tr></table></figure>
-
 <p>通过-d来指定分隔符（<strong>如果不指定，默认的分割符为tab</strong>）,通过-f后添加数字，来选取分割后的第几段内容。以环境变量PATH为例，它是以“:”来分隔每个字段的，我们可以使用cut来截取其中的部分字段。例如：</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211019230857154.png" alt="image-20211019230857154"></p>
+<figure>
+<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211019230857154.png" alt="image-20211019230857154" /><figcaption aria-hidden="true">image-20211019230857154</figcaption>
+</figure>
 <p>cut是以行为单位进行处理的，即对每一行都进行相同的处理，例如：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> | cut -d <span class="string">&quot; &quot;</span> -f 3</span><br></pre></td></tr></table></figure>
-
 <p>这个示例内容过长，就不截图展示了。</p>
 <p>需要注意的是：使用cut命令的时候不建议使用空格符作为分隔符，当有多个连续的空格符时，比较容易出问题。</p>
-<h3 id="2-以字符的形式截取"><a href="#2-以字符的形式截取" class="headerlink" title="2. 以字符的形式截取"></a>2. 以字符的形式截取</h3><p>cut可以通过-c以字符为单位截取信息，例如：</p>
+<h3 id="以字符的形式截取">2. 以字符的形式截取</h3>
+<p>cut可以通过-c以字符为单位截取信息，例如：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> | cut -c 12-         <span class="comment"># 截取从第12个字符开始到结尾的所有字符</span></span><br><span class="line">$ <span class="built_in">export</span> | cut -c 10-15       <span class="comment"># 截取第10个字符到第15个字符</span></span><br></pre></td></tr></table></figure>
-
-
-
 
     </div>
 
@@ -369,7 +367,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%8C%87%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6"><span class="nav-text">1. 指定分隔符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BB%A5%E5%AD%97%E7%AC%A6%E7%9A%84%E5%BD%A2%E5%BC%8F%E6%88%AA%E5%8F%96"><span class="nav-text">2. 以字符的形式截取</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6"><span class="nav-text">1. 指定分隔符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E5%AD%97%E7%AC%A6%E7%9A%84%E5%BD%A2%E5%BC%8F%E6%88%AA%E5%8F%96"><span class="nav-text">2. 以字符的形式截取</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -504,6 +502,8 @@
 
 
 
+
+  
 
   
 

@@ -244,7 +244,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>2.3k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -265,39 +265,41 @@
       
         <p>tar命令可以将多个文件和目录打包成一个大的文件，并结合gzip/bzip2进行压缩。本文首先介绍常用的压缩命令，然后介绍tar命令。</p>
 <span id="more"></span>
-
-<h3 id="1-常用压缩命令"><a href="#1-常用压缩命令" class="headerlink" title="1.常用压缩命令"></a>1.常用压缩命令</h3><p>Linux上的压缩命令非常多，不同的压缩命令对应不同的扩展名。因此，需要知道常见的扩展名所对应的压缩命令，才能使用相应的压缩命令对其进行解压缩。</p>
+<h3 id="常用压缩命令">1.常用压缩命令</h3>
+<p>Linux上的压缩命令非常多，不同的压缩命令对应不同的扩展名。因此，需要知道常见的扩展名所对应的压缩命令，才能使用相应的压缩命令对其进行解压缩。</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>扩展名</th>
 <th>描述</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr class="odd">
 <td>.gz</td>
 <td>gzip程序的压缩文件</td>
 </tr>
-<tr>
+<tr class="even">
 <td>.bz2</td>
 <td>bzip2程序的压缩文件</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>.tar</td>
 <td>tar程序的打包文件，并没有经过压缩</td>
 </tr>
-<tr>
+<tr class="even">
 <td>.tar.gz</td>
 <td>tar程序的打包文件，并经过gzip的压缩</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>.tar.bz2</td>
 <td>tar程序的打包文件，并经过bzip2的压缩</td>
 </tr>
-</tbody></table>
-<h4 id="1-1-gzip"><a href="#1-1-gzip" class="headerlink" title="1.1 gzip"></a>1.1 gzip</h4><p>gzip命令的语法如下：</p>
+</tbody>
+</table>
+<h4 id="gzip">1.1 gzip</h4>
+<p>gzip命令的语法如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gzip [-cdtv<span class="comment">#] filename</span></span><br></pre></td></tr></table></figure>
-
 <p>各个选项的含义如下：</p>
 <ul>
 <li>-c：将压缩后的数据输出的屏幕上，可以结合重定向进行使用</li>
@@ -308,20 +310,20 @@
 </ul>
 <p>示例：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ gzip test.txt             <span class="comment"># 压缩test.txt，并生成test.txt.gz</span></span><br><span class="line">$ gzip -c test.txt          <span class="comment"># 输出test.txt压缩后的信息，并不产生test.txt.gz</span></span><br><span class="line">$ gzip -d test.txt.gz       <span class="comment"># 解压test.txt.gz</span></span><br><span class="line">$ gzip -v test.txt          <span class="comment"># 对test.txt进行压缩，并显示压缩比</span></span><br><span class="line">$ gzip -9 test.txt          <span class="comment"># 以压缩等级9对test.txt进行压缩</span></span><br></pre></td></tr></table></figure>
-
 <p>需要注意的是，使用gzip对文件压缩或者解压缩时，均不会保留原文件或者压缩文件，如果想要保留原始文件，可以结合-c选项和重定向，命令如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ gzip -c test.txt &gt; test.txt.gz  <span class="comment"># 将屏幕输出重定向至test.txt.gz，从而保留原文件 </span></span><br><span class="line">$ gzip -<span class="built_in">cd</span> test.txt.gz &gt; test.txt <span class="comment"># 将解压信息重定向至test.txt，从而保留原文件</span></span><br></pre></td></tr></table></figure>
-
 <p>上述选项也可结合使用，实现综合功能，如：</p>
 <ul>
 <li><p>比较不同压缩等级下的压缩比</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ gzip -cv1 test.txt     <span class="comment"># 显示压缩信息和压缩等级，并不产生压缩文件</span></span><br><span class="line">$ gzip -cv9 test.txt</span><br></pre></td></tr></table></figure></li>
 </ul>
 <p>需要注意的是，gzip是对单个文件的压缩，并不能对整个目录进行压缩。虽然可以通过-r选项来对目录进行操作，但这也只是对目录里的文件分别进行压缩。</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010163234547.png" alt="image-20211010163234547"></p>
-<h4 id="1-2-bzip2"><a href="#1-2-bzip2" class="headerlink" title="1.2 bzip2"></a>1.2 bzip2</h4><p>bzip2的用法几乎与gzip相同，bzip2命令的语法如下：</p>
+<figure>
+<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010163234547.png" alt="image-20211010163234547" /><figcaption aria-hidden="true">image-20211010163234547</figcaption>
+</figure>
+<h4 id="bzip2">1.2 bzip2</h4>
+<p>bzip2的用法几乎与gzip相同，bzip2命令的语法如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bzip2 [-cdkzv$] filename</span><br></pre></td></tr></table></figure>
-
 <p>各个选项的作用如下：</p>
 <ul>
 <li>-c：将压缩过程产生的数据输出至屏幕上</li>
@@ -333,9 +335,9 @@
 </ul>
 <p>相比gzip，bzip2提供了-k选项，在压缩文件的同时，可以保留原文件。当然也可以使用-c选项和重定向来实现，不过这显得有些麻烦了。</p>
 <p>和gzip一样，bzip2也仅能对单个文件进行压缩，而无法对多个文件或者文件夹进行压缩。</p>
-<h3 id="2-tar命令"><a href="#2-tar命令" class="headerlink" title="2. tar命令"></a>2. tar命令</h3><p>tar是Linux中的归档命令，用于打包多个文件，并且可以结合压缩命令进行使用，tar命令的语法如下：</p>
+<h3 id="tar命令">2. tar命令</h3>
+<p>tar是Linux中的归档命令，用于打包多个文件，并且可以结合压缩命令进行使用，tar命令的语法如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ tar [-j|-z] [cv] [-f new_filename] object1 object2 ...    <span class="comment"># 压缩</span></span><br><span class="line">$ tar [-j|-z] [tv] [-f new_filename]         <span class="comment"># 查看文件名</span></span><br><span class="line">$ tar [-j|-z] [xv] [-f new_filename] [-C folder]            <span class="comment"># 解压</span></span><br></pre></td></tr></table></figure>
-
 <p>这些常用选项的作用如下：</p>
 <ul>
 <li>-c：新建打包文件，结合-v可以查看打包过程中的文件</li>
@@ -348,20 +350,20 @@
 </ul>
 <p>实际比较常用的打包，查看和解打包涉及到的命令如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ tar -jcv -f all_test.tar.bz2 <span class="built_in">test</span>*.txt      <span class="comment"># 使用bzip2进行压缩</span></span><br><span class="line">$ tar -zcv -f all_test.tar.gz <span class="built_in">test</span>*.txt       <span class="comment"># 使用gzip进行压缩</span></span><br><span class="line">$ tar -jtv -f all_test.tar.bz2                <span class="comment"># 查看打包文件名</span></span><br><span class="line">$ tar -ztv -f all_test.tar.gz                 <span class="comment"># 查看打包文件名</span></span><br><span class="line">$ tar -jxv -f all_test.tar.bz2                <span class="comment"># 解打包*.tar.bz2</span></span><br><span class="line">$ tar -zxv -f all_test.tar.gz                 <span class="comment"># 解打包*.tar.gz</span></span><br><span class="line">$ tar -zxv -f all_test.tar.gz -C target_folder/    <span class="comment"># 指定目录解打包</span></span><br></pre></td></tr></table></figure>
-
 <p>tar还有两个比较常用的功能：</p>
 <ul>
 <li><p>解打包某一个文件</p>
 <p>使用上述的解打包命令时，会把所有的文件都解出来，但有时候我们可能只需要其中的某个文件，这时候可以指定需要的文件，用法如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -jxv -f filename.tar.bz2 -C targer_folder file1</span><br></pre></td></tr></table></figure>
-
 <p>其中，filename.tar.bz2为需要解打包的文件，file1为需要的目标文件，targer_folder为目标目录。</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010174744834.png" alt="image-20211010174744834"></p>
-</li>
+<figure>
+<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010174744834.png" alt="image-20211010174744834" /><figcaption aria-hidden="true">image-20211010174744834</figcaption>
+</figure></li>
 <li><p>打包时，排除某些文件</p>
-<p>可以使用–exclude来排除不需要打包的文件，示例如下：</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010175823219.png" alt="image-20211010175823219"></p>
-</li>
+<p>可以使用--exclude来排除不需要打包的文件，示例如下：</p>
+<figure>
+<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010175823219.png" alt="image-20211010175823219" /><figcaption aria-hidden="true">image-20211010175823219</figcaption>
+</figure></li>
 </ul>
 
     </div>
@@ -447,7 +449,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%B8%B8%E7%94%A8%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="nav-text">1.常用压缩命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-gzip"><span class="nav-text">1.1 gzip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-bzip2"><span class="nav-text">1.2 bzip2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-tar%E5%91%BD%E4%BB%A4"><span class="nav-text">2. tar命令</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="nav-text">1.常用压缩命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#gzip"><span class="nav-text">1.1 gzip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bzip2"><span class="nav-text">1.2 bzip2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tar%E5%91%BD%E4%BB%A4"><span class="nav-text">2. tar命令</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -582,6 +584,8 @@
 
 
 
+
+  
 
   
 

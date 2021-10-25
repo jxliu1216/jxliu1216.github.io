@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="1. sed简介​        sed是Linux中的流编辑器，与传统的编辑器（如Vim）相比，它没有交互式的界面进行操作，而是通过命令来处理数据流中的数据。sed会对数据做如下操作：  一次从输入中读取一行数据  根据提供的命令对数据进行处理（选取，删除，替换，新增）  将处理后的结果输出至stdout">
+  <meta name="description" content="1. sed简介 ​ sed是Linux中的流编辑器，与传统的编辑器（如Vim）相比，它没有交互式的界面进行操作，而是通过命令来处理数据流中的数据。sed会对数据做如下操作：  一次从输入中读取一行数据 根据提供的命令对数据进行处理（选取，删除，替换，新增） 将处理后的结果输出至stdout">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux命令之sed">
 <meta property="og:url" content="http://example.com/2021/09/26/sed/index.html">
 <meta property="og:site_name" content="兔八哥的博客">
-<meta property="og:description" content="1. sed简介​        sed是Linux中的流编辑器，与传统的编辑器（如Vim）相比，它没有交互式的界面进行操作，而是通过命令来处理数据流中的数据。sed会对数据做如下操作：  一次从输入中读取一行数据  根据提供的命令对数据进行处理（选取，删除，替换，新增）  将处理后的结果输出至stdout">
+<meta property="og:description" content="1. sed简介 ​ sed是Linux中的流编辑器，与传统的编辑器（如Vim）相比，它没有交互式的界面进行操作，而是通过命令来处理数据流中的数据。sed会对数据做如下操作：  一次从输入中读取一行数据 根据提供的命令对数据进行处理（选取，删除，替换，新增） 将处理后的结果输出至stdout">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-09-26T15:15:30.000Z">
 <meta property="article:modified_time" content="2021-10-10T14:07:39.196Z">
@@ -265,80 +265,83 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="1-sed简介"><a href="#1-sed简介" class="headerlink" title="1. sed简介"></a>1. sed简介</h3><p>​        sed是Linux中的流编辑器，与传统的编辑器（如Vim）相比，它没有交互式的界面进行操作，而是通过命令来处理数据流中的数据。sed会对数据做如下操作：</p>
-<ol>
-<li><p>一次从输入中读取一行数据</p>
-</li>
-<li><p>根据提供的命令对数据进行处理（选取，删除，替换，新增）</p>
-</li>
-<li><p>将处理后的结果输出至stdout</p>
-</li>
+        <h3 id="sed简介">1. sed简介</h3>
+<p>​ sed是Linux中的流编辑器，与传统的编辑器（如Vim）相比，它没有交互式的界面进行操作，而是通过命令来处理数据流中的数据。sed会对数据做如下操作：</p>
+<ol type="1">
+<li><p>一次从输入中读取一行数据</p></li>
+<li><p>根据提供的命令对数据进行处理（选取，删除，替换，新增）</p></li>
+<li><p>将处理后的结果输出至stdout</p></li>
 </ol>
 <span id="more"></span>
-
-<p>​        sed对一行处理完毕后，会读取下一行并继续进行上述操作，直至将所有的行处理完毕。sed命令的使用格式如下：</p>
+<p>​ sed对一行处理完毕后，会读取下一行并继续进行上述操作，直至将所有的行处理完毕。sed命令的使用格式如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sed options <span class="string">&#x27;actions&#x27;</span> file</span><br></pre></td></tr></table></figure>
-
 <p>其中，options为sed命令支持的选项，actions为编辑动作。</p>
-<h4 id="1-1-options"><a href="#1-1-options" class="headerlink" title="1.1 options"></a>1.1 options</h4><p>sed命令支持的选项和对应的功能如下所示：</p>
+<h4 id="options">1.1 options</h4>
+<p>sed命令支持的选项和对应的功能如下所示：</p>
 <table>
 <thead>
-<tr>
-<th align="center">选项</th>
-<th align="left">作用</th>
+<tr class="header">
+<th style="text-align: center;">选项</th>
+<th style="text-align: left;">作用</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">-n</td>
-<td align="left">silent模式，只有经过sed处理的行会被输出至stdout</td>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">-n</td>
+<td style="text-align: left;">silent模式，只有经过sed处理的行会被输出至stdout</td>
 </tr>
-<tr>
-<td align="center">-e</td>
-<td align="left">允许对输入数据应用多条sed命令编辑</td>
+<tr class="even">
+<td style="text-align: center;">-e</td>
+<td style="text-align: left;">允许对输入数据应用多条sed命令编辑</td>
 </tr>
-<tr>
-<td align="center">-i</td>
-<td align="left">用sed修改的结果直接修改读取数据的文件，而不是由屏幕输出</td>
+<tr class="odd">
+<td style="text-align: center;">-i</td>
+<td style="text-align: left;">用sed修改的结果直接修改读取数据的文件，而不是由屏幕输出</td>
 </tr>
-<tr>
-<td align="center">-f</td>
-<td align="left">从文件中读取编辑命令</td>
+<tr class="even">
+<td style="text-align: center;">-f</td>
+<td style="text-align: left;">从文件中读取编辑命令</td>
 </tr>
-</tbody></table>
-<h4 id="1-2-actions"><a href="#1-2-actions" class="headerlink" title="1.2 actions"></a>1.2 actions</h4><p>sed命令支持的编辑动作如下所示：</p>
+</tbody>
+</table>
+<h4 id="actions">1.2 actions</h4>
+<p>sed命令支持的编辑动作如下所示：</p>
 <table>
 <thead>
-<tr>
-<th align="center">编辑动作</th>
+<tr class="header">
+<th style="text-align: center;">编辑动作</th>
 <th>功能</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">a</td>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">a</td>
 <td>追加，在当前行后添加一行或多行</td>
 </tr>
-<tr>
-<td align="center">c</td>
+<tr class="even">
+<td style="text-align: center;">c</td>
 <td>行替换，用c后面的字符串替换原数据行，可替换多行</td>
 </tr>
-<tr>
-<td align="center">i</td>
+<tr class="odd">
+<td style="text-align: center;">i</td>
 <td>插入，在当前行前插入一行或多行</td>
 </tr>
-<tr>
-<td align="center">d</td>
+<tr class="even">
+<td style="text-align: center;">d</td>
 <td>删除，删除指定的行</td>
 </tr>
-<tr>
-<td align="center">p</td>
+<tr class="odd">
+<td style="text-align: center;">p</td>
 <td>打印，输出指定的行</td>
 </tr>
-<tr>
-<td align="center">s</td>
+<tr class="even">
+<td style="text-align: center;">s</td>
 <td>字符串替换，用一个字符串替换另一个字符串</td>
 </tr>
-</tbody></table>
-<h4 id="1-3-sed寻址方式"><a href="#1-3-sed寻址方式" class="headerlink" title="1.3 sed寻址方式"></a>1.3 sed寻址方式</h4><p>在默认情况下，sed命令会对所有行进行相同的操作，但是，某些时候，我们只想对输入数据的部分行进行操作，这个时候则需要进行寻址。sed命令支持两种寻址方式：</p>
+</tbody>
+</table>
+<h4 id="sed寻址方式">1.3 sed寻址方式</h4>
+<p>在默认情况下，sed命令会对所有行进行相同的操作，但是，某些时候，我们只想对输入数据的部分行进行操作，这个时候则需要进行寻址。sed命令支持两种寻址方式：</p>
 <ul>
 <li>以数字形式表示行区间</li>
 <li>用文本模式进行匹配过滤</li>
@@ -346,28 +349,26 @@
 <p><strong>A. 以数字形式表示行区间</strong></p>
 <p>我们可以使用数字来指定处理的行，可以是指定特定的某一行，也可以是指定某个行区间。例如：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打印第三行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;3p&#x27;</span> file.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印第三到五行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;3,5p&#x27;</span> file.txt</span><br></pre></td></tr></table></figure>
-
 <p>指定行区间，则是用起始行号，逗号以及结尾行号来表示一定区间范围内的行。需要注意的是，sed中对于行的编号是从1开始的。</p>
 <p><strong>B.以文本模式进行匹配过滤</strong></p>
 <p>sed命令也允许指定文本模式来过滤出命令要作用的行，格式如下：/pattern/actions。sed命令会过滤出包含pattern的行，并用actions对这些行进行处理</p>
 <p>例如，只想打印出/etc/passwd文件中包含/bin/bash的行，则可以使用如下的sed命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sed -n <span class="string">&#x27;/\/bin\/bash/p&#x27;</span> /etc/passwd</span><br></pre></td></tr></table></figure>
-
 <p>当然，使用grep命令可以更简单的实现相同的效果。此处，举这个例子来演示sed命令的文本匹配过滤功能。</p>
-<h3 id="2-sed之打印-p"><a href="#2-sed之打印-p" class="headerlink" title="2. sed之打印(p)"></a>2. sed之打印(p)</h3><p>sed进行打印时，常与-n一同使用，只打印符号条件的行。</p>
+<h3 id="sed之打印p">2. sed之打印(p)</h3>
+<p>sed进行打印时，常与-n一同使用，只打印符号条件的行。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sed -n <span class="string">&#x27;2p&#x27;</span> test.txt           <span class="comment"># 打印第2行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;2,4p&#x27;</span> test.txt         <span class="comment"># 打印第2到4行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;/hello/p&#x27;</span> test.txt     <span class="comment"># 打印包含hello的行</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-sed之追加-a-，插入-i-，删除-d"><a href="#3-sed之追加-a-，插入-i-，删除-d" class="headerlink" title="3. sed之追加(a)，插入(i)，删除(d)"></a>3. sed之追加(a)，插入(i)，删除(d)</h3><p>使用a进行追加时，可以追加1行，也可以使用“ \ ”追加多行。</p>
+<h3 id="sed之追加a插入i删除d">3. sed之追加(a)，插入(i)，删除(d)</h3>
+<p>使用a进行追加时，可以追加1行，也可以使用“  ”追加多行。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;2a hello world&#x27;</span> test.txt      <span class="comment"># 在第2行后添加一行hello world</span></span><br><span class="line">$ sed <span class="string">&#x27;2a hello\</span></span><br><span class="line"><span class="string">&gt; world&#x27;</span> test.txt                    <span class="comment"># 在第二行后添加2行，分别为hello和world</span></span><br></pre></td></tr></table></figure>
-
 <p>i的用法与a的用法类似，不同的是i是在指定的行前进行插入，a是在指定的行后追加。</p>
 <p>d可以用来删除指定的某一行，或者某个范围内的行，或者使用模式进行匹配删除。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;2d&#x27;</span> test.txt                 <span class="comment"># 删除第2行</span></span><br><span class="line">$ sed <span class="string">&#x27;3,5d&#x27;</span> test.txt               <span class="comment"># 删除第3到5行</span></span><br><span class="line">$ sed <span class="string">&#x27;/hello/d&#x27;</span> test.txt           <span class="comment"># 删除匹配到hello的行</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="4-sed之行替换-c"><a href="#4-sed之行替换-c" class="headerlink" title="4. sed之行替换(c)"></a>4. sed之行替换(c)</h3><p>使用c可以对指定的行进行替换，可以替换一行，也可以替换多行，替换的内容可以是一行，也可以是多行。</p>
+<h3 id="sed之行替换c">4. sed之行替换(c)</h3>
+<p>使用c可以对指定的行进行替换，可以替换一行，也可以替换多行，替换的内容可以是一行，也可以是多行。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;2c hello world&#x27;</span> test.txt          <span class="comment"># 将第2行替换为hello world</span></span><br><span class="line">$ sed <span class="string">&#x27;2,3c hello world&#x27;</span> test.txt        <span class="comment"># 将第2到第3行替换为hello world</span></span><br><span class="line">$ sed <span class="string">&#x27;2,3c hello world1\</span></span><br><span class="line"><span class="string">&gt; hello world2&#x27;</span> test.txt                 <span class="comment"># 将第2到3行替换为两行内容</span></span><br><span class="line">$ sed <span class="string">&#x27;/hello/c c_hello&#x27;</span> test.txt        <span class="comment"># 对包含hello的行进行替换</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="5-sed之字符串替换-s"><a href="#5-sed之字符串替换-s" class="headerlink" title="5. sed之字符串替换(s)"></a>5. sed之字符串替换(s)</h3><p>使用s进行字符串替换时的格式如下：s/pattern/replacement/flags</p>
+<h3 id="sed之字符串替换s">5. sed之字符串替换(s)</h3>
+<p>使用s进行字符串替换时的格式如下：s/pattern/replacement/flags</p>
 <p>有4中可用的标记（flag），作用分别如下：</p>
 <ul>
 <li>数字：表明新文本将替换第几处模式匹配的地方</li>
@@ -376,7 +377,6 @@
 <li>w：将行替换的结果写到文件中</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;s/test/trail/2&#x27;</span> test.txt     <span class="comment"># 只替换每行第2次匹配到的文本</span></span><br><span class="line">$ sed <span class="string">&#x27;s/test/trail/g&#x27;</span> test.txt     <span class="comment"># 替换所有匹配到的文本</span></span><br><span class="line">$ sed -n <span class="string">&#x27;s/test/trail/p&#x27;</span> test.txt  <span class="comment"># 将被替换的行打印出来</span></span><br><span class="line">$ sed <span class="string">&#x27;s/test/trail/w result.txt&#x27;</span> test.txt <span class="comment"># 将行替换的结果写入文件</span></span><br></pre></td></tr></table></figure>
-
 <p>注意：可以将上述flags进行组合使用，达到效果的叠加。</p>
 
     </div>
@@ -459,7 +459,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-sed%E7%AE%80%E4%BB%8B"><span class="nav-text">1. sed简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-options"><span class="nav-text">1.1 options</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-actions"><span class="nav-text">1.2 actions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-sed%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="nav-text">1.3 sed寻址方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-sed%E4%B9%8B%E6%89%93%E5%8D%B0-p"><span class="nav-text">2. sed之打印(p)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-sed%E4%B9%8B%E8%BF%BD%E5%8A%A0-a-%EF%BC%8C%E6%8F%92%E5%85%A5-i-%EF%BC%8C%E5%88%A0%E9%99%A4-d"><span class="nav-text">3. sed之追加(a)，插入(i)，删除(d)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-sed%E4%B9%8B%E8%A1%8C%E6%9B%BF%E6%8D%A2-c"><span class="nav-text">4. sed之行替换(c)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-sed%E4%B9%8B%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9B%BF%E6%8D%A2-s"><span class="nav-text">5. sed之字符串替换(s)</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#sed%E7%AE%80%E4%BB%8B"><span class="nav-text">1. sed简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#options"><span class="nav-text">1.1 options</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#actions"><span class="nav-text">1.2 actions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sed%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="nav-text">1.3 sed寻址方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sed%E4%B9%8B%E6%89%93%E5%8D%B0p"><span class="nav-text">2. sed之打印(p)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sed%E4%B9%8B%E8%BF%BD%E5%8A%A0a%E6%8F%92%E5%85%A5i%E5%88%A0%E9%99%A4d"><span class="nav-text">3. sed之追加(a)，插入(i)，删除(d)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sed%E4%B9%8B%E8%A1%8C%E6%9B%BF%E6%8D%A2c"><span class="nav-text">4. sed之行替换(c)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sed%E4%B9%8B%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9B%BF%E6%8D%A2s"><span class="nav-text">5. sed之字符串替换(s)</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -594,6 +594,8 @@
 
 
 
+
+  
 
   
 
