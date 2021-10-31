@@ -541,4 +541,265 @@ f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
         <tag>Bash</tag>
       </tags>
   </entry>
+  <entry>
+    <title>linux_bash_tips</title>
+    <url>/2021/10/31/linux-bash-tips/</url>
+    <content><![CDATA[
+]]></content>
+  </entry>
+  <entry>
+    <title>Linux之搜索命令</title>
+    <url>/2021/10/27/linux-search/</url>
+    <content><![CDATA[<p>在使用Linux的时候，文件搜索和过滤是我们经常需要使用的功能。在文件搜索和过滤的过程中，find和grep是使用频率非常高的两个命令。这两个命令的使用过程中涉及到字符串模式匹配，也就是正则表达式。因此，本文首先介绍通配符和正则表达式的概念，然后介绍find和grep命令。</p>
+<span id="more"></span>
+<h3 id="通配符">1. 通配符</h3>
+<p>通配符一般在Linux里用于文件名匹配，它是由shell解析的，比如ls等命令。Linux中常见的通配符如下表所示：</p>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 35%" />
+<col style="width: 46%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>通配符</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>*</td>
+<td>匹配0或者多个字符</td>
+<td>a*b表示a与b之间可以任意长度的字符</td>
+</tr>
+<tr class="even">
+<td>?</td>
+<td>匹配任意一个字符</td>
+<td>a?b表示a与b之间必须有一个字符，可以是任意一个字符</td>
+</tr>
+<tr class="odd">
+<td>[list]</td>
+<td>匹配list中的任意一个字符</td>
+<td>a[xyz]b表示a与b之间有x，y，z中的一个字符</td>
+</tr>
+<tr class="even">
+<td>[^list]</td>
+<td>匹配除list中的任意单一字符</td>
+<td>a[^0-9]b表示a与b之间必须有一个字符，但不能是阿拉伯数字</td>
+</tr>
+<tr class="odd">
+<td>[c1-c2]</td>
+<td>匹配c1-c2中的任意单一字符</td>
+<td>a[0-9]b表示a与b之间必须有一个字符，但必须是阿拉伯数字</td>
+</tr>
+<tr class="even">
+<td>[^c1-c2]</td>
+<td>匹配不在c1-c2中的任意字符</td>
+<td>a[^0-9]表示a与b之间必须有一个字符，但不能是阿拉伯数字</td>
+</tr>
+<tr class="odd">
+<td>{string1,string2,...}</td>
+<td>匹配string1或stirng2或者更多字符串中的一个</td>
+<td>a{abc,xyz,123}b，a与b之间是abc，xyz,123之一</td>
+</tr>
+</tbody>
+</table>
+<h3 id="正则表达式">2. 正则表达式</h3>
+<p>正则表达式是用来处理字符串的，进行过滤和筛选，常用于Linux三剑客grep，sed和awk。正则表达式分为基础正则表达式和扩展正则表达式。扩展正则表达式相对于基础正则表达式，对一些元字符的使用不需要转移，同时也增加了一些元字符。使用扩展正则表达的话，通常需要在命令后添加参数，来表明使用扩展正则表达式进行匹配。</p>
+<p>基础正则表达式有如下：</p>
+<table>
+<thead>
+<tr class="header">
+<th>正则表达式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>^</td>
+<td>从行首开始匹配</td>
+</tr>
+<tr class="even">
+<td>$</td>
+<td>从行尾开始匹配</td>
+</tr>
+<tr class="odd">
+<td>^$</td>
+<td>空字符</td>
+</tr>
+<tr class="even">
+<td>.</td>
+<td>匹配除换行符外的任意一个字符</td>
+</tr>
+<tr class="odd">
+<td>*</td>
+<td>前面的字符出现0次或任意多次</td>
+</tr>
+<tr class="even">
+<td>.*</td>
+<td>任意字符串</td>
+</tr>
+<tr class="odd">
+<td>[]</td>
+<td>匹配括号中指定的任意一个字符，只匹配一次</td>
+</tr>
+<tr class="even">
+<td>[^]</td>
+<td>匹配除括号里的字符之外的任意一个字符</td>
+</tr>
+<tr class="odd">
+<td>[-]</td>
+<td>匹配一个范围内的任意一个字符</td>
+</tr>
+<tr class="even">
+<td>\{n\}</td>
+<td>前面的字符恰好出现n次</td>
+</tr>
+<tr class="odd">
+<td>\{n,\}</td>
+<td>前面的字符出现不少于n次</td>
+</tr>
+<tr class="even">
+<td>\{,n\}</td>
+<td>前面的字符出现不多于n次</td>
+</tr>
+<tr class="odd">
+<td>\{n1,n2\}</td>
+<td>前面的字符至少出现n1次，至多出现n2次</td>
+</tr>
+</tbody>
+</table>
+<p>扩展正则表达式相对与基本正则表达式，多了一些元字符，同时不需要使用。例如：在基本正则表达式中，前面字符出现n次，需要用\{n\}来表示；而在扩展正则表达式中，仅需要使用{n}来表示。扩展表达式可以分为如下几个部分：</p>
+<ul>
+<li><p><strong>字符匹配</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>正则表达式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>.</td>
+<td>匹配任意单个字符</td>
+</tr>
+<tr class="even">
+<td>[]</td>
+<td>匹配指定范围内的任意单个字符</td>
+</tr>
+<tr class="odd">
+<td>[^]</td>
+<td>匹配指定范围外的任意单个字符</td>
+</tr>
+</tbody>
+</table></li>
+<li><p><strong>次数匹配</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>正则表达式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>*</td>
+<td>匹配前面的字符任意次（0次，1次，或多次）</td>
+</tr>
+<tr class="even">
+<td>？</td>
+<td>匹配前面的字符0次或1次</td>
+</tr>
+<tr class="odd">
+<td>+</td>
+<td>匹配前面的字符1次或者多次</td>
+</tr>
+<tr class="even">
+<td>{m}</td>
+<td>匹配前面的字符m次</td>
+</tr>
+<tr class="odd">
+<td>{m, n}</td>
+<td>匹配前面的字符至少m次，至多n次</td>
+</tr>
+<tr class="even">
+<td>{m,}</td>
+<td>匹配前面的字符至少m次</td>
+</tr>
+<tr class="odd">
+<td>{,n}</td>
+<td>匹配前面的字符至多n次</td>
+</tr>
+</tbody>
+</table></li>
+<li><p><strong>位置锚定</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>正则表达式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>^</td>
+<td>行首锚定</td>
+</tr>
+<tr class="even">
+<td>$</td>
+<td>行尾锚定</td>
+</tr>
+<tr class="odd">
+<td>\&lt;</td>
+<td>词首锚定</td>
+</tr>
+<tr class="even">
+<td>\&gt;</td>
+<td>词尾锚定</td>
+</tr>
+</tbody>
+</table>
+<p>解释一下词首锚定和词尾锚定，这两个是对单词进行操作的。因为正则表达式是对字符串进行处理的，如果一个单词中间有符合模式的字符串，那么就会匹配成功。但是有时候我们是想对单词进行匹配的，这时候就要利用\&lt;和\&gt;了。举个例子：</p>
+<p>例如有如下的字符串：testscript script scripttest</p>
+<ul>
+<li>script：上述三个均能匹配上</li>
+<li>\&lt;script：只能匹配scripttest和script</li>
+<li>script&gt;：只能匹配testscript和script</li>
+<li>\&lt;script\&gt;：只能匹配script</li>
+</ul>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211031182453041.png" alt="image-20211031182453041" style="zoom:67%;" /></p></li>
+</ul>
+<h3 id="find命令">3. find命令</h3>
+<p>find命令用来在指定目录下查找文件，会递归的在子目录下进行同样的查找操作。find命令的语法格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">find path -option</span><br></pre></td></tr></table></figure>
+<p>其中，path为需要查找的目录，-option为查找条件。find中的查找条件非常多，这里列几个常用的：</p>
+<ul>
+<li>-name "name"：根据文件名进行查找</li>
+<li>-iname "name"：根据文件名进行查找，但是忽略大小写</li>
+<li>-type c：根据文件类型进行查找</li>
+</ul>
+<p>还有很多其他的，就不一一罗列了</p>
+<h3 id="grep命令">4. grep命令</h3>
+<p>grep命令用于查找文件里符号条件的字符串，如果发现符合条件的字符串，则将文件中包含该字符串的那一行打印出来。grep命令的使用语法如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">grep [-options] pattern file/dir</span><br></pre></td></tr></table></figure>
+<p>其中pattern为需要匹配的模式，可以使用正则表达式。常用的options有如下：</p>
+<ul>
+<li>-E：使用扩展正则表达式</li>
+<li>-n：显示行号</li>
+<li>-v：反向选取，显示不包含匹配样式的行</li>
+<li>-q：不显示任何信息</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>通配符</tag>
+        <tag>正则表达式</tag>
+        <tag>find</tag>
+        <tag>grep</tag>
+      </tags>
+  </entry>
 </search>

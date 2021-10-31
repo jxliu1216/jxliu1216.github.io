@@ -20,25 +20,25 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="tar命令可以将多个文件和目录打包成一个大的文件，并结合gzip&#x2F;bzip2进行压缩。本文首先介绍常用的压缩命令，然后介绍tar命令。">
+  <meta name="description" content="在使用Linux的时候，文件搜索和过滤是我们经常需要使用的功能。在文件搜索和过滤的过程中，find和grep是使用频率非常高的两个命令。这两个命令的使用过程中涉及到字符串模式匹配，也就是正则表达式。因此，本文首先介绍通配符和正则表达式的概念，然后介绍find和grep命令。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux命令之tar">
-<meta property="og:url" content="http://example.com/2021/10/10/tar/index.html">
+<meta property="og:title" content="Linux之搜索命令">
+<meta property="og:url" content="http://example.com/2021/10/27/linux-search/index.html">
 <meta property="og:site_name" content="兔八哥的博客">
-<meta property="og:description" content="tar命令可以将多个文件和目录打包成一个大的文件，并结合gzip&#x2F;bzip2进行压缩。本文首先介绍常用的压缩命令，然后介绍tar命令。">
+<meta property="og:description" content="在使用Linux的时候，文件搜索和过滤是我们经常需要使用的功能。在文件搜索和过滤的过程中，find和grep是使用频率非常高的两个命令。这两个命令的使用过程中涉及到字符串模式匹配，也就是正则表达式。因此，本文首先介绍通配符和正则表达式的概念，然后介绍find和grep命令。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010163234547.png">
-<meta property="og:image" content="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010174744834.png">
-<meta property="og:image" content="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010175823219.png">
-<meta property="article:published_time" content="2021-10-09T16:40:48.000Z">
-<meta property="article:modified_time" content="2021-10-10T14:06:10.934Z">
+<meta property="og:image" content="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211031182453041.png">
+<meta property="article:published_time" content="2021-10-27T14:52:47.000Z">
+<meta property="article:modified_time" content="2021-10-31T12:01:37.300Z">
 <meta property="article:author" content="Liu Jinxue">
-<meta property="article:tag" content="Linux">
-<meta property="article:tag" content="Bash">
+<meta property="article:tag" content="通配符">
+<meta property="article:tag" content="正则表达式">
+<meta property="article:tag" content="find">
+<meta property="article:tag" content="grep">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010163234547.png">
+<meta name="twitter:image" content="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211031182453041.png">
 
-<link rel="canonical" href="http://example.com/2021/10/10/tar/">
+<link rel="canonical" href="http://example.com/2021/10/27/linux-search/">
 
 
 <script id="page-configurations">
@@ -51,7 +51,7 @@
   };
 </script>
 
-  <title>Linux命令之tar | 兔八哥的博客</title>
+  <title>Linux之搜索命令 | 兔八哥的博客</title>
   
 
 
@@ -195,7 +195,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/10/tar/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/27/linux-search/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -208,7 +208,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Linux命令之tar
+          Linux之搜索命令
         </h1>
 
         <div class="post-meta">
@@ -217,10 +217,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-10-10 00:40:48 / 修改时间：22:06:10" itemprop="dateCreated datePublished" datetime="2021-10-10T00:40:48+08:00">2021-10-10</time>
+              <time title="创建时间：2021-10-27 22:52:47" itemprop="dateCreated datePublished" datetime="2021-10-27T22:52:47+08:00">2021-10-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-10-31 20:01:37" itemprop="dateModified" datetime="2021-10-31T20:01:37+08:00">2021-10-31</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -244,7 +250,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.3k</span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -263,107 +269,246 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>tar命令可以将多个文件和目录打包成一个大的文件，并结合gzip/bzip2进行压缩。本文首先介绍常用的压缩命令，然后介绍tar命令。</p>
+        <p>在使用Linux的时候，文件搜索和过滤是我们经常需要使用的功能。在文件搜索和过滤的过程中，find和grep是使用频率非常高的两个命令。这两个命令的使用过程中涉及到字符串模式匹配，也就是正则表达式。因此，本文首先介绍通配符和正则表达式的概念，然后介绍find和grep命令。</p>
 <span id="more"></span>
-<h3 id="常用压缩命令">1.常用压缩命令</h3>
-<p>Linux上的压缩命令非常多，不同的压缩命令对应不同的扩展名。因此，需要知道常见的扩展名所对应的压缩命令，才能使用相应的压缩命令对其进行解压缩。</p>
+<h3 id="通配符">1. 通配符</h3>
+<p>通配符一般在Linux里用于文件名匹配，它是由shell解析的，比如ls等命令。Linux中常见的通配符如下表所示：</p>
 <table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 35%" />
+<col style="width: 46%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th>扩展名</th>
-<th>描述</th>
+<th>通配符</th>
+<th>含义</th>
+<th>示例</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>.gz</td>
-<td>gzip程序的压缩文件</td>
+<td>*</td>
+<td>匹配0或者多个字符</td>
+<td>a*b表示a与b之间可以任意长度的字符</td>
 </tr>
 <tr class="even">
-<td>.bz2</td>
-<td>bzip2程序的压缩文件</td>
+<td>?</td>
+<td>匹配任意一个字符</td>
+<td>a?b表示a与b之间必须有一个字符，可以是任意一个字符</td>
 </tr>
 <tr class="odd">
-<td>.tar</td>
-<td>tar程序的打包文件，并没有经过压缩</td>
+<td>[list]</td>
+<td>匹配list中的任意一个字符</td>
+<td>a[xyz]b表示a与b之间有x，y，z中的一个字符</td>
 </tr>
 <tr class="even">
-<td>.tar.gz</td>
-<td>tar程序的打包文件，并经过gzip的压缩</td>
+<td>[^list]</td>
+<td>匹配除list中的任意单一字符</td>
+<td>a[^0-9]b表示a与b之间必须有一个字符，但不能是阿拉伯数字</td>
 </tr>
 <tr class="odd">
-<td>.tar.bz2</td>
-<td>tar程序的打包文件，并经过bzip2的压缩</td>
+<td>[c1-c2]</td>
+<td>匹配c1-c2中的任意单一字符</td>
+<td>a[0-9]b表示a与b之间必须有一个字符，但必须是阿拉伯数字</td>
+</tr>
+<tr class="even">
+<td>[^c1-c2]</td>
+<td>匹配不在c1-c2中的任意字符</td>
+<td>a[^0-9]表示a与b之间必须有一个字符，但不能是阿拉伯数字</td>
+</tr>
+<tr class="odd">
+<td>{string1,string2,...}</td>
+<td>匹配string1或stirng2或者更多字符串中的一个</td>
+<td>a{abc,xyz,123}b，a与b之间是abc，xyz,123之一</td>
 </tr>
 </tbody>
 </table>
-<h4 id="gzip">1.1 gzip</h4>
-<p>gzip命令的语法如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gzip [-cdtv<span class="comment">#] filename</span></span><br></pre></td></tr></table></figure>
-<p>各个选项的含义如下：</p>
+<h3 id="正则表达式">2. 正则表达式</h3>
+<p>正则表达式是用来处理字符串的，进行过滤和筛选，常用于Linux三剑客grep，sed和awk。正则表达式分为基础正则表达式和扩展正则表达式。扩展正则表达式相对于基础正则表达式，对一些元字符的使用不需要转移，同时也增加了一些元字符。使用扩展正则表达的话，通常需要在命令后添加参数，来表明使用扩展正则表达式进行匹配。</p>
+<p>基础正则表达式有如下：</p>
+<table>
+<thead>
+<tr class="header">
+<th>正则表达式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>^</td>
+<td>从行首开始匹配</td>
+</tr>
+<tr class="even">
+<td>$</td>
+<td>从行尾开始匹配</td>
+</tr>
+<tr class="odd">
+<td>^$</td>
+<td>空字符</td>
+</tr>
+<tr class="even">
+<td>.</td>
+<td>匹配除换行符外的任意一个字符</td>
+</tr>
+<tr class="odd">
+<td>*</td>
+<td>前面的字符出现0次或任意多次</td>
+</tr>
+<tr class="even">
+<td>.*</td>
+<td>任意字符串</td>
+</tr>
+<tr class="odd">
+<td>[]</td>
+<td>匹配括号中指定的任意一个字符，只匹配一次</td>
+</tr>
+<tr class="even">
+<td>[^]</td>
+<td>匹配除括号里的字符之外的任意一个字符</td>
+</tr>
+<tr class="odd">
+<td>[-]</td>
+<td>匹配一个范围内的任意一个字符</td>
+</tr>
+<tr class="even">
+<td>\{n\}</td>
+<td>前面的字符恰好出现n次</td>
+</tr>
+<tr class="odd">
+<td>\{n,\}</td>
+<td>前面的字符出现不少于n次</td>
+</tr>
+<tr class="even">
+<td>\{,n\}</td>
+<td>前面的字符出现不多于n次</td>
+</tr>
+<tr class="odd">
+<td>\{n1,n2\}</td>
+<td>前面的字符至少出现n1次，至多出现n2次</td>
+</tr>
+</tbody>
+</table>
+<p>扩展正则表达式相对与基本正则表达式，多了一些元字符，同时不需要使用。例如：在基本正则表达式中，前面字符出现n次，需要用\{n\}来表示；而在扩展正则表达式中，仅需要使用{n}来表示。扩展表达式可以分为如下几个部分：</p>
 <ul>
-<li>-c：将压缩后的数据输出的屏幕上，可以结合重定向进行使用</li>
-<li>-d：解压缩</li>
-<li>-t：校验压缩文件是否正确无误</li>
-<li>-v：对文件进行压缩，并显示压缩比</li>
-<li>-#：通过数字指定压缩等级，-1最快，但是压缩比最低；-9最慢，但是压缩比最高。默认为6</li>
+<li><p><strong>字符匹配</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>正则表达式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>.</td>
+<td>匹配任意单个字符</td>
+</tr>
+<tr class="even">
+<td>[]</td>
+<td>匹配指定范围内的任意单个字符</td>
+</tr>
+<tr class="odd">
+<td>[^]</td>
+<td>匹配指定范围外的任意单个字符</td>
+</tr>
+</tbody>
+</table></li>
+<li><p><strong>次数匹配</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>正则表达式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>*</td>
+<td>匹配前面的字符任意次（0次，1次，或多次）</td>
+</tr>
+<tr class="even">
+<td>？</td>
+<td>匹配前面的字符0次或1次</td>
+</tr>
+<tr class="odd">
+<td>+</td>
+<td>匹配前面的字符1次或者多次</td>
+</tr>
+<tr class="even">
+<td>{m}</td>
+<td>匹配前面的字符m次</td>
+</tr>
+<tr class="odd">
+<td>{m, n}</td>
+<td>匹配前面的字符至少m次，至多n次</td>
+</tr>
+<tr class="even">
+<td>{m,}</td>
+<td>匹配前面的字符至少m次</td>
+</tr>
+<tr class="odd">
+<td>{,n}</td>
+<td>匹配前面的字符至多n次</td>
+</tr>
+</tbody>
+</table></li>
+<li><p><strong>位置锚定</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>正则表达式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>^</td>
+<td>行首锚定</td>
+</tr>
+<tr class="even">
+<td>$</td>
+<td>行尾锚定</td>
+</tr>
+<tr class="odd">
+<td>\&lt;</td>
+<td>词首锚定</td>
+</tr>
+<tr class="even">
+<td>\&gt;</td>
+<td>词尾锚定</td>
+</tr>
+</tbody>
+</table>
+<p>解释一下词首锚定和词尾锚定，这两个是对单词进行操作的。因为正则表达式是对字符串进行处理的，如果一个单词中间有符合模式的字符串，那么就会匹配成功。但是有时候我们是想对单词进行匹配的，这时候就要利用\&lt;和\&gt;了。举个例子：</p>
+<p>例如有如下的字符串：testscript script scripttest</p>
+<ul>
+<li>script：上述三个均能匹配上</li>
+<li>\&lt;script：只能匹配scripttest和script</li>
+<li>script&gt;：只能匹配testscript和script</li>
+<li>\&lt;script\&gt;：只能匹配script</li>
 </ul>
-<p>示例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ gzip test.txt             <span class="comment"># 压缩test.txt，并生成test.txt.gz</span></span><br><span class="line">$ gzip -c test.txt          <span class="comment"># 输出test.txt压缩后的信息，并不产生test.txt.gz</span></span><br><span class="line">$ gzip -d test.txt.gz       <span class="comment"># 解压test.txt.gz</span></span><br><span class="line">$ gzip -v test.txt          <span class="comment"># 对test.txt进行压缩，并显示压缩比</span></span><br><span class="line">$ gzip -9 test.txt          <span class="comment"># 以压缩等级9对test.txt进行压缩</span></span><br></pre></td></tr></table></figure>
-<p>需要注意的是，使用gzip对文件压缩或者解压缩时，均不会保留原文件或者压缩文件，如果想要保留原始文件，可以结合-c选项和重定向，命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ gzip -c test.txt &gt; test.txt.gz  <span class="comment"># 将屏幕输出重定向至test.txt.gz，从而保留原文件 </span></span><br><span class="line">$ gzip -<span class="built_in">cd</span> test.txt.gz &gt; test.txt <span class="comment"># 将解压信息重定向至test.txt，从而保留原文件</span></span><br></pre></td></tr></table></figure>
-<p>上述选项也可结合使用，实现综合功能，如：</p>
-<ul>
-<li><p>比较不同压缩等级下的压缩比</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ gzip -cv1 test.txt     <span class="comment"># 显示压缩信息和压缩等级，并不产生压缩文件</span></span><br><span class="line">$ gzip -cv9 test.txt</span><br></pre></td></tr></table></figure></li>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211031182453041.png" alt="image-20211031182453041" style="zoom:67%;" /></p></li>
 </ul>
-<p>需要注意的是，gzip是对单个文件的压缩，并不能对整个目录进行压缩。虽然可以通过-r选项来对目录进行操作，但这也只是对目录里的文件分别进行压缩。</p>
-<figure>
-<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010163234547.png" alt="image-20211010163234547" /><figcaption aria-hidden="true">image-20211010163234547</figcaption>
-</figure>
-<h4 id="bzip2">1.2 bzip2</h4>
-<p>bzip2的用法几乎与gzip相同，bzip2命令的语法如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ bzip2 [-cdkzv$] filename</span><br></pre></td></tr></table></figure>
-<p>各个选项的作用如下：</p>
+<h3 id="find命令">3. find命令</h3>
+<p>find命令用来在指定目录下查找文件，会递归的在子目录下进行同样的查找操作。find命令的语法格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find path -option</span><br></pre></td></tr></table></figure>
+<p>其中，path为需要查找的目录，-option为查找条件。find中的查找条件非常多，这里列几个常用的：</p>
 <ul>
-<li>-c：将压缩过程产生的数据输出至屏幕上</li>
-<li>-d：解压缩</li>
-<li>-k：保留原文件</li>
-<li>-z：压缩的参数</li>
-<li>-v：显示压缩比信息</li>
-<li>-#：与gzip相同，压缩参数，1最快，9压缩比最高</li>
+<li>-name "name"：根据文件名进行查找</li>
+<li>-iname "name"：根据文件名进行查找，但是忽略大小写</li>
+<li>-type c：根据文件类型进行查找</li>
 </ul>
-<p>相比gzip，bzip2提供了-k选项，在压缩文件的同时，可以保留原文件。当然也可以使用-c选项和重定向来实现，不过这显得有些麻烦了。</p>
-<p>和gzip一样，bzip2也仅能对单个文件进行压缩，而无法对多个文件或者文件夹进行压缩。</p>
-<h3 id="tar命令">2. tar命令</h3>
-<p>tar是Linux中的归档命令，用于打包多个文件，并且可以结合压缩命令进行使用，tar命令的语法如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ tar [-j|-z] [cv] [-f new_filename] object1 object2 ...    <span class="comment"># 压缩</span></span><br><span class="line">$ tar [-j|-z] [tv] [-f new_filename]         <span class="comment"># 查看文件名</span></span><br><span class="line">$ tar [-j|-z] [xv] [-f new_filename] [-C folder]            <span class="comment"># 解压</span></span><br></pre></td></tr></table></figure>
-<p>这些常用选项的作用如下：</p>
+<p>还有很多其他的，就不一一罗列了</p>
+<h3 id="grep命令">4. grep命令</h3>
+<p>grep命令用于查找文件里符号条件的字符串，如果发现符合条件的字符串，则将文件中包含该字符串的那一行打印出来。grep命令的使用语法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep [-options] pattern file/dir</span><br></pre></td></tr></table></figure>
+<p>其中pattern为需要匹配的模式，可以使用正则表达式。常用的options有如下：</p>
 <ul>
-<li>-c：新建打包文件，结合-v可以查看打包过程中的文件</li>
-<li>-t：查看打包文件中包含的文件名，结合-v可以显示文件的详细信息</li>
-<li>-x：解打包或者解压缩，注意：-c，-t，-x不可能在命令中同时出现</li>
-<li>-j：通过bzip2的支持进行压缩和解压缩，此时文件扩展名为*.tar.bz2</li>
-<li>-z：通过gzip的支持进行压缩和解压缩，此时文件扩展名为*.tar.gz</li>
-<li>-f：后面跟打包文件的名字，建议单独出来写</li>
-<li>-C：指定解打包的目录</li>
-</ul>
-<p>实际比较常用的打包，查看和解打包涉及到的命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ tar -jcv -f all_test.tar.bz2 <span class="built_in">test</span>*.txt      <span class="comment"># 使用bzip2进行压缩</span></span><br><span class="line">$ tar -zcv -f all_test.tar.gz <span class="built_in">test</span>*.txt       <span class="comment"># 使用gzip进行压缩</span></span><br><span class="line">$ tar -jtv -f all_test.tar.bz2                <span class="comment"># 查看打包文件名</span></span><br><span class="line">$ tar -ztv -f all_test.tar.gz                 <span class="comment"># 查看打包文件名</span></span><br><span class="line">$ tar -jxv -f all_test.tar.bz2                <span class="comment"># 解打包*.tar.bz2</span></span><br><span class="line">$ tar -zxv -f all_test.tar.gz                 <span class="comment"># 解打包*.tar.gz</span></span><br><span class="line">$ tar -zxv -f all_test.tar.gz -C target_folder/    <span class="comment"># 指定目录解打包</span></span><br></pre></td></tr></table></figure>
-<p>tar还有两个比较常用的功能：</p>
-<ul>
-<li><p>解打包某一个文件</p>
-<p>使用上述的解打包命令时，会把所有的文件都解出来，但有时候我们可能只需要其中的某个文件，这时候可以指定需要的文件，用法如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tar -jxv -f filename.tar.bz2 -C targer_folder file1</span><br></pre></td></tr></table></figure>
-<p>其中，filename.tar.bz2为需要解打包的文件，file1为需要的目标文件，targer_folder为目标目录。</p>
-<figure>
-<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010174744834.png" alt="image-20211010174744834" /><figcaption aria-hidden="true">image-20211010174744834</figcaption>
-</figure></li>
-<li><p>打包时，排除某些文件</p>
-<p>可以使用--exclude来排除不需要打包的文件，示例如下：</p>
-<figure>
-<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010175823219.png" alt="image-20211010175823219" /><figcaption aria-hidden="true">image-20211010175823219</figcaption>
-</figure></li>
+<li>-E：使用扩展正则表达式</li>
+<li>-n：显示行号</li>
+<li>-v：反向选取，显示不包含匹配样式的行</li>
+<li>-q：不显示任何信息</li>
 </ul>
 
     </div>
@@ -374,8 +519,10 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Linux/" rel="tag"># Linux</a>
-              <a href="/tags/Bash/" rel="tag"># Bash</a>
+              <a href="/tags/%E9%80%9A%E9%85%8D%E7%AC%A6/" rel="tag"># 通配符</a>
+              <a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="tag"># 正则表达式</a>
+              <a href="/tags/find/" rel="tag"># find</a>
+              <a href="/tags/grep/" rel="tag"># grep</a>
           </div>
 
         
@@ -384,12 +531,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/09/26/sed/" rel="prev" title="Linux命令之sed">
-      <i class="fa fa-chevron-left"></i> Linux命令之sed
+    <a href="/2021/10/25/hexo-equations/" rel="prev" title="hexo博客公式渲染">
+      <i class="fa fa-chevron-left"></i> hexo博客公式渲染
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/10/10/hexo-word-count/" rel="next" title="hexo添加文本字数和阅读时间统计">
-      hexo添加文本字数和阅读时间统计 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/10/31/linux-bash-tips/" rel="next" title="linux_bash_tips">
+      linux_bash_tips <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -449,7 +596,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%8E%8B%E7%BC%A9%E5%91%BD%E4%BB%A4"><span class="nav-text">1.常用压缩命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#gzip"><span class="nav-text">1.1 gzip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bzip2"><span class="nav-text">1.2 bzip2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tar%E5%91%BD%E4%BB%A4"><span class="nav-text">2. tar命令</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E9%85%8D%E7%AC%A6"><span class="nav-text">1. 通配符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">2. 正则表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#find%E5%91%BD%E4%BB%A4"><span class="nav-text">3. find命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#grep%E5%91%BD%E4%BB%A4"><span class="nav-text">4. grep命令</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
