@@ -542,10 +542,27 @@ f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
       </tags>
   </entry>
   <entry>
-    <title>linux_bash_tips</title>
+    <title>Linux Bash Tips</title>
     <url>/2021/10/31/linux-bash-tips/</url>
-    <content><![CDATA[
+    <content><![CDATA[<h3 id="单引号双引号反引号">1. 单引号，双引号，反引号</h3>
+<p>在Linux变成中，经常使用到单引号（‘），双引号（”）和反引号（`），这三者有什么区别呢？</p>
+<p>首先，单引号（‘）和双引号（”）是为了解决Bash变量赋值中的空格问题，利用单引号（‘）和双引号（”）可以给变量赋予包含空格的值。</p>
+<ul>
+<li><p>单引号（‘）：如果使用单引号（‘），则单引号（‘）中的内容全部原样输出</p></li>
+<li><p>双引号（”）：双引号（”）中的内容，大部分都原样输出，但是对于$（变量替换），（转义）和反引号（`）（命令替换）这三个特殊字符除外</p>
+<p><strong>注：</strong>（转义）的意思是去掉其后紧跟的元字符或者通配符的特殊意义</p></li>
+</ul>
+<p>单引号（‘）和双引号（”）的对比如下所示：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211031203556422.png" alt="image-20211031203556422" style="zoom:67%;" /></p>
+<ul>
+<li><p>反引号（`）的作用是命令替换，用于将命令的输出插入在合适的地方，如上图中的最后所示。但是，当反引号（`）遇到单引号（‘），则失去命令替换的作用，直接原样输出。若是想要在双引号（“）显示单引号，可以使用转移字符进行转义。</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211031204401223.png" alt="image-20211031204401223" style="zoom:67%;" /></p></li>
+</ul>
 ]]></content>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Bash</tag>
+      </tags>
   </entry>
   <entry>
     <title>Linux之搜索命令</title>
