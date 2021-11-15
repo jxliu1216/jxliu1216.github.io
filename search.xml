@@ -851,4 +851,98 @@ f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
         <tag>操作系统</tag>
       </tags>
   </entry>
+  <entry>
+    <title>STL容器之vector</title>
+    <url>/2021/11/15/vector/</url>
+    <content><![CDATA[<h3 id="vector">1. Vector</h3>
+<p>vector的函数原型如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt; <span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="keyword">class</span> <span class="title">Alloc</span> =</span> allocator&lt;T&gt; &gt; <span class="class"><span class="keyword">class</span> <span class="title">vector</span>;</span></span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>vector是一个大小可变的序列化容器，它使用连续的存储空间，因此，可以使用相对于起始位置的偏移量来访问元素。vector常用的成员函数如下：</p>
+<table>
+<thead>
+<tr class="header">
+<th>成员函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>size()</td>
+<td>返回vector中的元素个数</td>
+</tr>
+<tr class="even">
+<td>capacity()</td>
+<td>返回vector的容量</td>
+</tr>
+<tr class="odd">
+<td>resize()</td>
+<td>变更vector中的元素格式</td>
+</tr>
+<tr class="even">
+<td>reserve()</td>
+<td>变更vector的容量</td>
+</tr>
+<tr class="odd">
+<td>empty()</td>
+<td>检测vector是否为空，1为空，0为非空</td>
+</tr>
+<tr class="even">
+<td>push_back()</td>
+<td>在末尾插入元素</td>
+</tr>
+<tr class="odd">
+<td>pop_back()</td>
+<td>删除末尾的元素</td>
+</tr>
+<tr class="even">
+<td>insert()</td>
+<td>在指定pos插入元素</td>
+</tr>
+<tr class="odd">
+<td>erase()</td>
+<td>删除指定pos的元素</td>
+</tr>
+<tr class="even">
+<td>clear()</td>
+<td>删除vector中的所有元素</td>
+</tr>
+<tr class="odd">
+<td>begin()</td>
+<td>返回指向vector开头的迭代器</td>
+</tr>
+<tr class="even">
+<td>end()</td>
+<td>返回指向vector末尾的迭代器</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sizecapacityresize和reserve">2. size()，capacity()，resize()和reserve()</h3>
+<figure>
+<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211115223606494.png" alt="image-20211115223606494" /><figcaption aria-hidden="true">image-20211115223606494</figcaption>
+</figure>
+<p>vector在进行空间分配时，可能会分配多余的空间以适应元素数量的动态变化。因此，vector的空间可以分为两个部分，一部分是已存储元素占用的空间，size()返回的就是这部分元素的数量；另一部分是未用空间，capacity()返回的是整个vector的容量（即已用空间和未用空间加在一起可以存储的元素数量）。</p>
+<p>resize()改变的是元素数量，reserve()改变的是vector的总容量</p>
+<p>示例如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// resizing vector</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  std::vector&lt;<span class="keyword">int</span>&gt; myvector;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// set some initial content:</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;<span class="number">10</span>;i++) myvector.<span class="built_in">push_back</span>(i);</span><br><span class="line"></span><br><span class="line">  myvector.<span class="built_in">resize</span>(<span class="number">5</span>);</span><br><span class="line">  myvector.<span class="built_in">resize</span>(<span class="number">8</span>,<span class="number">100</span>);</span><br><span class="line">  myvector.<span class="built_in">resize</span>(<span class="number">12</span>);</span><br><span class="line"></span><br><span class="line">  std::cout &lt;&lt; <span class="string">&quot;myvector contains:&quot;</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;myvector.<span class="built_in">size</span>();i++)</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; myvector[i];</span><br><span class="line">  std::cout &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的程序的运行结果为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">myvector contains: 1 2 3 4 5 100 100 100 0 0 0 0</span><br></pre></td></tr></table></figure>
+<h3 id="vector的动态扩容机制">3. vector的动态扩容机制</h3>
+<p>在添加新元素时，如果vector的空间大小不足，<strong>则会使用一个固定的系数（&gt;1）乘以当前空间大小配置一块较大的空间，然后将原空间内容拷贝过来，在新空间的末尾添加新元素，并释放原空间。</strong></p>
+<p>（注：一般情况下，在vector末尾插入元素的时间复杂度为常数级，但是当超出vector的容量时，情况有一些特殊。）</p>
+<p>可以通过如下代码验证：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::vector&lt;<span class="keyword">int</span>&gt; vec;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= <span class="number">7</span>; i++) &#123;</span><br><span class="line">        vec.<span class="built_in">push_back</span>(i);</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;size = &quot;</span> &lt;&lt; vec.<span class="built_in">size</span>() &lt;&lt; <span class="string">&quot;; capacity = &quot;</span> &lt;&lt; vec.<span class="built_in">capacity</span>() &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果如下图所示：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211115225818428.png" alt="image-20211115225818428" style="zoom: 80%;" /></p>
+<p>从上图可以发现，vector以比例系数为2进行动态扩容。</p>
+]]></content>
+      <categories>
+        <category>STL</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>STL</tag>
+        <tag>Vector</tag>
+      </tags>
+  </entry>
 </search>
