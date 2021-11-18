@@ -16,7 +16,21 @@ vector的函数原型如下：
 template < class T, class Alloc = allocator<T> > class vector;
 ```
 
+vector可以采用如下方式进行声明：
+
 <!--more-->
+
+```c++
+#include <vector>
+using namespace std;
+
+vector<int> value1;                  // 仅声明，不设置大小和初值
+vector<int> value2 = {0,1,2,3};      // 声明，并赋指定初值
+vector<int> value3(100);             // value的大小为100，元素数值初始为0
+vector<int> value4(100, 5);          // value的大小为100，元素全部初始化为5
+vector<int> value5(value2);          // 声明，并使用一个已经存在的vector赋初值
+vector<int> value6(value4.begin(), value4.end());   // 声明，使用迭代器赋初值
+```
 
 vector是一个大小可变的序列化容器，它使用连续的存储空间，因此，可以使用相对于起始位置的偏移量来访问元素。vector常用的成员函数如下：
 
