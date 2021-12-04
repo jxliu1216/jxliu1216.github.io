@@ -993,6 +993,10 @@ f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
 <p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204204043035.png" /></p>
 <p>cin.getline()与cin.get()的用法非常相似。不同点在于，<strong>cin.getline()在读取字符串时，会读取结束符，并将结束符丢弃。</strong></p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIZE 200</span></span><br><span class="line"><span class="keyword">char</span> ch1[SIZE], ch2[SIZE];</span><br><span class="line">cin.<span class="built_in">getline</span>(ch1, SIZE);</span><br><span class="line">cin.<span class="built_in">getline</span>(ch2, SIZE, <span class="string">&#x27;#&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="getline">4. getline()</h3>
+<p>getline()可以用于从标准输入流中读取数据值string，其函数原型如下：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204205653114.png" /></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string str;</span><br><span class="line">    <span class="built_in">getline</span>(std::cin, str);</span><br><span class="line">    std::cout &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>C++</category>
