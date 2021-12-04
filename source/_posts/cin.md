@@ -128,3 +128,21 @@ cin.getline(ch1, SIZE);
 cin.getline(ch2, SIZE, '#');
 ```
 
+### 4. getline()
+
+getline()可以用于从标准输入流中读取数据值string，其函数原型如下：
+
+![](https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204205653114.png)
+
+```c++
+#include <iostream>
+#include <string>
+
+int main() {
+    std::string str;
+    getline(std::cin, str);
+    std::cout << str << std::endl;
+    return 0;
+}
+```
+
