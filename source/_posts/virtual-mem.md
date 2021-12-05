@@ -13,7 +13,7 @@ categories: 操作系统
 
 <!--more-->
 
-![1458743340-5ddbcaa6525a5_articlex](https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/1458743340-5ddbcaa6525a5_articlex.png)
+![](https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/1458743340-5ddbcaa6525a5_articlex.png)
 
 用户空间从低地址空间到高地址空间包含如下5个部分：
 
