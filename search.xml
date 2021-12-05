@@ -824,9 +824,7 @@ f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
     <url>/2021/11/13/virtual-mem/</url>
     <content><![CDATA[<p>虚拟内存可以为正在运行的进程提供独立的内存空间，使得每一个进程都认为自己独立拥有全部的内存。Linux虚拟内存空间分布如下图所示，其中处于高地址的1G空间为内核空间，剩余的3GB为用户空间。</p>
 <span id="more"></span>
-<figure>
-<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/1458743340-5ddbcaa6525a5_articlex.png" alt="1458743340-5ddbcaa6525a5_articlex" /><figcaption aria-hidden="true">1458743340-5ddbcaa6525a5_articlex</figcaption>
-</figure>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/1458743340-5ddbcaa6525a5_articlex.png" /></p>
 <p>用户空间从低地址空间到高地址空间包含如下5个部分：</p>
 <ul>
 <li>代码段（text segment）：存放程序的可执行二进制代码</li>
