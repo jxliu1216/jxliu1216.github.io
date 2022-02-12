@@ -343,7 +343,7 @@ f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
 <p>反引号（`）与$(...)的区别：</p>
 <ul>
 <li>反引号（`）不可以嵌套，即不能在反引号里再嵌套一层反引号</li>
-<li><span class="math inline">\(()支持嵌套，即可以\)</span>($(...))</li>
+<li>$()支持嵌套，即可以$($(...))</li>
 <li>$()里面还可以再嵌套一层反引号（`）</li>
 </ul>
 ]]></content>
