@@ -27,3 +27,13 @@ catrgories: Linux
 
   <img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211031204401223.png" alt="image-20211031204401223" style="zoom:67%;" />
 
+### 2. 命令替换
+
+命令替换的意思是在一行bash命令中嵌入其他bash命令，从而达到一次得到结果的目的。Linux Bash中可以使用反引号（`）或者$(...)来实现命令替换。
+
+![20220212215824-2022-02-12](https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220212215824-2022-02-12.png)
+
+反引号（`）与$(...)的区别：
+- 反引号（`）不可以嵌套，即不能在反引号里再嵌套一层反引号
+- $()支持嵌套，即可以$($(...))
+- $()里面还可以再嵌套一层反引号（`）
