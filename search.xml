@@ -64,6 +64,118 @@
       </tags>
   </entry>
   <entry>
+    <title>C++之标准输入流</title>
+    <url>/2021/12/04/cin/</url>
+    <content><![CDATA[<p>本文主要介绍C++标准输入流的使用，重点介绍cin，cin.get()，cin.getline()的区别和使用。</p>
+<span id="more"></span>
+<h3 id="标准输入输出流的继承关系">1. 标准输入输出流的继承关系</h3>
+<p>C++中输入输出流的继承关系如下图所示（图片来自<a href="http://www.cplusplus.com/reference/ios/">C++ Reference</a>）</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/iostream.gif" /></p>
+<p>提取其中的输入流，继承关系如下：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204151513125.png" /></p>
+<p>cin是istream的对象，get()和getline()是istream中的成员函数。</p>
+<h3 id="cin">2. cin</h3>
+<p>cin是C++中的标准输入流，它是istream类的对象，从字符流（sequence of characters）中读取并解析数据。iostream继承了istream，并且cin对象在头文件&lt;iostream&gt;中声明，因此，在使用cin时，需要包含头文件&lt;iostream&gt;。istream类重载了&gt;&gt;，从而实现对各种类型数据的读取。</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204161158637.png" /></p>
+<p>cin并不是直接从键盘读取输入，而是从缓冲区中读取输入。也就是说，键盘的输入首先会被存储在缓冲区中，而后，cin再从缓冲区中读取数据。cin从缓冲区中读取字符流时，有如下两个特点：</p>
+<ol type="1">
+<li>若缓冲区开头为空白字符（空格，tab，换行符），cin会自动跳过并丢弃空白字符</li>
+<li>若在字符流读取的过程中，遇到数据类型不符或者空白字符（空格，tab，换行），cin会停止字符流的读取，并将已经读取的字符流解释为指定的类型，赋予变量。类型不符的字符和空白字符依然留在缓冲区中，用于下一次的cin读取。</li>
+<li>若字符与变量类型不符，cin会结束读取，并返回0。</li>
+</ol>
+<p>示例程序如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> input;</span><br><span class="line">    <span class="keyword">while</span>(cin &gt;&gt; input) &#123;</span><br><span class="line">        sum += input;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Last Input is: &quot;</span> &lt;&lt; input &lt;&lt; std::endl;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Sum is: &quot;</span> &lt;&lt; sum &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输入：  20 30 -100 200z 600</span></span><br><span class="line"><span class="comment">// 输出：</span></span><br><span class="line"><span class="comment">// Last Input is: 0</span></span><br><span class="line"><span class="comment">// Sum is: 150</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204170428391.png" /></p>
+<p>由于cin在读取字符流时，会跳过空白字符，并且遇到空白字符就停止读取，在输入为字符串就会有如下问题：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string str;</span><br><span class="line">    std::cin &gt;&gt; str;</span><br><span class="line">    std::cout &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输入：Hello World</span></span><br><span class="line"><span class="comment">// 输出：Hello</span></span><br></pre></td></tr></table></figure>
+<p>cin在遇到空格时，就停止了读取，World还在缓冲区中等待下一次的读取。为了解决这种情况，我们可以使用cin.get()或者cin.getline()</p>
+<h3 id="cin.get">2. cin.get()</h3>
+<p>cin.get()有如下三个功能：</p>
+<ul>
+<li>读取单个字符</li>
+<li>读取C风格字符串</li>
+<li>stream buffer</li>
+</ul>
+<p>其函数原型如下所示：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204201932050.png" /></p>
+<p>使用cin.get()读取单个字符时，有如下两种用法：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">char</span> ch1, ch2;</span><br><span class="line">cin.<span class="built_in">get</span>(ch1);      <span class="comment">// 将ch1作为参数</span></span><br><span class="line">ch2 = cin.<span class="built_in">get</span>();   <span class="comment">// ch2获取cin.get()的返回值</span></span><br></pre></td></tr></table></figure>
+<p>当读取单个字符时，cin.get()可以读取任意单个字符，包括空格，tab和换行符。</p>
+<p>使用cin.get()读取C风格字符串时，需要指定字符串大小n。当读到第n-1个字符，或者遇到结束符时，停止读取。结束符默认为''，也可指定为其他。用法如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIZE 100</span></span><br><span class="line"><span class="keyword">char</span> ch1[SIZE], ch2[SIZE];</span><br><span class="line">cin.<span class="built_in">get</span>(ch1, SIZE);</span><br><span class="line">cin.<span class="built_in">get</span>();    <span class="comment">// 读取留下的结束符，也可以使用cin.get(ch1, SIZE).get()</span></span><br><span class="line">cin.<span class="built_in">get</span>(ch2, SIZE, <span class="string">&#x27;#&#x27;</span>);   <span class="comment">// 读取新的字符串，并指定#为结束符</span></span><br></pre></td></tr></table></figure>
+<p>**cin.get(char *s, streamsize n)读取完成后，结束符依然保留在缓冲区中**。因此，在连续读取时，需要使用cin.get()将结束符读取，否则下一次读取时，cin.get(char *s, streamsize n)直接读取到结束符，会认为是空字符串，会将空字符串赋给字符串数组。</p>
+<h3 id="cin.getline">3. cin.getline()</h3>
+<p>cin.getline()用于读取C风格字符串，其函数原型如下：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204204043035.png" /></p>
+<p>cin.getline()与cin.get()的用法非常相似。不同点在于，<strong>cin.getline()在读取字符串时，会读取结束符，并将结束符丢弃。</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIZE 200</span></span><br><span class="line"><span class="keyword">char</span> ch1[SIZE], ch2[SIZE];</span><br><span class="line">cin.<span class="built_in">getline</span>(ch1, SIZE);</span><br><span class="line">cin.<span class="built_in">getline</span>(ch2, SIZE, <span class="string">&#x27;#&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="getline">4. getline()</h3>
+<p>getline()可以用于从标准输入流中读取数据值string，其函数原型如下：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204205653114.png" /></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string str;</span><br><span class="line">    <span class="built_in">getline</span>(std::cin, str);</span><br><span class="line">    std::cout &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>iostream</tag>
+        <tag>cin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++关键字之extern</title>
+    <url>/2021/12/21/extern/</url>
+    <content><![CDATA[<p>extern关键字可以作用于全局变量，函数，或者是模板声明，它表明被作用的符号具有外部链接性。</p>
+<h3 id="声明与定义">1. 声明与定义</h3>
+<p><strong>声明：</strong>声明用于向程序表明变量的名字或者是函数原型（也称函数申明）。对于变量声明，它表明了变量的名字和类型；对于函数声明，它表明了函数的名字，参数以及返回值类型。</p>
+<p><strong>定义：</strong>是分配内存空间的过程，并且可以指定变量的初值。</p>
+<p>对于变量而言，定义一个变量的时候，显示地指出了它的类型，并为它创建了存储空间和赋予初值，同时也指定了变量的名字，因此，变量的定义过程也是一个声明过程。对于一个函数而言，函数定义需要包含函数头和函数体。同样地，对于类而言，类的定义需要包含类名和罗列出类成员。</p>
+<p>例如：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> i;      <span class="comment">// 既是定义，也是声明</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> x)</span></span>;    <span class="comment">// 函数声明</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">show</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="keyword">return</span> x; &#125; <span class="comment">// 函数定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span>;</span>    <span class="comment">// 类声明</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line">&#125;  <span class="comment">// 类定义</span></span><br></pre></td></tr></table></figure>
+<p>关于声明和定义的一个重要规则：<strong>可以有多次声明，但是只能由一次定义，</strong>也称为“One Definition Rule (ODR)”。</p>
+<h3 id="内部链接性internal-linkage和外部链接性external-linkage">2. 内部链接性（internal linkage）和外部链接性（external linkage）</h3>
+<p>对于一个C++程序而言，它通常由多个独立的CPP文件编译而成。编译器首先对每个CPP文件单独编译，然后通过链接器（linker）将单独编译的结果合并为一个程序。当ODR规则被打破时，链接器将会报错，链接器会提示相同的名字在不同的源文件中被重复定义。</p>
+<p>在某些情况下，我们可能必须声明一个全局变量。在这种情况下，我们需要告诉编译器和链接器这个变量的链接属性（linkage），链接属性决定该变量仅是对当前所在文件有效，还是对所有源文件均有效。链接属性仅针对全局变量有效。</p>
+<p>链接属性有两种：内部链接性和外部链接性。具有外部链接性的变量，可以被程序中的所有源文件识别；而具有内部链接性或者无链接性（no linkage）的变量仅在其作用域内有效。定义在全局空间的非const变量和函数具有外部链接性。对于只有内部链接性的变量和函数，在其他源文件中可以出现相同名字的函数或者变量。</p>
+<p>使用static可以强制使得全局变量和全局空间内的函数变为内部链接，即仅在其定义的源文件中可见。</p>
+<h3 id="extern">3. extern</h3>
+]]></content>
+      <categories>
+        <category>extern</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客公式渲染</title>
+    <url>/2021/10/25/hexo-equations/</url>
+    <content><![CDATA[<p>NexT提供了两个渲染引擎（MathJax和Katex）用来显示公式，本文介绍Hexo NexT主题下配置MathJax进行数学公式渲染。</p>
+<span id="more"></span>
+<h3 id="安装插件">1. 安装插件</h3>
+<p>如果使用MathJax进行公式渲染，需要安装如下两个插件之一：hexo-renderer-pandoc或者hexo-renderer-kramed（不推荐），本文采用hexo-renderer-pandoc，运行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save         <span class="comment"># 卸载原有的渲染插件</span></span><br><span class="line">npm install hexo-renderer-pandoc --save           <span class="comment"># 安装hexo-renderer-pandoc插件</span></span><br></pre></td></tr></table></figure>
+<p>hexo-renderer-pandoc正常运行还需要安装pandoc软件，软件下载链接如下：<a href="https://github.com/jgm/pandoc/releases">pandoc</a>。安装完成后，重启电脑，使得相关配置生效。</p>
+<h3 id="配置">2. 配置</h3>
+<p>对next/_config.yml中的math部分进行如下配置：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line">  <span class="attr">mathjax:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>per_page参数的含义是：是否对每一篇博客都按需进行数学公式渲染。如果设置为false，则默认对每篇博客都进行数学公式渲染。若设置为true，则按需对博客进行数学公式渲染。对于需要开启数学公式渲染的博客，在其Markdown文件的Front-matter部分添加mathjax: true，如下所示：</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;!-- This post will render the Math Equations --&gt;</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">title: &#x27;Will Render Math&#x27;</span><br><span class="line"><span class="section">mathjax: true</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">....</span><br></pre></td></tr></table></figure>
+<p>上述两步执行完毕后，执行如下命令，即可正常渲染公式：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<h3 id="注意事项">3. 注意事项</h3>
+<ol type="1">
+<li>行内数学公式显示（$...$）：在第一个$后和第二个$前，不要有空格，否则无法正常渲染公式。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git使用（一）</title>
     <url>/2021/10/23/git_1/</url>
     <content><![CDATA[<p>本文主要记录git中的一些常见概念原理和命令的使用，包含如下内容：</p>
@@ -145,156 +257,36 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo博客公式渲染</title>
-    <url>/2021/10/25/hexo-equations/</url>
-    <content><![CDATA[<p>NexT提供了两个渲染引擎（MathJax和Katex）用来显示公式，本文介绍Hexo NexT主题下配置MathJax进行数学公式渲染。</p>
+    <title>线性回归与非线性回归</title>
+    <url>/2021/10/24/linear-nonlinear-regression/</url>
+    <content><![CDATA[<p>最近在看矩阵分析中的投影矩阵，进而区看了最小二乘法，然后有学习了线性回归和非线性回归，发现和自己的认知不太一样，在这里总结一下线性回归和非线性回归的概念。</p>
+<p>线性回归和非线性回归中，线性和非线性的意思并不是用来描述因变量和自变量之间的关系是线性还是非线性的，而是用来描述模型函数与待估计参数之间的关系。我们首先来看非线性回归，明白了非线性回归，自然就知道线性回归的含义了。</p>
 <span id="more"></span>
-<h3 id="安装插件">1. 安装插件</h3>
-<p>如果使用MathJax进行公式渲染，需要安装如下两个插件之一：hexo-renderer-pandoc或者hexo-renderer-kramed（不推荐），本文采用hexo-renderer-pandoc，运行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save         <span class="comment"># 卸载原有的渲染插件</span></span><br><span class="line">npm install hexo-renderer-pandoc --save           <span class="comment"># 安装hexo-renderer-pandoc插件</span></span><br></pre></td></tr></table></figure>
-<p>hexo-renderer-pandoc正常运行还需要安装pandoc软件，软件下载链接如下：<a href="https://github.com/jgm/pandoc/releases">pandoc</a>。安装完成后，重启电脑，使得相关配置生效。</p>
-<h3 id="配置">2. 配置</h3>
-<p>对next/_config.yml中的math部分进行如下配置：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line">  <span class="attr">mathjax:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>per_page参数的含义是：是否对每一篇博客都按需进行数学公式渲染。如果设置为false，则默认对每篇博客都进行数学公式渲染。若设置为true，则按需对博客进行数学公式渲染。对于需要开启数学公式渲染的博客，在其Markdown文件的Front-matter部分添加mathjax: true，如下所示：</p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;!-- This post will render the Math Equations --&gt;</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">title: &#x27;Will Render Math&#x27;</span><br><span class="line"><span class="section">mathjax: true</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">....</span><br></pre></td></tr></table></figure>
-<p>上述两步执行完毕后，执行如下命令，即可正常渲染公式：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<h3 id="注意事项">3. 注意事项</h3>
-<ol type="1">
-<li>行内数学公式显示（$...$）：在第一个$后和第二个$前，不要有空格，否则无法正常渲染公式。</li>
-</ol>
+<h3 id="非线性回归">1. 非线性回归</h3>
+<p>我们首先来看维基百科中对于非线性回归的定义：</p>
+<p>In statistics, <a href="https://en.wikipedia.org/wiki/Nonlinear_regression"><strong>nonlinear regression</strong></a> is a form of regression analysis in which observational data are modeled by a function which is a nonlinear combination of the model parameters and depends on one or more independent variables.</p>
+<p>这段话的意思是：非线性回归是采用一个函数模型对观测数据进行建模，并且该函数是由<strong>模型参数的非线性组合</strong>构成的，并且可以通过观测数据（自变量和因变量）对模型参数进行估计。</p>
+<p>这里需要注意的是：非线性估计中的非线性指的是模型函数是由<strong>模型参数的非线性组合</strong>构成，而并不是描述函数和自变量之间的关系。</p>
+<p>举个例子，我们采用如下的模型：</p>
+<p><span class="math display">\[
+\mathbf{y} \sim f(\mathbf{x},\mathbf{\beta})
+\]</span> 其中，<span class="math inline">\(\mathbf{x}=\{x_1,x_2,\cdots,x_n\}\)</span> 为自变量向量，<span class="math inline">\(\mathbf{y}=\{y_1,y_2,\cdots,y_n\}\)</span>为观测因变量向量，<span class="math inline">\(\mathbf{\beta}=\{\beta_1,\beta_2,\cdots,\beta_n\}\)</span>为模型参数向量。</p>
+<p>假设某个模型由一个自变量，和两个参数构成，即： <span class="math display">\[
+f(\mathbf{x},\mathbf{\beta})=\frac{\beta_1x}{\beta_2+x}
+\]</span> 显然，函数模型<span class="math inline">\(f\)</span>无法表示成模型参数<span class="math inline">\(\beta_1\)</span>和<span class="math inline">\(\beta_2\)</span>的线性组合，因此，这个函数是非线性的。</p>
+<h3 id="线性回归">2. 线性回归</h3>
+<p>如果我们考虑如下的模型： <span class="math display">\[
+f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
+\]</span> 这看似是一个非线性函数，但是实际上，函数<span class="math inline">\(f\)</span>对于模型参数<span class="math inline">\(\{\beta_0,\beta_1,\cdots,\beta_n\}\)</span>而言是线性的，即是由<span class="math inline">\(\{\beta_0,\beta_1,\cdots,\beta_n\}\)</span>的线性组合构成的，系数分别为<span class="math inline">\(1,x_1,x_2,\cdots,x_n\)</span>。因此，这个函数是线性的。</p>
+<h3 id="总结">3. 总结</h3>
+<p>线性还是非线性是要根据分析的目标来决定的，在线性回归和非线性回归中，我们需要求解的是模型参数，因而，线性与非线性描述的是函数模型与模型参数之间的关系，而非因变量与自变量之间的关系。</p>
 ]]></content>
       <categories>
-        <category>Hexo</category>
+        <category>Math</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux命令之sed</title>
-    <url>/2021/09/26/sed/</url>
-    <content><![CDATA[<h3 id="sed简介">1. sed简介</h3>
-<p>​ sed是Linux中的流编辑器，与传统的编辑器（如Vim）相比，它没有交互式的界面进行操作，而是通过命令来处理数据流中的数据。sed会对数据做如下操作：</p>
-<ol type="1">
-<li><p>一次从输入中读取一行数据</p></li>
-<li><p>根据提供的命令对数据进行处理（选取，删除，替换，新增）</p></li>
-<li><p>将处理后的结果输出至stdout</p></li>
-</ol>
-<span id="more"></span>
-<p>​ sed对一行处理完毕后，会读取下一行并继续进行上述操作，直至将所有的行处理完毕。sed命令的使用格式如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed options <span class="string">&#x27;actions&#x27;</span> file</span><br></pre></td></tr></table></figure>
-<p>其中，options为sed命令支持的选项，actions为编辑动作。</p>
-<h4 id="options">1.1 options</h4>
-<p>sed命令支持的选项和对应的功能如下所示：</p>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;">选项</th>
-<th style="text-align: left;">作用</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">-n</td>
-<td style="text-align: left;">silent模式，只有经过sed处理的行会被输出至stdout</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">-e</td>
-<td style="text-align: left;">允许对输入数据应用多条sed命令编辑</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">-i</td>
-<td style="text-align: left;">用sed修改的结果直接修改读取数据的文件，而不是由屏幕输出</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">-f</td>
-<td style="text-align: left;">从文件中读取编辑命令</td>
-</tr>
-</tbody>
-</table>
-<h4 id="actions">1.2 actions</h4>
-<p>sed命令支持的编辑动作如下所示：</p>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;">编辑动作</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">a</td>
-<td>追加，在当前行后添加一行或多行</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">c</td>
-<td>行替换，用c后面的字符串替换原数据行，可替换多行</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">i</td>
-<td>插入，在当前行前插入一行或多行</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">d</td>
-<td>删除，删除指定的行</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">p</td>
-<td>打印，输出指定的行</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">s</td>
-<td>字符串替换，用一个字符串替换另一个字符串</td>
-</tr>
-</tbody>
-</table>
-<h4 id="sed寻址方式">1.3 sed寻址方式</h4>
-<p>在默认情况下，sed命令会对所有行进行相同的操作，但是，某些时候，我们只想对输入数据的部分行进行操作，这个时候则需要进行寻址。sed命令支持两种寻址方式：</p>
-<ul>
-<li>以数字形式表示行区间</li>
-<li>用文本模式进行匹配过滤</li>
-</ul>
-<p><strong>A. 以数字形式表示行区间</strong></p>
-<p>我们可以使用数字来指定处理的行，可以是指定特定的某一行，也可以是指定某个行区间。例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打印第三行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;3p&#x27;</span> file.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印第三到五行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;3,5p&#x27;</span> file.txt</span><br></pre></td></tr></table></figure>
-<p>指定行区间，则是用起始行号，逗号以及结尾行号来表示一定区间范围内的行。需要注意的是，sed中对于行的编号是从1开始的。</p>
-<p><strong>B.以文本模式进行匹配过滤</strong></p>
-<p>sed命令也允许指定文本模式来过滤出命令要作用的行，格式如下：/pattern/actions。sed命令会过滤出包含pattern的行，并用actions对这些行进行处理</p>
-<p>例如，只想打印出/etc/passwd文件中包含/bin/bash的行，则可以使用如下的sed命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed -n <span class="string">&#x27;/\/bin\/bash/p&#x27;</span> /etc/passwd</span><br></pre></td></tr></table></figure>
-<p>当然，使用grep命令可以更简单的实现相同的效果。此处，举这个例子来演示sed命令的文本匹配过滤功能。</p>
-<h3 id="sed之打印p">2. sed之打印(p)</h3>
-<p>sed进行打印时，常与-n一同使用，只打印符号条件的行。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed -n <span class="string">&#x27;2p&#x27;</span> test.txt           <span class="comment"># 打印第2行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;2,4p&#x27;</span> test.txt         <span class="comment"># 打印第2到4行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;/hello/p&#x27;</span> test.txt     <span class="comment"># 打印包含hello的行</span></span><br></pre></td></tr></table></figure>
-<h3 id="sed之追加a插入i删除d">3. sed之追加(a)，插入(i)，删除(d)</h3>
-<p>使用a进行追加时，可以追加1行，也可以使用“  ”追加多行。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;2a hello world&#x27;</span> test.txt      <span class="comment"># 在第2行后添加一行hello world</span></span><br><span class="line">$ sed <span class="string">&#x27;2a hello\</span></span><br><span class="line"><span class="string">&gt; world&#x27;</span> test.txt                    <span class="comment"># 在第二行后添加2行，分别为hello和world</span></span><br></pre></td></tr></table></figure>
-<p>i的用法与a的用法类似，不同的是i是在指定的行前进行插入，a是在指定的行后追加。</p>
-<p>d可以用来删除指定的某一行，或者某个范围内的行，或者使用模式进行匹配删除。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;2d&#x27;</span> test.txt                 <span class="comment"># 删除第2行</span></span><br><span class="line">$ sed <span class="string">&#x27;3,5d&#x27;</span> test.txt               <span class="comment"># 删除第3到5行</span></span><br><span class="line">$ sed <span class="string">&#x27;/hello/d&#x27;</span> test.txt           <span class="comment"># 删除匹配到hello的行</span></span><br></pre></td></tr></table></figure>
-<h3 id="sed之行替换c">4. sed之行替换(c)</h3>
-<p>使用c可以对指定的行进行替换，可以替换一行，也可以替换多行，替换的内容可以是一行，也可以是多行。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;2c hello world&#x27;</span> test.txt          <span class="comment"># 将第2行替换为hello world</span></span><br><span class="line">$ sed <span class="string">&#x27;2,3c hello world&#x27;</span> test.txt        <span class="comment"># 将第2到第3行替换为hello world</span></span><br><span class="line">$ sed <span class="string">&#x27;2,3c hello world1\</span></span><br><span class="line"><span class="string">&gt; hello world2&#x27;</span> test.txt                 <span class="comment"># 将第2到3行替换为两行内容</span></span><br><span class="line">$ sed <span class="string">&#x27;/hello/c c_hello&#x27;</span> test.txt        <span class="comment"># 对包含hello的行进行替换</span></span><br></pre></td></tr></table></figure>
-<h3 id="sed之字符串替换s">5. sed之字符串替换(s)</h3>
-<p>使用s进行字符串替换时的格式如下：s/pattern/replacement/flags</p>
-<p>有4中可用的标记（flag），作用分别如下：</p>
-<ul>
-<li>数字：表明新文本将替换第几处模式匹配的地方</li>
-<li>g：表明新文本将会替换所有匹配的文本</li>
-<li>p：表明将进行了替换操作的行打印出来</li>
-<li>w：将行替换的结果写到文件中</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;s/test/trail/2&#x27;</span> test.txt     <span class="comment"># 只替换每行第2次匹配到的文本</span></span><br><span class="line">$ sed <span class="string">&#x27;s/test/trail/g&#x27;</span> test.txt     <span class="comment"># 替换所有匹配到的文本</span></span><br><span class="line">$ sed -n <span class="string">&#x27;s/test/trail/p&#x27;</span> test.txt  <span class="comment"># 将被替换的行打印出来</span></span><br><span class="line">$ sed <span class="string">&#x27;s/test/trail/w result.txt&#x27;</span> test.txt <span class="comment"># 将行替换的结果写入文件</span></span><br></pre></td></tr></table></figure>
-<p>注意：可以将上述flags进行组合使用，达到效果的叠加。</p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Bash</tag>
+        <tag>linear regression</tag>
+        <tag>non-linear regression</tag>
       </tags>
   </entry>
   <entry>
@@ -329,219 +321,6 @@
       </tags>
   </entry>
   <entry>
-    <title>线性回归与非线性回归</title>
-    <url>/2021/10/24/linear-nonlinear-regression/</url>
-    <content><![CDATA[<p>最近在看矩阵分析中的投影矩阵，进而区看了最小二乘法，然后有学习了线性回归和非线性回归，发现和自己的认知不太一样，在这里总结一下线性回归和非线性回归的概念。</p>
-<p>线性回归和非线性回归中，线性和非线性的意思并不是用来描述因变量和自变量之间的关系是线性还是非线性的，而是用来描述模型函数与待估计参数之间的关系。我们首先来看非线性回归，明白了非线性回归，自然就知道线性回归的含义了。</p>
-<span id="more"></span>
-<h3 id="非线性回归">1. 非线性回归</h3>
-<p>我们首先来看维基百科中对于非线性回归的定义：</p>
-<p>In statistics, <a href="https://en.wikipedia.org/wiki/Nonlinear_regression"><strong>nonlinear regression</strong></a> is a form of regression analysis in which observational data are modeled by a function which is a nonlinear combination of the model parameters and depends on one or more independent variables.</p>
-<p>这段话的意思是：非线性回归是采用一个函数模型对观测数据进行建模，并且该函数是由<strong>模型参数的非线性组合</strong>构成的，并且可以通过观测数据（自变量和因变量）对模型参数进行估计。</p>
-<p>这里需要注意的是：非线性估计中的非线性指的是模型函数是由<strong>模型参数的非线性组合</strong>构成，而并不是描述函数和自变量之间的关系。</p>
-<p>举个例子，我们采用如下的模型：</p>
-<p><span class="math display">\[
-\mathbf{y} \sim f(\mathbf{x},\mathbf{\beta})
-\]</span> 其中，<span class="math inline">\(\mathbf{x}=\{x_1,x_2,\cdots,x_n\}\)</span> 为自变量向量，<span class="math inline">\(\mathbf{y}=\{y_1,y_2,\cdots,y_n\}\)</span>为观测因变量向量，<span class="math inline">\(\mathbf{\beta}=\{\beta_1,\beta_2,\cdots,\beta_n\}\)</span>为模型参数向量。</p>
-<p>假设某个模型由一个自变量，和两个参数构成，即： <span class="math display">\[
-f(\mathbf{x},\mathbf{\beta})=\frac{\beta_1x}{\beta_2+x}
-\]</span> 显然，函数模型<span class="math inline">\(f\)</span>无法表示成模型参数<span class="math inline">\(\beta_1\)</span>和<span class="math inline">\(\beta_2\)</span>的线性组合，因此，这个函数是非线性的。</p>
-<h3 id="线性回归">2. 线性回归</h3>
-<p>如果我们考虑如下的模型： <span class="math display">\[
-f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
-\]</span> 这看似是一个非线性函数，但是实际上，函数<span class="math inline">\(f\)</span>对于模型参数<span class="math inline">\(\{\beta_0,\beta_1,\cdots,\beta_n\}\)</span>而言是线性的，即是由<span class="math inline">\(\{\beta_0,\beta_1,\cdots,\beta_n\}\)</span>的线性组合构成的，系数分别为<span class="math inline">\(1,x_1,x_2,\cdots,x_n\)</span>。因此，这个函数是线性的。</p>
-<h3 id="总结">3. 总结</h3>
-<p>线性还是非线性是要根据分析的目标来决定的，在线性回归和非线性回归中，我们需要求解的是模型参数，因而，线性与非线性描述的是函数模型与模型参数之间的关系，而非因变量与自变量之间的关系。</p>
-]]></content>
-      <categories>
-        <category>Math</category>
-      </categories>
-      <tags>
-        <tag>linear regression</tag>
-        <tag>non-linear regression</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux命令之tar</title>
-    <url>/2021/10/10/tar/</url>
-    <content><![CDATA[<p>tar命令可以将多个文件和目录打包成一个大的文件，并结合gzip/bzip2进行压缩。本文首先介绍常用的压缩命令，然后介绍tar命令。</p>
-<span id="more"></span>
-<h3 id="常用压缩命令">1.常用压缩命令</h3>
-<p>Linux上的压缩命令非常多，不同的压缩命令对应不同的扩展名。因此，需要知道常见的扩展名所对应的压缩命令，才能使用相应的压缩命令对其进行解压缩。</p>
-<table>
-<thead>
-<tr class="header">
-<th>扩展名</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>.gz</td>
-<td>gzip程序的压缩文件</td>
-</tr>
-<tr class="even">
-<td>.bz2</td>
-<td>bzip2程序的压缩文件</td>
-</tr>
-<tr class="odd">
-<td>.tar</td>
-<td>tar程序的打包文件，并没有经过压缩</td>
-</tr>
-<tr class="even">
-<td>.tar.gz</td>
-<td>tar程序的打包文件，并经过gzip的压缩</td>
-</tr>
-<tr class="odd">
-<td>.tar.bz2</td>
-<td>tar程序的打包文件，并经过bzip2的压缩</td>
-</tr>
-</tbody>
-</table>
-<h4 id="gzip">1.1 gzip</h4>
-<p>gzip命令的语法如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gzip [-cdtv<span class="comment">#] filename</span></span><br></pre></td></tr></table></figure>
-<p>各个选项的含义如下：</p>
-<ul>
-<li>-c：将压缩后的数据输出的屏幕上，可以结合重定向进行使用</li>
-<li>-d：解压缩</li>
-<li>-t：校验压缩文件是否正确无误</li>
-<li>-v：对文件进行压缩，并显示压缩比</li>
-<li>-#：通过数字指定压缩等级，-1最快，但是压缩比最低；-9最慢，但是压缩比最高。默认为6</li>
-</ul>
-<p>示例：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gzip test.txt             <span class="comment"># 压缩test.txt，并生成test.txt.gz</span></span><br><span class="line">$ gzip -c test.txt          <span class="comment"># 输出test.txt压缩后的信息，并不产生test.txt.gz</span></span><br><span class="line">$ gzip -d test.txt.gz       <span class="comment"># 解压test.txt.gz</span></span><br><span class="line">$ gzip -v test.txt          <span class="comment"># 对test.txt进行压缩，并显示压缩比</span></span><br><span class="line">$ gzip -9 test.txt          <span class="comment"># 以压缩等级9对test.txt进行压缩</span></span><br></pre></td></tr></table></figure>
-<p>需要注意的是，使用gzip对文件压缩或者解压缩时，均不会保留原文件或者压缩文件，如果想要保留原始文件，可以结合-c选项和重定向，命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gzip -c test.txt &gt; test.txt.gz  <span class="comment"># 将屏幕输出重定向至test.txt.gz，从而保留原文件 </span></span><br><span class="line">$ gzip -<span class="built_in">cd</span> test.txt.gz &gt; test.txt <span class="comment"># 将解压信息重定向至test.txt，从而保留原文件</span></span><br></pre></td></tr></table></figure>
-<p>上述选项也可结合使用，实现综合功能，如：</p>
-<ul>
-<li><p>比较不同压缩等级下的压缩比</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gzip -cv1 test.txt     <span class="comment"># 显示压缩信息和压缩等级，并不产生压缩文件</span></span><br><span class="line">$ gzip -cv9 test.txt</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>需要注意的是，gzip是对单个文件的压缩，并不能对整个目录进行压缩。虽然可以通过-r选项来对目录进行操作，但这也只是对目录里的文件分别进行压缩。</p>
-<figure>
-<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010163234547.png" alt="image-20211010163234547" /><figcaption aria-hidden="true">image-20211010163234547</figcaption>
-</figure>
-<h4 id="bzip2">1.2 bzip2</h4>
-<p>bzip2的用法几乎与gzip相同，bzip2命令的语法如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ bzip2 [-cdkzv$] filename</span><br></pre></td></tr></table></figure>
-<p>各个选项的作用如下：</p>
-<ul>
-<li>-c：将压缩过程产生的数据输出至屏幕上</li>
-<li>-d：解压缩</li>
-<li>-k：保留原文件</li>
-<li>-z：压缩的参数</li>
-<li>-v：显示压缩比信息</li>
-<li>-#：与gzip相同，压缩参数，1最快，9压缩比最高</li>
-</ul>
-<p>相比gzip，bzip2提供了-k选项，在压缩文件的同时，可以保留原文件。当然也可以使用-c选项和重定向来实现，不过这显得有些麻烦了。</p>
-<p>和gzip一样，bzip2也仅能对单个文件进行压缩，而无法对多个文件或者文件夹进行压缩。</p>
-<h3 id="tar命令">2. tar命令</h3>
-<p>tar是Linux中的归档命令，用于打包多个文件，并且可以结合压缩命令进行使用，tar命令的语法如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar [-j|-z] [cv] [-f new_filename] object1 object2 ...    <span class="comment"># 压缩</span></span><br><span class="line">$ tar [-j|-z] [tv] [-f new_filename]         <span class="comment"># 查看文件名</span></span><br><span class="line">$ tar [-j|-z] [xv] [-f new_filename] [-C folder]            <span class="comment"># 解压</span></span><br></pre></td></tr></table></figure>
-<p>这些常用选项的作用如下：</p>
-<ul>
-<li>-c：新建打包文件，结合-v可以查看打包过程中的文件</li>
-<li>-t：查看打包文件中包含的文件名，结合-v可以显示文件的详细信息</li>
-<li>-x：解打包或者解压缩，注意：-c，-t，-x不可能在命令中同时出现</li>
-<li>-j：通过bzip2的支持进行压缩和解压缩，此时文件扩展名为*.tar.bz2</li>
-<li>-z：通过gzip的支持进行压缩和解压缩，此时文件扩展名为*.tar.gz</li>
-<li>-f：后面跟打包文件的名字，建议单独出来写</li>
-<li>-C：指定解打包的目录</li>
-</ul>
-<p>实际比较常用的打包，查看和解打包涉及到的命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar -jcv -f all_test.tar.bz2 <span class="built_in">test</span>*.txt      <span class="comment"># 使用bzip2进行压缩</span></span><br><span class="line">$ tar -zcv -f all_test.tar.gz <span class="built_in">test</span>*.txt       <span class="comment"># 使用gzip进行压缩</span></span><br><span class="line">$ tar -jtv -f all_test.tar.bz2                <span class="comment"># 查看打包文件名</span></span><br><span class="line">$ tar -ztv -f all_test.tar.gz                 <span class="comment"># 查看打包文件名</span></span><br><span class="line">$ tar -jxv -f all_test.tar.bz2                <span class="comment"># 解打包*.tar.bz2</span></span><br><span class="line">$ tar -zxv -f all_test.tar.gz                 <span class="comment"># 解打包*.tar.gz</span></span><br><span class="line">$ tar -zxv -f all_test.tar.gz -C target_folder/    <span class="comment"># 指定目录解打包</span></span><br></pre></td></tr></table></figure>
-<p>tar还有两个比较常用的功能：</p>
-<ul>
-<li><p>解打包某一个文件</p>
-<p>使用上述的解打包命令时，会把所有的文件都解出来，但有时候我们可能只需要其中的某个文件，这时候可以指定需要的文件，用法如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar -jxv -f filename.tar.bz2 -C targer_folder file1</span><br></pre></td></tr></table></figure>
-<p>其中，filename.tar.bz2为需要解打包的文件，file1为需要的目标文件，targer_folder为目标目录。</p>
-<figure>
-<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010174744834.png" alt="image-20211010174744834" /><figcaption aria-hidden="true">image-20211010174744834</figcaption>
-</figure></li>
-<li><p>打包时，排除某些文件</p>
-<p>可以使用--exclude来排除不需要打包的文件，示例如下：</p>
-<figure>
-<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010175823219.png" alt="image-20211010175823219" /><figcaption aria-hidden="true">image-20211010175823219</figcaption>
-</figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Bash</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>数据流重定向</title>
-    <url>/2021/10/12/%E9%87%8D%E5%AE%9A%E5%90%91/</url>
-    <content><![CDATA[<h3 id="数据流">1.数据流</h3>
-<p>Linux中涉及到的数据流有如下三个：</p>
-<table>
-<thead>
-<tr class="header">
-<th style="text-align: center;">设备</th>
-<th style="text-align: center;">设备文件名</th>
-<th style="text-align: center;">文件描述符</th>
-<th style="text-align: center;">类型</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: center;">键盘</td>
-<td style="text-align: center;">/dev/stdin</td>
-<td style="text-align: center;">0</td>
-<td style="text-align: center;">标准输入</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;">显示器</td>
-<td style="text-align: center;">/dev/stdout</td>
-<td style="text-align: center;">1</td>
-<td style="text-align: center;">标准输出</td>
-</tr>
-<tr class="odd">
-<td style="text-align: center;">显示器</td>
-<td style="text-align: center;">/dev/stderr</td>
-<td style="text-align: center;">2</td>
-<td style="text-align: center;">错误标准输出</td>
-</tr>
-</tbody>
-</table>
-<span id="more"></span>
-<h3 id="输出重定向">2. 输出重定向</h3>
-<p>输出重定向实在Linux中使用较多的，可以将其理解为将标准输出（包括标准输出和标准错误输出）存入一个文件中，而不是显示在屏幕上。这样有什么作用呢？比如我们执行一个bash脚本，我们可能无法实时在屏幕前看脚本的输出，或者脚本的输出很多，我们一时也看不过来。这个时候就可以使用输出重定向，将脚本执行过程中的输出记录至文件中。脚本执行结束后，直接去查看记录文件中的内容，就可以知道脚本的执行情况。</p>
-<p>输出重定向使用分为标准输出重定向和标准错误输出重定向，标准输出重定向使用&gt;或者&gt;&gt;，标准错误输出使用2&gt;或者2&gt;&gt;，分别对应如下4种情况：</p>
-<ul>
-<li>&gt;：以覆盖的方式将标准输出存放至指定的文件或设备</li>
-<li>&gt;&gt;：以追加的方式将标准输出存放至指定的文件或设备</li>
-<li>2&gt;：以覆盖的方式将标准错误输出存放至指定的文件或设备</li>
-<li>2&gt;&gt;：以追加的方式将标准错误输出存放至指定的文件或设备</li>
-</ul>
-<h4 id="技巧1将stdout和stderr输出至不同的文件">2.1 技巧1：将stdout和stderr输出至不同的文件</h4>
-<p>有时候我们不知道一条命令的执行结果是正确的还是错误的，这个时候我们可以将stdout和stderr分别重定向至不同的文件中，示例如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ find /home -name .bashrc &gt; list_right 2&gt; list_error</span><br></pre></td></tr></table></figure>
-<h4 id="技巧2将stdout和stderr输出至同一个文件">2.2 技巧2：将stdout和stderr输出至同一个文件</h4>
-<p>stdin和stderr输出至不同的文件一方面查看不方便，另一方面也无法体现出输出的先后顺序，可以将这二者输出至同一个文件中，示例如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ find /home -name .bashrc &gt; <span class="built_in">log</span> 2&gt;&amp;1     <span class="comment"># 方法1</span></span><br><span class="line">$ find /home -name .bashrc &amp;&gt;             <span class="comment"># 方法2</span></span><br></pre></td></tr></table></figure>
-<h4 id="技巧3devnull">2.3 技巧3：/dev/null</h4>
-<p>有时我们知道错误会发生，但是想将它忽略，这时候黑洞设备/dev/null就很重要了，/dev/null会吃掉任何导向至这个设备的信息，示例如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ find /home -name .bashrc 2&gt; /dev/null       <span class="comment"># 将错误信息丢弃 </span></span><br></pre></td></tr></table></figure>
-<h3 id="输入重定向">3. 输入重定向</h3>
-<p>输入重定向可以理解为将原来需要由键盘进行输入的数据改由文件输入，使用&lt;，如法如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">command</span> &lt; file</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Bash</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux Bash Tips</title>
     <url>/2021/10/31/linux-bash-tips/</url>
     <content><![CDATA[<h3 id="单引号双引号反引号">1. 单引号，双引号，反引号</h3>
@@ -560,9 +339,7 @@ f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
 </ul>
 <h3 id="命令替换">2. 命令替换</h3>
 <p>命令替换的意思是在一行bash命令中嵌入其他bash命令，从而达到一次得到结果的目的。Linux Bash中可以使用反引号（`）或者$(...)来实现命令替换。</p>
-<figure>
-<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220212215824-2022-02-12.png" alt="20220212215824-2022-02-12" /><figcaption aria-hidden="true">20220212215824-2022-02-12</figcaption>
-</figure>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220212215824-2022-02-12.png" /></p>
 <p>反引号（<code>）与$(...)的区别： - 反引号（</code>）不可以嵌套，即不能在反引号里再嵌套一层反引号 - <span class="math inline">\(()支持嵌套，即可以\)</span>($(...)) - $()里面还可以再嵌套一层反引号（`）</p>
 ]]></content>
       <tags>
@@ -826,33 +603,271 @@ f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
       </tags>
   </entry>
   <entry>
-    <title>虚拟内存空间分布</title>
-    <url>/2021/11/13/virtual-mem/</url>
-    <content><![CDATA[<p>虚拟内存可以为正在运行的进程提供独立的内存空间，使得每一个进程都认为自己独立拥有全部的内存。Linux虚拟内存空间分布如下图所示，其中处于高地址的1G空间为内核空间，剩余的3GB为用户空间。</p>
+    <title>快速幂算法</title>
+    <url>/2021/12/05/quick-pow/</url>
+    <content><![CDATA[<p>快速幂算法是用来计算<span class="math inline">\(x^n\)</span>的算法，它是分治算法的典型应用之一。</p>
 <span id="more"></span>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/1458743340-5ddbcaa6525a5_articlex.png" /></p>
-<p>用户空间从低地址空间到高地址空间包含如下5个部分：</p>
-<ul>
-<li>代码段（text segment）：存放程序的可执行二进制代码</li>
-<li>数据段（data segment）：存放程序中已经初始化且初值不为0的全局变量和静态局部变量，数据段属于静态内存分配</li>
-<li>BSS段：存放未初始化的全局变量和静态局部变量；初值为0的全局变量和静态局部变量</li>
-<li>堆（heap）：用于存放程序运行时动态分配的内存段，可动态扩张或者缩减</li>
-<li>栈（stack）：由编译器自动分配释放，它存放如下信息：
-<ol type="1">
-<li>函数内部声明的非静态局部变量</li>
-<li>记录函数调用过程的相关维护信息（成为栈帧）</li>
-</ol></li>
-<li>内存映射段（mmap）：内核将硬盘文件直接映射到内存，是一种高效的文件I/O方式</li>
-</ul>
+<h3 id="递归实现">1. 递归实现</h3>
+<p><span class="math inline">\(x^n\)</span>即为n个x相乘，可以使用for循环来实现，但是其复杂度为<span class="math inline">\(O(n)\)</span>。考虑计算<span class="math inline">\(x^{100}\)</span>，我们并不需要在计算出<span class="math inline">\(x^{99}\)</span>的基础上乘以<span class="math inline">\(x\)</span>，而是在计算出<span class="math inline">\(x^{50}\)</span>以后，就能得到<span class="math inline">\(x^{100}=x^{50}*x^{50}\)</span>。计算规模从100降至50。对于奇数次方，可以通过补乘以一个x来实现，例如：<span class="math inline">\(x^{25}=x^{12}*x^{12}*x\)</span>。根据上述计算过程，很容易利用递归来实现：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 利用递归实现快速幂计算</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">quickPow</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">1</span>) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="keyword">double</span> midVal = <span class="built_in">quickPow</span>(x, n / <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">return</span> n % <span class="number">2</span> == <span class="number">0</span> ? midVal * midVal : midVal * midVal * x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="迭代实现">2. 迭代实现</h3>
+<p>上述的递归过程实际上将计算规模逐次减半，直到规模为0，按照0到n的视角，实际上完成了下述的计算过程： <span class="math display">\[
+x^{1} \rightarrow x^{1} \rightarrow x^{2} \rightarrow x^{4} \rightarrow x^{8} \rightarrow x^{16} \rightarrow \cdots
+\]</span> 在计算的过程中，我们会得到<span class="math inline">\(x^{1}, x^{2}, x^{4}, x^{8}, x^{16}, \cdots\)</span>这些值。那么<span class="math inline">\(x^n\)</span>是由这其中的哪些组合相得到的呢？以<span class="math inline">\(x^{56}\)</span>为例，将56化为二进制，<span class="math inline">\((56)_{10}=(111000)_{2}\)</span>，其中3个1所在位置的权重分别为：<span class="math inline">\(2^3=8\)</span>，<span class="math inline">\(2^4=16\)</span>，<span class="math inline">\(2^5=32\)</span>。同时，我们可以发现：<span class="math inline">\(x^{56}=x^{32}*x^{16}*x^{8}\)</span>。因此，我们可以x进行不断的平方，得到<span class="math inline">\(x^{2}, x^{4}, x^{8}, x^{16}, \cdots\)</span>，若n的第i位为1，则将<span class="math inline">\(x^{2^i}\)</span>的计入结果。代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 利用迭代实现快速幂计算</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">quickPow</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(n) &#123;</span><br><span class="line">        <span class="keyword">if</span>(n % <span class="number">2</span> == <span class="number">1</span>) &#123;</span><br><span class="line">            ans = ans * x;</span><br><span class="line">        &#125;</span><br><span class="line">        x = x * x;</span><br><span class="line">        n = n / <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="快速幂的应用">3. 快速幂的应用</h3>
+<p>这是LeetCode上的第372题（<a href="https://leetcode-cn.com/problems/super-pow/">超级次方</a>），这道题的不同之处在于幂次n是一个非常大的数值，并且是通过数组的方式给出的。例如：幂次是1024，则输入为[1,0,2,4]。因此，我们首先需要将数组转换为实际的数字，设数组为<span class="math inline">\(b=[b_0,b_1,b_2,\cdots,b_{m-1}]\)</span>，则幂次n为： <span class="math display">\[
+n=\sum_{i=0}^{m-1}10^{m-1-i}*b_i
+\]</span> 根据<span class="math inline">\(a^{x+y}=a^x*a^y\)</span>和<span class="math inline">\(a^{xy}=(a^x)^y\)</span>，可得： <span class="math display">\[
+x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}(x^{10^{m-1-i}})^{b_i}
+\]</span> 原题中考虑了结果过大，将结果对1337取了模。如果不考虑这个的话，计算<span class="math inline">\(x^{n}\)</span>的代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 计算x^n</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">quickPow</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(n) &#123;</span><br><span class="line">        <span class="keyword">if</span>(n % <span class="number">2</span> == <span class="number">1</span>) &#123;</span><br><span class="line">            ans = ans * x;</span><br><span class="line">        &#125;</span><br><span class="line">        x = x * x;</span><br><span class="line">        n = n / <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">superPow</span><span class="params">(<span class="keyword">double</span> x, vector&lt;<span class="keyword">int</span>&gt; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> ans = <span class="number">1.0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = b.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        ans = ans * <span class="built_in">quickPow</span>(x, b[i]);</span><br><span class="line">        x = <span class="built_in">quickPow</span>(x, <span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>操作系统</category>
+        <category>algorithm</category>
+      </categories>
+      <tags>
+        <tag>math</tag>
+        <tag>algorithm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux命令之sed</title>
+    <url>/2021/09/26/sed/</url>
+    <content><![CDATA[<h3 id="sed简介">1. sed简介</h3>
+<p>​ sed是Linux中的流编辑器，与传统的编辑器（如Vim）相比，它没有交互式的界面进行操作，而是通过命令来处理数据流中的数据。sed会对数据做如下操作：</p>
+<ol type="1">
+<li><p>一次从输入中读取一行数据</p></li>
+<li><p>根据提供的命令对数据进行处理（选取，删除，替换，新增）</p></li>
+<li><p>将处理后的结果输出至stdout</p></li>
+</ol>
+<span id="more"></span>
+<p>​ sed对一行处理完毕后，会读取下一行并继续进行上述操作，直至将所有的行处理完毕。sed命令的使用格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed options <span class="string">&#x27;actions&#x27;</span> file</span><br></pre></td></tr></table></figure>
+<p>其中，options为sed命令支持的选项，actions为编辑动作。</p>
+<h4 id="options">1.1 options</h4>
+<p>sed命令支持的选项和对应的功能如下所示：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">选项</th>
+<th style="text-align: left;">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">-n</td>
+<td style="text-align: left;">silent模式，只有经过sed处理的行会被输出至stdout</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">-e</td>
+<td style="text-align: left;">允许对输入数据应用多条sed命令编辑</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">-i</td>
+<td style="text-align: left;">用sed修改的结果直接修改读取数据的文件，而不是由屏幕输出</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">-f</td>
+<td style="text-align: left;">从文件中读取编辑命令</td>
+</tr>
+</tbody>
+</table>
+<h4 id="actions">1.2 actions</h4>
+<p>sed命令支持的编辑动作如下所示：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">编辑动作</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">a</td>
+<td>追加，在当前行后添加一行或多行</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">c</td>
+<td>行替换，用c后面的字符串替换原数据行，可替换多行</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">i</td>
+<td>插入，在当前行前插入一行或多行</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">d</td>
+<td>删除，删除指定的行</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">p</td>
+<td>打印，输出指定的行</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">s</td>
+<td>字符串替换，用一个字符串替换另一个字符串</td>
+</tr>
+</tbody>
+</table>
+<h4 id="sed寻址方式">1.3 sed寻址方式</h4>
+<p>在默认情况下，sed命令会对所有行进行相同的操作，但是，某些时候，我们只想对输入数据的部分行进行操作，这个时候则需要进行寻址。sed命令支持两种寻址方式：</p>
+<ul>
+<li>以数字形式表示行区间</li>
+<li>用文本模式进行匹配过滤</li>
+</ul>
+<p><strong>A. 以数字形式表示行区间</strong></p>
+<p>我们可以使用数字来指定处理的行，可以是指定特定的某一行，也可以是指定某个行区间。例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 打印第三行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;3p&#x27;</span> file.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印第三到五行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;3,5p&#x27;</span> file.txt</span><br></pre></td></tr></table></figure>
+<p>指定行区间，则是用起始行号，逗号以及结尾行号来表示一定区间范围内的行。需要注意的是，sed中对于行的编号是从1开始的。</p>
+<p><strong>B.以文本模式进行匹配过滤</strong></p>
+<p>sed命令也允许指定文本模式来过滤出命令要作用的行，格式如下：/pattern/actions。sed命令会过滤出包含pattern的行，并用actions对这些行进行处理</p>
+<p>例如，只想打印出/etc/passwd文件中包含/bin/bash的行，则可以使用如下的sed命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed -n <span class="string">&#x27;/\/bin\/bash/p&#x27;</span> /etc/passwd</span><br></pre></td></tr></table></figure>
+<p>当然，使用grep命令可以更简单的实现相同的效果。此处，举这个例子来演示sed命令的文本匹配过滤功能。</p>
+<h3 id="sed之打印p">2. sed之打印(p)</h3>
+<p>sed进行打印时，常与-n一同使用，只打印符号条件的行。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed -n <span class="string">&#x27;2p&#x27;</span> test.txt           <span class="comment"># 打印第2行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;2,4p&#x27;</span> test.txt         <span class="comment"># 打印第2到4行</span></span><br><span class="line">$ sed -n <span class="string">&#x27;/hello/p&#x27;</span> test.txt     <span class="comment"># 打印包含hello的行</span></span><br></pre></td></tr></table></figure>
+<h3 id="sed之追加a插入i删除d">3. sed之追加(a)，插入(i)，删除(d)</h3>
+<p>使用a进行追加时，可以追加1行，也可以使用“  ”追加多行。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;2a hello world&#x27;</span> test.txt      <span class="comment"># 在第2行后添加一行hello world</span></span><br><span class="line">$ sed <span class="string">&#x27;2a hello\</span></span><br><span class="line"><span class="string">&gt; world&#x27;</span> test.txt                    <span class="comment"># 在第二行后添加2行，分别为hello和world</span></span><br></pre></td></tr></table></figure>
+<p>i的用法与a的用法类似，不同的是i是在指定的行前进行插入，a是在指定的行后追加。</p>
+<p>d可以用来删除指定的某一行，或者某个范围内的行，或者使用模式进行匹配删除。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;2d&#x27;</span> test.txt                 <span class="comment"># 删除第2行</span></span><br><span class="line">$ sed <span class="string">&#x27;3,5d&#x27;</span> test.txt               <span class="comment"># 删除第3到5行</span></span><br><span class="line">$ sed <span class="string">&#x27;/hello/d&#x27;</span> test.txt           <span class="comment"># 删除匹配到hello的行</span></span><br></pre></td></tr></table></figure>
+<h3 id="sed之行替换c">4. sed之行替换(c)</h3>
+<p>使用c可以对指定的行进行替换，可以替换一行，也可以替换多行，替换的内容可以是一行，也可以是多行。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;2c hello world&#x27;</span> test.txt          <span class="comment"># 将第2行替换为hello world</span></span><br><span class="line">$ sed <span class="string">&#x27;2,3c hello world&#x27;</span> test.txt        <span class="comment"># 将第2到第3行替换为hello world</span></span><br><span class="line">$ sed <span class="string">&#x27;2,3c hello world1\</span></span><br><span class="line"><span class="string">&gt; hello world2&#x27;</span> test.txt                 <span class="comment"># 将第2到3行替换为两行内容</span></span><br><span class="line">$ sed <span class="string">&#x27;/hello/c c_hello&#x27;</span> test.txt        <span class="comment"># 对包含hello的行进行替换</span></span><br></pre></td></tr></table></figure>
+<h3 id="sed之字符串替换s">5. sed之字符串替换(s)</h3>
+<p>使用s进行字符串替换时的格式如下：s/pattern/replacement/flags</p>
+<p>有4中可用的标记（flag），作用分别如下：</p>
+<ul>
+<li>数字：表明新文本将替换第几处模式匹配的地方</li>
+<li>g：表明新文本将会替换所有匹配的文本</li>
+<li>p：表明将进行了替换操作的行打印出来</li>
+<li>w：将行替换的结果写到文件中</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sed <span class="string">&#x27;s/test/trail/2&#x27;</span> test.txt     <span class="comment"># 只替换每行第2次匹配到的文本</span></span><br><span class="line">$ sed <span class="string">&#x27;s/test/trail/g&#x27;</span> test.txt     <span class="comment"># 替换所有匹配到的文本</span></span><br><span class="line">$ sed -n <span class="string">&#x27;s/test/trail/p&#x27;</span> test.txt  <span class="comment"># 将被替换的行打印出来</span></span><br><span class="line">$ sed <span class="string">&#x27;s/test/trail/w result.txt&#x27;</span> test.txt <span class="comment"># 将行替换的结果写入文件</span></span><br></pre></td></tr></table></figure>
+<p>注意：可以将上述flags进行组合使用，达到效果的叠加。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>内存管理</tag>
-        <tag>虚拟内存</tag>
-        <tag>操作系统</tag>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux命令之tar</title>
+    <url>/2021/10/10/tar/</url>
+    <content><![CDATA[<p>tar命令可以将多个文件和目录打包成一个大的文件，并结合gzip/bzip2进行压缩。本文首先介绍常用的压缩命令，然后介绍tar命令。</p>
+<span id="more"></span>
+<h3 id="常用压缩命令">1.常用压缩命令</h3>
+<p>Linux上的压缩命令非常多，不同的压缩命令对应不同的扩展名。因此，需要知道常见的扩展名所对应的压缩命令，才能使用相应的压缩命令对其进行解压缩。</p>
+<table>
+<thead>
+<tr class="header">
+<th>扩展名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>.gz</td>
+<td>gzip程序的压缩文件</td>
+</tr>
+<tr class="even">
+<td>.bz2</td>
+<td>bzip2程序的压缩文件</td>
+</tr>
+<tr class="odd">
+<td>.tar</td>
+<td>tar程序的打包文件，并没有经过压缩</td>
+</tr>
+<tr class="even">
+<td>.tar.gz</td>
+<td>tar程序的打包文件，并经过gzip的压缩</td>
+</tr>
+<tr class="odd">
+<td>.tar.bz2</td>
+<td>tar程序的打包文件，并经过bzip2的压缩</td>
+</tr>
+</tbody>
+</table>
+<h4 id="gzip">1.1 gzip</h4>
+<p>gzip命令的语法如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gzip [-cdtv<span class="comment">#] filename</span></span><br></pre></td></tr></table></figure>
+<p>各个选项的含义如下：</p>
+<ul>
+<li>-c：将压缩后的数据输出的屏幕上，可以结合重定向进行使用</li>
+<li>-d：解压缩</li>
+<li>-t：校验压缩文件是否正确无误</li>
+<li>-v：对文件进行压缩，并显示压缩比</li>
+<li>-#：通过数字指定压缩等级，-1最快，但是压缩比最低；-9最慢，但是压缩比最高。默认为6</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gzip test.txt             <span class="comment"># 压缩test.txt，并生成test.txt.gz</span></span><br><span class="line">$ gzip -c test.txt          <span class="comment"># 输出test.txt压缩后的信息，并不产生test.txt.gz</span></span><br><span class="line">$ gzip -d test.txt.gz       <span class="comment"># 解压test.txt.gz</span></span><br><span class="line">$ gzip -v test.txt          <span class="comment"># 对test.txt进行压缩，并显示压缩比</span></span><br><span class="line">$ gzip -9 test.txt          <span class="comment"># 以压缩等级9对test.txt进行压缩</span></span><br></pre></td></tr></table></figure>
+<p>需要注意的是，使用gzip对文件压缩或者解压缩时，均不会保留原文件或者压缩文件，如果想要保留原始文件，可以结合-c选项和重定向，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gzip -c test.txt &gt; test.txt.gz  <span class="comment"># 将屏幕输出重定向至test.txt.gz，从而保留原文件 </span></span><br><span class="line">$ gzip -<span class="built_in">cd</span> test.txt.gz &gt; test.txt <span class="comment"># 将解压信息重定向至test.txt，从而保留原文件</span></span><br></pre></td></tr></table></figure>
+<p>上述选项也可结合使用，实现综合功能，如：</p>
+<ul>
+<li><p>比较不同压缩等级下的压缩比</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gzip -cv1 test.txt     <span class="comment"># 显示压缩信息和压缩等级，并不产生压缩文件</span></span><br><span class="line">$ gzip -cv9 test.txt</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>需要注意的是，gzip是对单个文件的压缩，并不能对整个目录进行压缩。虽然可以通过-r选项来对目录进行操作，但这也只是对目录里的文件分别进行压缩。</p>
+<figure>
+<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010163234547.png" alt="image-20211010163234547" /><figcaption aria-hidden="true">image-20211010163234547</figcaption>
+</figure>
+<h4 id="bzip2">1.2 bzip2</h4>
+<p>bzip2的用法几乎与gzip相同，bzip2命令的语法如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ bzip2 [-cdkzv$] filename</span><br></pre></td></tr></table></figure>
+<p>各个选项的作用如下：</p>
+<ul>
+<li>-c：将压缩过程产生的数据输出至屏幕上</li>
+<li>-d：解压缩</li>
+<li>-k：保留原文件</li>
+<li>-z：压缩的参数</li>
+<li>-v：显示压缩比信息</li>
+<li>-#：与gzip相同，压缩参数，1最快，9压缩比最高</li>
+</ul>
+<p>相比gzip，bzip2提供了-k选项，在压缩文件的同时，可以保留原文件。当然也可以使用-c选项和重定向来实现，不过这显得有些麻烦了。</p>
+<p>和gzip一样，bzip2也仅能对单个文件进行压缩，而无法对多个文件或者文件夹进行压缩。</p>
+<h3 id="tar命令">2. tar命令</h3>
+<p>tar是Linux中的归档命令，用于打包多个文件，并且可以结合压缩命令进行使用，tar命令的语法如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar [-j|-z] [cv] [-f new_filename] object1 object2 ...    <span class="comment"># 压缩</span></span><br><span class="line">$ tar [-j|-z] [tv] [-f new_filename]         <span class="comment"># 查看文件名</span></span><br><span class="line">$ tar [-j|-z] [xv] [-f new_filename] [-C folder]            <span class="comment"># 解压</span></span><br></pre></td></tr></table></figure>
+<p>这些常用选项的作用如下：</p>
+<ul>
+<li>-c：新建打包文件，结合-v可以查看打包过程中的文件</li>
+<li>-t：查看打包文件中包含的文件名，结合-v可以显示文件的详细信息</li>
+<li>-x：解打包或者解压缩，注意：-c，-t，-x不可能在命令中同时出现</li>
+<li>-j：通过bzip2的支持进行压缩和解压缩，此时文件扩展名为*.tar.bz2</li>
+<li>-z：通过gzip的支持进行压缩和解压缩，此时文件扩展名为*.tar.gz</li>
+<li>-f：后面跟打包文件的名字，建议单独出来写</li>
+<li>-C：指定解打包的目录</li>
+</ul>
+<p>实际比较常用的打包，查看和解打包涉及到的命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar -jcv -f all_test.tar.bz2 <span class="built_in">test</span>*.txt      <span class="comment"># 使用bzip2进行压缩</span></span><br><span class="line">$ tar -zcv -f all_test.tar.gz <span class="built_in">test</span>*.txt       <span class="comment"># 使用gzip进行压缩</span></span><br><span class="line">$ tar -jtv -f all_test.tar.bz2                <span class="comment"># 查看打包文件名</span></span><br><span class="line">$ tar -ztv -f all_test.tar.gz                 <span class="comment"># 查看打包文件名</span></span><br><span class="line">$ tar -jxv -f all_test.tar.bz2                <span class="comment"># 解打包*.tar.bz2</span></span><br><span class="line">$ tar -zxv -f all_test.tar.gz                 <span class="comment"># 解打包*.tar.gz</span></span><br><span class="line">$ tar -zxv -f all_test.tar.gz -C target_folder/    <span class="comment"># 指定目录解打包</span></span><br></pre></td></tr></table></figure>
+<p>tar还有两个比较常用的功能：</p>
+<ul>
+<li><p>解打包某一个文件</p>
+<p>使用上述的解打包命令时，会把所有的文件都解出来，但有时候我们可能只需要其中的某个文件，这时候可以指定需要的文件，用法如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ tar -jxv -f filename.tar.bz2 -C targer_folder file1</span><br></pre></td></tr></table></figure>
+<p>其中，filename.tar.bz2为需要解打包的文件，file1为需要的目标文件，targer_folder为目标目录。</p>
+<figure>
+<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010174744834.png" alt="image-20211010174744834" /><figcaption aria-hidden="true">image-20211010174744834</figcaption>
+</figure></li>
+<li><p>打包时，排除某些文件</p>
+<p>可以使用--exclude来排除不需要打包的文件，示例如下：</p>
+<figure>
+<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211010175823219.png" alt="image-20211010175823219" /><figcaption aria-hidden="true">image-20211010175823219</figcaption>
+</figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Bash</tag>
       </tags>
   </entry>
   <entry>
@@ -952,116 +967,99 @@ f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
       </tags>
   </entry>
   <entry>
-    <title>C++之标准输入流</title>
-    <url>/2021/12/04/cin/</url>
-    <content><![CDATA[<p>本文主要介绍C++标准输入流的使用，重点介绍cin，cin.get()，cin.getline()的区别和使用。</p>
+    <title>虚拟内存空间分布</title>
+    <url>/2021/11/13/virtual-mem/</url>
+    <content><![CDATA[<p>虚拟内存可以为正在运行的进程提供独立的内存空间，使得每一个进程都认为自己独立拥有全部的内存。Linux虚拟内存空间分布如下图所示，其中处于高地址的1G空间为内核空间，剩余的3GB为用户空间。</p>
 <span id="more"></span>
-<h3 id="标准输入输出流的继承关系">1. 标准输入输出流的继承关系</h3>
-<p>C++中输入输出流的继承关系如下图所示（图片来自<a href="http://www.cplusplus.com/reference/ios/">C++ Reference</a>）</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/iostream.gif" /></p>
-<p>提取其中的输入流，继承关系如下：</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204151513125.png" /></p>
-<p>cin是istream的对象，get()和getline()是istream中的成员函数。</p>
-<h3 id="cin">2. cin</h3>
-<p>cin是C++中的标准输入流，它是istream类的对象，从字符流（sequence of characters）中读取并解析数据。iostream继承了istream，并且cin对象在头文件&lt;iostream&gt;中声明，因此，在使用cin时，需要包含头文件&lt;iostream&gt;。istream类重载了&gt;&gt;，从而实现对各种类型数据的读取。</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204161158637.png" /></p>
-<p>cin并不是直接从键盘读取输入，而是从缓冲区中读取输入。也就是说，键盘的输入首先会被存储在缓冲区中，而后，cin再从缓冲区中读取数据。cin从缓冲区中读取字符流时，有如下两个特点：</p>
-<ol type="1">
-<li>若缓冲区开头为空白字符（空格，tab，换行符），cin会自动跳过并丢弃空白字符</li>
-<li>若在字符流读取的过程中，遇到数据类型不符或者空白字符（空格，tab，换行），cin会停止字符流的读取，并将已经读取的字符流解释为指定的类型，赋予变量。类型不符的字符和空白字符依然留在缓冲区中，用于下一次的cin读取。</li>
-<li>若字符与变量类型不符，cin会结束读取，并返回0。</li>
-</ol>
-<p>示例程序如下：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> input;</span><br><span class="line">    <span class="keyword">while</span>(cin &gt;&gt; input) &#123;</span><br><span class="line">        sum += input;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Last Input is: &quot;</span> &lt;&lt; input &lt;&lt; std::endl;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;Sum is: &quot;</span> &lt;&lt; sum &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输入：  20 30 -100 200z 600</span></span><br><span class="line"><span class="comment">// 输出：</span></span><br><span class="line"><span class="comment">// Last Input is: 0</span></span><br><span class="line"><span class="comment">// Sum is: 150</span></span><br></pre></td></tr></table></figure>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204170428391.png" /></p>
-<p>由于cin在读取字符流时，会跳过空白字符，并且遇到空白字符就停止读取，在输入为字符串就会有如下问题：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string str;</span><br><span class="line">    std::cin &gt;&gt; str;</span><br><span class="line">    std::cout &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输入：Hello World</span></span><br><span class="line"><span class="comment">// 输出：Hello</span></span><br></pre></td></tr></table></figure>
-<p>cin在遇到空格时，就停止了读取，World还在缓冲区中等待下一次的读取。为了解决这种情况，我们可以使用cin.get()或者cin.getline()</p>
-<h3 id="cin.get">2. cin.get()</h3>
-<p>cin.get()有如下三个功能：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/1458743340-5ddbcaa6525a5_articlex.png" /></p>
+<p>用户空间从低地址空间到高地址空间包含如下5个部分：</p>
 <ul>
-<li>读取单个字符</li>
-<li>读取C风格字符串</li>
-<li>stream buffer</li>
+<li>代码段（text segment）：存放程序的可执行二进制代码</li>
+<li>数据段（data segment）：存放程序中已经初始化且初值不为0的全局变量和静态局部变量，数据段属于静态内存分配</li>
+<li>BSS段：存放未初始化的全局变量和静态局部变量；初值为0的全局变量和静态局部变量</li>
+<li>堆（heap）：用于存放程序运行时动态分配的内存段，可动态扩张或者缩减</li>
+<li>栈（stack）：由编译器自动分配释放，它存放如下信息：
+<ol type="1">
+<li>函数内部声明的非静态局部变量</li>
+<li>记录函数调用过程的相关维护信息（成为栈帧）</li>
+</ol></li>
+<li>内存映射段（mmap）：内核将硬盘文件直接映射到内存，是一种高效的文件I/O方式</li>
 </ul>
-<p>其函数原型如下所示：</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204201932050.png" /></p>
-<p>使用cin.get()读取单个字符时，有如下两种用法：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">char</span> ch1, ch2;</span><br><span class="line">cin.<span class="built_in">get</span>(ch1);      <span class="comment">// 将ch1作为参数</span></span><br><span class="line">ch2 = cin.<span class="built_in">get</span>();   <span class="comment">// ch2获取cin.get()的返回值</span></span><br></pre></td></tr></table></figure>
-<p>当读取单个字符时，cin.get()可以读取任意单个字符，包括空格，tab和换行符。</p>
-<p>使用cin.get()读取C风格字符串时，需要指定字符串大小n。当读到第n-1个字符，或者遇到结束符时，停止读取。结束符默认为''，也可指定为其他。用法如下：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIZE 100</span></span><br><span class="line"><span class="keyword">char</span> ch1[SIZE], ch2[SIZE];</span><br><span class="line">cin.<span class="built_in">get</span>(ch1, SIZE);</span><br><span class="line">cin.<span class="built_in">get</span>();    <span class="comment">// 读取留下的结束符，也可以使用cin.get(ch1, SIZE).get()</span></span><br><span class="line">cin.<span class="built_in">get</span>(ch2, SIZE, <span class="string">&#x27;#&#x27;</span>);   <span class="comment">// 读取新的字符串，并指定#为结束符</span></span><br></pre></td></tr></table></figure>
-<p>**cin.get(char *s, streamsize n)读取完成后，结束符依然保留在缓冲区中**。因此，在连续读取时，需要使用cin.get()将结束符读取，否则下一次读取时，cin.get(char *s, streamsize n)直接读取到结束符，会认为是空字符串，会将空字符串赋给字符串数组。</p>
-<h3 id="cin.getline">3. cin.getline()</h3>
-<p>cin.getline()用于读取C风格字符串，其函数原型如下：</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204204043035.png" /></p>
-<p>cin.getline()与cin.get()的用法非常相似。不同点在于，<strong>cin.getline()在读取字符串时，会读取结束符，并将结束符丢弃。</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SIZE 200</span></span><br><span class="line"><span class="keyword">char</span> ch1[SIZE], ch2[SIZE];</span><br><span class="line">cin.<span class="built_in">getline</span>(ch1, SIZE);</span><br><span class="line">cin.<span class="built_in">getline</span>(ch2, SIZE, <span class="string">&#x27;#&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<h3 id="getline">4. getline()</h3>
-<p>getline()可以用于从标准输入流中读取数据值string，其函数原型如下：</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211204205653114.png" /></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    std::string str;</span><br><span class="line">    <span class="built_in">getline</span>(std::cin, str);</span><br><span class="line">    std::cout &lt;&lt; str &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>C++</category>
+        <category>操作系统</category>
       </categories>
       <tags>
-        <tag>iostream</tag>
-        <tag>cin</tag>
+        <tag>Linux</tag>
+        <tag>内存管理</tag>
+        <tag>虚拟内存</tag>
+        <tag>操作系统</tag>
       </tags>
   </entry>
   <entry>
-    <title>快速幂算法</title>
-    <url>/2021/12/05/quick-pow/</url>
-    <content><![CDATA[<p>快速幂算法是用来计算<span class="math inline">\(x^n\)</span>的算法，它是分治算法的典型应用之一。</p>
+    <title>数据流重定向</title>
+    <url>/2021/10/12/%E9%87%8D%E5%AE%9A%E5%90%91/</url>
+    <content><![CDATA[<h3 id="数据流">1.数据流</h3>
+<p>Linux中涉及到的数据流有如下三个：</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">设备</th>
+<th style="text-align: center;">设备文件名</th>
+<th style="text-align: center;">文件描述符</th>
+<th style="text-align: center;">类型</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">键盘</td>
+<td style="text-align: center;">/dev/stdin</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">标准输入</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">显示器</td>
+<td style="text-align: center;">/dev/stdout</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">标准输出</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">显示器</td>
+<td style="text-align: center;">/dev/stderr</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">错误标准输出</td>
+</tr>
+</tbody>
+</table>
 <span id="more"></span>
-<h3 id="递归实现">1. 递归实现</h3>
-<p><span class="math inline">\(x^n\)</span>即为n个x相乘，可以使用for循环来实现，但是其复杂度为<span class="math inline">\(O(n)\)</span>。考虑计算<span class="math inline">\(x^{100}\)</span>，我们并不需要在计算出<span class="math inline">\(x^{99}\)</span>的基础上乘以<span class="math inline">\(x\)</span>，而是在计算出<span class="math inline">\(x^{50}\)</span>以后，就能得到<span class="math inline">\(x^{100}=x^{50}*x^{50}\)</span>。计算规模从100降至50。对于奇数次方，可以通过补乘以一个x来实现，例如：<span class="math inline">\(x^{25}=x^{12}*x^{12}*x\)</span>。根据上述计算过程，很容易利用递归来实现：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 利用递归实现快速幂计算</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">quickPow</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(n == <span class="number">1</span>) <span class="keyword">return</span> x;</span><br><span class="line">    <span class="keyword">double</span> midVal = <span class="built_in">quickPow</span>(x, n / <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">return</span> n % <span class="number">2</span> == <span class="number">0</span> ? midVal * midVal : midVal * midVal * x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="迭代实现">2. 迭代实现</h3>
-<p>上述的递归过程实际上将计算规模逐次减半，直到规模为0，按照0到n的视角，实际上完成了下述的计算过程： <span class="math display">\[
-x^{1} \rightarrow x^{1} \rightarrow x^{2} \rightarrow x^{4} \rightarrow x^{8} \rightarrow x^{16} \rightarrow \cdots
-\]</span> 在计算的过程中，我们会得到<span class="math inline">\(x^{1}, x^{2}, x^{4}, x^{8}, x^{16}, \cdots\)</span>这些值。那么<span class="math inline">\(x^n\)</span>是由这其中的哪些组合相得到的呢？以<span class="math inline">\(x^{56}\)</span>为例，将56化为二进制，<span class="math inline">\((56)_{10}=(111000)_{2}\)</span>，其中3个1所在位置的权重分别为：<span class="math inline">\(2^3=8\)</span>，<span class="math inline">\(2^4=16\)</span>，<span class="math inline">\(2^5=32\)</span>。同时，我们可以发现：<span class="math inline">\(x^{56}=x^{32}*x^{16}*x^{8}\)</span>。因此，我们可以x进行不断的平方，得到<span class="math inline">\(x^{2}, x^{4}, x^{8}, x^{16}, \cdots\)</span>，若n的第i位为1，则将<span class="math inline">\(x^{2^i}\)</span>的计入结果。代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 利用迭代实现快速幂计算</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">quickPow</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(n) &#123;</span><br><span class="line">        <span class="keyword">if</span>(n % <span class="number">2</span> == <span class="number">1</span>) &#123;</span><br><span class="line">            ans = ans * x;</span><br><span class="line">        &#125;</span><br><span class="line">        x = x * x;</span><br><span class="line">        n = n / <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="快速幂的应用">3. 快速幂的应用</h3>
-<p>这是LeetCode上的第372题（<a href="https://leetcode-cn.com/problems/super-pow/">超级次方</a>），这道题的不同之处在于幂次n是一个非常大的数值，并且是通过数组的方式给出的。例如：幂次是1024，则输入为[1,0,2,4]。因此，我们首先需要将数组转换为实际的数字，设数组为<span class="math inline">\(b=[b_0,b_1,b_2,\cdots,b_{m-1}]\)</span>，则幂次n为： <span class="math display">\[
-n=\sum_{i=0}^{m-1}10^{m-1-i}*b_i
-\]</span> 根据<span class="math inline">\(a^{x+y}=a^x*a^y\)</span>和<span class="math inline">\(a^{xy}=(a^x)^y\)</span>，可得： <span class="math display">\[
-x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}(x^{10^{m-1-i}})^{b_i}
-\]</span> 原题中考虑了结果过大，将结果对1337取了模。如果不考虑这个的话，计算<span class="math inline">\(x^{n}\)</span>的代码如下：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 计算x^n</span></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">quickPow</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> ans = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(n) &#123;</span><br><span class="line">        <span class="keyword">if</span>(n % <span class="number">2</span> == <span class="number">1</span>) &#123;</span><br><span class="line">            ans = ans * x;</span><br><span class="line">        &#125;</span><br><span class="line">        x = x * x;</span><br><span class="line">        n = n / <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">superPow</span><span class="params">(<span class="keyword">double</span> x, vector&lt;<span class="keyword">int</span>&gt; b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">double</span> ans = <span class="number">1.0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = b.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        ans = ans * <span class="built_in">quickPow</span>(x, b[i]);</span><br><span class="line">        x = <span class="built_in">quickPow</span>(x, <span class="number">10</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="输出重定向">2. 输出重定向</h3>
+<p>输出重定向实在Linux中使用较多的，可以将其理解为将标准输出（包括标准输出和标准错误输出）存入一个文件中，而不是显示在屏幕上。这样有什么作用呢？比如我们执行一个bash脚本，我们可能无法实时在屏幕前看脚本的输出，或者脚本的输出很多，我们一时也看不过来。这个时候就可以使用输出重定向，将脚本执行过程中的输出记录至文件中。脚本执行结束后，直接去查看记录文件中的内容，就可以知道脚本的执行情况。</p>
+<p>输出重定向使用分为标准输出重定向和标准错误输出重定向，标准输出重定向使用&gt;或者&gt;&gt;，标准错误输出使用2&gt;或者2&gt;&gt;，分别对应如下4种情况：</p>
+<ul>
+<li>&gt;：以覆盖的方式将标准输出存放至指定的文件或设备</li>
+<li>&gt;&gt;：以追加的方式将标准输出存放至指定的文件或设备</li>
+<li>2&gt;：以覆盖的方式将标准错误输出存放至指定的文件或设备</li>
+<li>2&gt;&gt;：以追加的方式将标准错误输出存放至指定的文件或设备</li>
+</ul>
+<h4 id="技巧1将stdout和stderr输出至不同的文件">2.1 技巧1：将stdout和stderr输出至不同的文件</h4>
+<p>有时候我们不知道一条命令的执行结果是正确的还是错误的，这个时候我们可以将stdout和stderr分别重定向至不同的文件中，示例如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ find /home -name .bashrc &gt; list_right 2&gt; list_error</span><br></pre></td></tr></table></figure>
+<h4 id="技巧2将stdout和stderr输出至同一个文件">2.2 技巧2：将stdout和stderr输出至同一个文件</h4>
+<p>stdin和stderr输出至不同的文件一方面查看不方便，另一方面也无法体现出输出的先后顺序，可以将这二者输出至同一个文件中，示例如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ find /home -name .bashrc &gt; <span class="built_in">log</span> 2&gt;&amp;1     <span class="comment"># 方法1</span></span><br><span class="line">$ find /home -name .bashrc &amp;&gt;             <span class="comment"># 方法2</span></span><br></pre></td></tr></table></figure>
+<h4 id="技巧3devnull">2.3 技巧3：/dev/null</h4>
+<p>有时我们知道错误会发生，但是想将它忽略，这时候黑洞设备/dev/null就很重要了，/dev/null会吃掉任何导向至这个设备的信息，示例如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ find /home -name .bashrc 2&gt; /dev/null       <span class="comment"># 将错误信息丢弃 </span></span><br></pre></td></tr></table></figure>
+<h3 id="输入重定向">3. 输入重定向</h3>
+<p>输入重定向可以理解为将原来需要由键盘进行输入的数据改由文件输入，使用&lt;，如法如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">command</span> &lt; file</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>algorithm</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>math</tag>
-        <tag>algorithm</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C++关键字之extern</title>
-    <url>/2021/12/21/extern/</url>
-    <content><![CDATA[<p>extern关键字可以作用于全局变量，函数，或者是模板声明，它表明被作用的符号具有外部链接性。</p>
-<h3 id="声明与定义">1. 声明与定义</h3>
-<p><strong>声明：</strong>声明用于向程序表明变量的名字或者是函数原型（也称函数申明）。对于变量声明，它表明了变量的名字和类型；对于函数声明，它表明了函数的名字，参数以及返回值类型。</p>
-<p><strong>定义：</strong>是分配内存空间的过程，并且可以指定变量的初值。</p>
-<p>对于变量而言，定义一个变量的时候，显示地指出了它的类型，并为它创建了存储空间和赋予初值，同时也指定了变量的名字，因此，变量的定义过程也是一个声明过程。对于一个函数而言，函数定义需要包含函数头和函数体。同样地，对于类而言，类的定义需要包含类名和罗列出类成员。</p>
-<p>例如：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> i;      <span class="comment">// 既是定义，也是声明</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> x)</span></span>;    <span class="comment">// 函数声明</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">show</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="keyword">return</span> x; &#125; <span class="comment">// 函数定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span>;</span>    <span class="comment">// 类声明</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line">&#125;  <span class="comment">// 类定义</span></span><br></pre></td></tr></table></figure>
-<p>关于声明和定义的一个重要规则：<strong>可以有多次声明，但是只能由一次定义，</strong>也称为“One Definition Rule (ODR)”。</p>
-<h3 id="内部链接性internal-linkage和外部链接性external-linkage">2. 内部链接性（internal linkage）和外部链接性（external linkage）</h3>
-<p>对于一个C++程序而言，它通常由多个独立的CPP文件编译而成。编译器首先对每个CPP文件单独编译，然后通过链接器（linker）将单独编译的结果合并为一个程序。当ODR规则被打破时，链接器将会报错，链接器会提示相同的名字在不同的源文件中被重复定义。</p>
-<p>在某些情况下，我们可能必须声明一个全局变量。在这种情况下，我们需要告诉编译器和链接器这个变量的链接属性（linkage），链接属性决定该变量仅是对当前所在文件有效，还是对所有源文件均有效。链接属性仅针对全局变量有效。</p>
-<p>链接属性有两种：内部链接性和外部链接性。具有外部链接性的变量，可以被程序中的所有源文件识别；而具有内部链接性或者无链接性（no linkage）的变量仅在其作用域内有效。定义在全局空间的非const变量和函数具有外部链接性。对于只有内部链接性的变量和函数，在其他源文件中可以出现相同名字的函数或者变量。</p>
-<p>使用static可以强制使得全局变量和全局空间内的函数变为内部链接，即仅在其定义的源文件中可见。</p>
-<h3 id="extern">3. extern</h3>
-]]></content>
-      <categories>
-        <category>extern</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
+        <tag>Linux</tag>
+        <tag>Bash</tag>
       </tags>
   </entry>
 </search>
