@@ -1068,7 +1068,7 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
       </tags>
   </entry>
   <entry>
-    <title>os_concepts</title>
+    <title>操作系统相关概念</title>
     <url>/2022/02/13/os-concepts/</url>
     <content><![CDATA[<p>本篇博客记录在学习操作系统过程中，总结的一些概念和相关知识点。</p>
 <span id="more"></span>
