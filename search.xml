@@ -123,31 +123,6 @@
       </tags>
   </entry>
   <entry>
-    <title>C++关键字之extern</title>
-    <url>/2021/12/21/extern/</url>
-    <content><![CDATA[<p>extern关键字可以作用于全局变量，函数，或者是模板声明，它表明被作用的符号具有外部链接性。</p>
-<h3 id="声明与定义">1. 声明与定义</h3>
-<p><strong>声明：</strong>声明用于向程序表明变量的名字或者是函数原型（也称函数申明）。对于变量声明，它表明了变量的名字和类型；对于函数声明，它表明了函数的名字，参数以及返回值类型。</p>
-<p><strong>定义：</strong>是分配内存空间的过程，并且可以指定变量的初值。</p>
-<p>对于变量而言，定义一个变量的时候，显示地指出了它的类型，并为它创建了存储空间和赋予初值，同时也指定了变量的名字，因此，变量的定义过程也是一个声明过程。对于一个函数而言，函数定义需要包含函数头和函数体。同样地，对于类而言，类的定义需要包含类名和罗列出类成员。</p>
-<p>例如：</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> i;      <span class="comment">// 既是定义，也是声明</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> x)</span></span>;    <span class="comment">// 函数声明</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">show</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="keyword">return</span> x; &#125; <span class="comment">// 函数定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span>;</span>    <span class="comment">// 类声明</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line">&#125;  <span class="comment">// 类定义</span></span><br></pre></td></tr></table></figure>
-<p>关于声明和定义的一个重要规则：<strong>可以有多次声明，但是只能由一次定义，</strong>也称为“One Definition Rule (ODR)”。</p>
-<h3 id="内部链接性internal-linkage和外部链接性external-linkage">2. 内部链接性（internal linkage）和外部链接性（external linkage）</h3>
-<p>对于一个C++程序而言，它通常由多个独立的CPP文件编译而成。编译器首先对每个CPP文件单独编译，然后通过链接器（linker）将单独编译的结果合并为一个程序。当ODR规则被打破时，链接器将会报错，链接器会提示相同的名字在不同的源文件中被重复定义。</p>
-<p>在某些情况下，我们可能必须声明一个全局变量。在这种情况下，我们需要告诉编译器和链接器这个变量的链接属性（linkage），链接属性决定该变量仅是对当前所在文件有效，还是对所有源文件均有效。链接属性仅针对全局变量有效。</p>
-<p>链接属性有两种：内部链接性和外部链接性。具有外部链接性的变量，可以被程序中的所有源文件识别；而具有内部链接性或者无链接性（no linkage）的变量仅在其作用域内有效。定义在全局空间的非const变量和函数具有外部链接性。对于只有内部链接性的变量和函数，在其他源文件中可以出现相同名字的函数或者变量。</p>
-<p>使用static可以强制使得全局变量和全局空间内的函数变为内部链接，即仅在其定义的源文件中可见。</p>
-<h3 id="extern">3. extern</h3>
-]]></content>
-      <categories>
-        <category>extern</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo博客公式渲染</title>
     <url>/2021/10/25/hexo-equations/</url>
     <content><![CDATA[<p>NexT提供了两个渲染引擎（MathJax和Katex）用来显示公式，本文介绍Hexo NexT主题下配置MathJax进行数学公式渲染。</p>
@@ -1073,8 +1048,11 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
     <content><![CDATA[<p>本篇博客记录在学习操作系统过程中，总结的一些概念和相关知识点。</p>
 <span id="more"></span>
 <h3 id="用户态和内核态">1.用户态和内核态</h3>
-<p>用户态运行的是用户程序，而内核态下运行的是操作系统程序。从特权级的角度来说，内核态运行在0级特权级（最高特权级），用户态运行在3级特权级（最低特权级）。</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220213165004-2022-02-13.png" /></p>
+<p>用户态运行的是用户程序，而内核态下运行的是操作系统程序。从特权级的角度来说，内核态运行在0级特权级（最高特权级），用户态应用程序运行在3级特权级（最低特权级）。</p>
+<p>CPU的保护环如下图所示：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220215225710-2022-02-15.png" width="40%"></p>
+<p>那么操作系统是如何区分内核态和用户态的呢？这就涉及到CPL，DPL和RPL，以及CPU硬件实现的相关知识了。我们知道一条指令是通过CS:IP来进行取指的，</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220213165004-2022-02-13.png" width="40%"></p>
 <p>由用户态进入内核态通常有三种方式：</p>
 <ul>
 <li><p><strong>系统调用：</strong> 这是用户态进程主动要求切换到内核态的一种方式，用户态进程通过系统调用申请使用操作系统提供的服务程序完成工作。系统调用的核心是通过中断来实现的，Linux中将0x80中断分配给系统调用。</p></li>
@@ -1088,6 +1066,131 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
       </categories>
       <tags>
         <tag>operating system</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C/C++函数调用分析</title>
+    <url>/2022/03/04/func-call/</url>
+    <content><![CDATA[<p>本文记录C/C++中函数调用的栈帧变化过程。</p>
+<h3 id="相关寄存器">1.相关寄存器</h3>
+<p>x86_64中的常见寄存器和位数如下两幅图所示。</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/Intel_x86寄存器用途-2022-03-04.jpeg" /></p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/x86-64寄存器位数-2022-03-04.png" /></p>
+<p>从图中可以看出64位是向前兼容32位，16位和8位寄存器的。</p>
+<h2 id="相关汇编指令">2.相关汇编指令</h2>
+<p>分析函数调用过程中的栈帧变化主要涉及到mov，push，pop，call，ret，leave这几条汇编指令，这几条指令的作用如下表所示</p>
+<table>
+<thead>
+<tr class="header">
+<th>汇编指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>mov</td>
+<td>移动指令</td>
+</tr>
+<tr class="even">
+<td>push</td>
+<td>入栈指令</td>
+</tr>
+<tr class="odd">
+<td>pop</td>
+<td>出站指令</td>
+</tr>
+<tr class="even">
+<td>call</td>
+<td>函数调用指令</td>
+</tr>
+<tr class="odd">
+<td>ret</td>
+<td>返回指令</td>
+</tr>
+<tr class="even">
+<td>leave</td>
+<td>返回指令</td>
+</tr>
+</tbody>
+</table>
+<p>有时候会在指令后面加上后缀，表明操作数的大小。常见的后缀有b，w，l，q，分别表示操作数大小位1字节，2字节，4字节，8字节。</p>
+<p><strong>call指令</strong></p>
+<p>call指令虽然是一条函数调用指令，但实际上它包含两步。第一步：将函数的返回地址入栈，即将函数调用后的第一条指令地址入栈；第二步：将被调用函数的地址装载入rip，从而跳转到被调函数。</p>
+<p><strong>ret指令</strong></p>
+<p>当执行ret指令时，rsp指向的栈顶被弹出值rip，完成被调函数返回</p>
+<p><strong>leave指令</strong></p>
+<p>leave指令是将栈顶指针指向帧指针，然后POP备份的原帧指针到%rbp，相当于如下两条指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mov %rbp %rsp</span><br><span class="line">pop %rbp</span><br></pre></td></tr></table></figure>
+<h2 id="代码分析">3.代码分析</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2, <span class="keyword">int</span> num3, <span class="keyword">int</span> num4, <span class="keyword">int</span> num5, <span class="keyword">int</span> num6, <span class="keyword">int</span> num7, <span class="keyword">int</span> num8)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans;</span><br><span class="line">    ans = num1 + num2 + num3 + num4 + num5 + num6 + num7 + num8;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="built_in">sum</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对其进行编译后，然后进行反汇编，得到对应的反汇编文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gcc func_call.c -o func_call</span><br><span class="line">$ objdump -d func_call &gt; func_call.txt</span><br></pre></td></tr></table></figure>
+<p>涉及到的相关核心部分如下所示：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220305203907-2022-03-05.png" /></p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220304235301-2022-03-04.png" /></p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+        <category>Operating System</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+        <tag>Operating System</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++关键字</title>
+    <url>/2021/12/21/keywords_cpp/</url>
+    <content><![CDATA[<h3 id="sizeof">1. sizeof</h3>
+<p><strong>作用：</strong>统计数据类型所占内存大小 <strong>语法：</strong>sizeof(数据类型 / 变量)</p>
+<h3 id="const">2. const</h3>
+<p><strong>const修饰指针</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 常量指针：指针的指向可以修改，指针指向的值不可以修改</span></span><br><span class="line"><span class="keyword">int</span> a, b;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* p1 = &amp;a;</span><br><span class="line">p1 = &amp;b;   <span class="comment">// 正确，指针指向可以修改</span></span><br><span class="line">*p1 = <span class="number">1000</span>;   <span class="comment">// 错误，指针指向的值不可以修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 指针常量：指针的指向不可以修改，指针指向的值可以修改</span></span><br><span class="line"><span class="keyword">int</span>* <span class="keyword">const</span> p2 = &amp;a;</span><br><span class="line">p2 = &amp;b;     <span class="comment">// 错误，指针的指向不可以修改</span></span><br><span class="line">*p2 = <span class="number">2000</span>;  <span class="comment">// 正确，指针指向的值可以修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 常量指针&amp;指针常量：指针的指向和指针指向的值均不可以修改</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* <span class="keyword">const</span> p3 = &amp;a;</span><br></pre></td></tr></table></figure>
+<h3 id="nullptr">3. nullptr</h3>
+<p>空指针，可以用于指针的初始化，但是不可对其访问（nullptr实际上就是0，内存0为操作系统占用内存，应用程序无权限访问）。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span>* p = <span class="literal">nullptr</span>;</span><br><span class="line">std::cout &lt;&lt; p &lt;&lt; std::endl;      <span class="comment">// 输出0</span></span><br><span class="line">*p = <span class="number">100</span>;    <span class="comment">// 报错，Linux平台显示Segmentation Fault</span></span><br></pre></td></tr></table></figure>
+<h3 id="声明与定义">1. 声明与定义</h3>
+<p><strong>声明：</strong>声明用于向程序表明变量的名字或者是函数原型（也称函数申明）。对于变量声明，它表明了变量的名字和类型；对于函数声明，它表明了函数的名字，参数以及返回值类型。</p>
+<p><strong>定义：</strong>是分配内存空间的过程，并且可以指定变量的初值。</p>
+<p>对于变量而言，定义一个变量的时候，显示地指出了它的类型，并为它创建了存储空间和赋予初值，同时也指定了变量的名字，因此，变量的定义过程也是一个声明过程。对于一个函数而言，函数定义需要包含函数头和函数体。同样地，对于类而言，类的定义需要包含类名和罗列出类成员。</p>
+<p>例如：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> i;      <span class="comment">// 既是定义，也是声明</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> x)</span></span>;    <span class="comment">// 函数声明</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">show</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="keyword">return</span> x; &#125; <span class="comment">// 函数定义</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span>;</span>    <span class="comment">// 类声明</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span>;</span><br><span class="line">&#125;  <span class="comment">// 类定义</span></span><br></pre></td></tr></table></figure>
+<p>关于声明和定义的一个重要规则：<strong>可以有多次声明，但是只能由一次定义，</strong>也称为“One Definition Rule (ODR)”。</p>
+<h3 id="内部链接性internal-linkage和外部链接性external-linkage">2. 内部链接性（internal linkage）和外部链接性（external linkage）</h3>
+<p>对于一个C++程序而言，它通常由多个独立的CPP文件编译而成。编译器首先对每个CPP文件单独编译，然后通过链接器（linker）将单独编译的结果合并为一个程序。当ODR规则被打破时，链接器将会报错，链接器会提示相同的名字在不同的源文件中被重复定义。</p>
+<p>在某些情况下，我们可能必须声明一个全局变量。在这种情况下，我们需要告诉编译器和链接器这个变量的链接属性（linkage），链接属性决定该变量仅是对当前所在文件有效，还是对所有源文件均有效。链接属性仅针对全局变量有效。</p>
+<p>链接属性有两种：内部链接性和外部链接性。具有外部链接性的变量，可以被程序中的所有源文件识别；而具有内部链接性或者无链接性（no linkage）的变量仅在其作用域内有效。定义在全局空间的非const变量和函数具有外部链接性。对于只有内部链接性的变量和函数，在其他源文件中可以出现相同名字的函数或者变量。</p>
+<p>使用static可以强制使得全局变量和全局空间内的函数变为内部链接，即仅在其定义的源文件中可见。</p>
+<h3 id="extern">3. extern</h3>
+]]></content>
+      <categories>
+        <category>keywords</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++随笔记录</title>
+    <url>/2022/02/22/otherthings-cpp/</url>
+    <content><![CDATA[<h3 id="一维数组名的作用">1.一维数组名的作用</h3>
+<ul>
+<li>对数组名进行sizeof()，可以获得整个数组占用的内存空间大小。再除以元素占用的内存空间大小，即可获得数组中的元素个数。</li>
+<li>数组名是数组占用内存空间的首地址，也是第一个元素所在的内存地址</li>
+</ul>
+<h3 id="二维数组名的作用">2. 二维数组名的作用</h3>
+<ul>
+<li>对数组名进行sizeof()，可以获得二位数组占用的内存空间大小，再除以元素占用的内存空间大小，即可获得二位数组中的元素个数</li>
+<li>数组名是二维数组占用内存空间的首地址</li>
+<li>数组名加上行号，可以获得每一行占用内存空间的首地址；取sizeof()，可以获得一行占用的内存空间</li>
+</ul>
+<p>zhi'xiangzhixiang</p>
+]]></content>
+      <categories>
+        <category>C++</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
       </tags>
   </entry>
 </search>

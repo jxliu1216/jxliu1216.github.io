@@ -119,17 +119,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">21</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">23</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">10</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">12</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">17</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">19</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -186,6 +186,253 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/04/func-call/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Liu Jinxue">
+      <meta itemprop="description" content="路漫漫其修远兮，吾将上下而求索">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="兔八哥的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/04/func-call/" class="post-title-link" itemprop="url">C/C++函数调用分析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-04 22:22:03" itemprop="dateCreated datePublished" datetime="2022-03-04T22:22:03+08:00">2022-03-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-05 21:01:22" itemprop="dateModified" datetime="2022-03-05T21:01:22+08:00">2022-03-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-C/" itemprop="url" rel="index"><span itemprop="name">C/C++</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-C/Operating-System/" itemprop="url" rel="index"><span itemprop="name">Operating System</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>809</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本文记录C/C++中函数调用的栈帧变化过程。</p>
+<h3 id="相关寄存器">1.相关寄存器</h3>
+<p>x86_64中的常见寄存器和位数如下两幅图所示。</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/Intel_x86寄存器用途-2022-03-04.jpeg" /></p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/x86-64寄存器位数-2022-03-04.png" /></p>
+<p>从图中可以看出64位是向前兼容32位，16位和8位寄存器的。</p>
+<h2 id="相关汇编指令">2.相关汇编指令</h2>
+<p>分析函数调用过程中的栈帧变化主要涉及到mov，push，pop，call，ret，leave这几条汇编指令，这几条指令的作用如下表所示</p>
+<table>
+<thead>
+<tr class="header">
+<th>汇编指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>mov</td>
+<td>移动指令</td>
+</tr>
+<tr class="even">
+<td>push</td>
+<td>入栈指令</td>
+</tr>
+<tr class="odd">
+<td>pop</td>
+<td>出站指令</td>
+</tr>
+<tr class="even">
+<td>call</td>
+<td>函数调用指令</td>
+</tr>
+<tr class="odd">
+<td>ret</td>
+<td>返回指令</td>
+</tr>
+<tr class="even">
+<td>leave</td>
+<td>返回指令</td>
+</tr>
+</tbody>
+</table>
+<p>有时候会在指令后面加上后缀，表明操作数的大小。常见的后缀有b，w，l，q，分别表示操作数大小位1字节，2字节，4字节，8字节。</p>
+<p><strong>call指令</strong></p>
+<p>call指令虽然是一条函数调用指令，但实际上它包含两步。第一步：将函数的返回地址入栈，即将函数调用后的第一条指令地址入栈；第二步：将被调用函数的地址装载入rip，从而跳转到被调函数。</p>
+<p><strong>ret指令</strong></p>
+<p>当执行ret指令时，rsp指向的栈顶被弹出值rip，完成被调函数返回</p>
+<p><strong>leave指令</strong></p>
+<p>leave指令是将栈顶指针指向帧指针，然后POP备份的原帧指针到%rbp，相当于如下两条指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov %rbp %rsp</span><br><span class="line">pop %rbp</span><br></pre></td></tr></table></figure>
+<h2 id="代码分析">3.代码分析</h2>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2, <span class="keyword">int</span> num3, <span class="keyword">int</span> num4, <span class="keyword">int</span> num5, <span class="keyword">int</span> num6, <span class="keyword">int</span> num7, <span class="keyword">int</span> num8)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans;</span><br><span class="line">    ans = num1 + num2 + num3 + num4 + num5 + num6 + num7 + num8;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="built_in">sum</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对其进行编译后，然后进行反汇编，得到对应的反汇编文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ gcc func_call.c -o func_call</span><br><span class="line">$ objdump -d func_call &gt; func_call.txt</span><br></pre></td></tr></table></figure>
+<p>涉及到的相关核心部分如下所示：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220305203907-2022-03-05.png" /></p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220304235301-2022-03-04.png" /></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/22/otherthings-cpp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Liu Jinxue">
+      <meta itemprop="description" content="路漫漫其修远兮，吾将上下而求索">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="兔八哥的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/02/22/otherthings-cpp/" class="post-title-link" itemprop="url">C++随笔记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-22 22:02:00" itemprop="dateCreated datePublished" datetime="2022-02-22T22:02:00+08:00">2022-02-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-01 22:09:05" itemprop="dateModified" datetime="2022-03-01T22:09:05+08:00">2022-03-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index"><span itemprop="name">C++</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>258</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="一维数组名的作用">1.一维数组名的作用</h3>
+<ul>
+<li>对数组名进行sizeof()，可以获得整个数组占用的内存空间大小。再除以元素占用的内存空间大小，即可获得数组中的元素个数。</li>
+<li>数组名是数组占用内存空间的首地址，也是第一个元素所在的内存地址</li>
+</ul>
+<h3 id="二维数组名的作用">2. 二维数组名的作用</h3>
+<ul>
+<li>对数组名进行sizeof()，可以获得二位数组占用的内存空间大小，再除以元素占用的内存空间大小，即可获得二位数组中的元素个数</li>
+<li>数组名是二维数组占用内存空间的首地址</li>
+<li>数组名加上行号，可以获得每一行占用内存空间的首地址；取sizeof()，可以获得一行占用的内存空间</li>
+</ul>
+<p>zhi'xiangzhixiang</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/13/os-concepts/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -209,10 +456,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-02-13 16:56:32 / 修改时间：17:39:33" itemprop="dateCreated datePublished" datetime="2022-02-13T16:56:32+08:00">2022-02-13</time>
+              <time title="创建时间：2022-02-13 16:56:32" itemprop="dateCreated datePublished" datetime="2022-02-13T16:56:32+08:00">2022-02-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-02-15 23:19:41" itemprop="dateModified" datetime="2022-02-15T23:19:41+08:00">2022-02-15</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -229,7 +482,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>450</span>
+              <span>544</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -275,7 +528,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/21/extern/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/21/keywords_cpp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -289,7 +542,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/12/21/extern/" class="post-title-link" itemprop="url">C++关键字之extern</a>
+            <a href="/2021/12/21/keywords_cpp/" class="post-title-link" itemprop="url">C++关键字</a>
         </h2>
 
         <div class="post-meta">
@@ -306,7 +559,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-22 00:10:07" itemprop="dateModified" datetime="2021-12-22T00:10:07+08:00">2021-12-22</time>
+                <time title="修改时间：2022-02-22 23:11:44" itemprop="dateModified" datetime="2022-02-22T23:11:44+08:00">2022-02-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -314,7 +567,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/extern/" itemprop="url" rel="index"><span itemprop="name">extern</span></a>
+                  <a href="/categories/keywords/" itemprop="url" rel="index"><span itemprop="name">keywords</span></a>
                 </span>
             </span>
 
@@ -324,7 +577,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>973</span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -343,7 +596,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>extern关键字可以作用于全局变量，函数，或者是模板声明，它表明被作用的符号具有外部链接性。</p>
+          <h3 id="sizeof">1. sizeof</h3>
+<p><strong>作用：</strong>统计数据类型所占内存大小 <strong>语法：</strong>sizeof(数据类型 / 变量)</p>
+<h3 id="const">2. const</h3>
+<p><strong>const修饰指针</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 常量指针：指针的指向可以修改，指针指向的值不可以修改</span></span><br><span class="line"><span class="keyword">int</span> a, b;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* p1 = &amp;a;</span><br><span class="line">p1 = &amp;b;   <span class="comment">// 正确，指针指向可以修改</span></span><br><span class="line">*p1 = <span class="number">1000</span>;   <span class="comment">// 错误，指针指向的值不可以修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 指针常量：指针的指向不可以修改，指针指向的值可以修改</span></span><br><span class="line"><span class="keyword">int</span>* <span class="keyword">const</span> p2 = &amp;a;</span><br><span class="line">p2 = &amp;b;     <span class="comment">// 错误，指针的指向不可以修改</span></span><br><span class="line">*p2 = <span class="number">2000</span>;  <span class="comment">// 正确，指针指向的值可以修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 常量指针&amp;指针常量：指针的指向和指针指向的值均不可以修改</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* <span class="keyword">const</span> p3 = &amp;a;</span><br></pre></td></tr></table></figure>
+<h3 id="nullptr">3. nullptr</h3>
+<p>空指针，可以用于指针的初始化，但是不可对其访问（nullptr实际上就是0，内存0为操作系统占用内存，应用程序无权限访问）。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>* p = <span class="literal">nullptr</span>;</span><br><span class="line">std::cout &lt;&lt; p &lt;&lt; std::endl;      <span class="comment">// 输出0</span></span><br><span class="line">*p = <span class="number">100</span>;    <span class="comment">// 报错，Linux平台显示Segmentation Fault</span></span><br></pre></td></tr></table></figure>
 <h3 id="声明与定义">1. 声明与定义</h3>
 <p><strong>声明：</strong>声明用于向程序表明变量的名字或者是函数原型（也称函数申明）。对于变量声明，它表明了变量的名字和类型；对于函数声明，它表明了函数的名字，参数以及返回值类型。</p>
 <p><strong>定义：</strong>是分配内存空间的过程，并且可以指定变量的初值。</p>
@@ -939,191 +1199,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/25/hexo-equations/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Liu Jinxue">
-      <meta itemprop="description" content="路漫漫其修远兮，吾将上下而求索">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="兔八哥的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/25/hexo-equations/" class="post-title-link" itemprop="url">hexo博客公式渲染</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-10-25 23:13:14 / 修改时间：23:57:22" itemprop="dateCreated datePublished" datetime="2021-10-25T23:13:14+08:00">2021-10-25</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>813</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>NexT提供了两个渲染引擎（MathJax和Katex）用来显示公式，本文介绍Hexo NexT主题下配置MathJax进行数学公式渲染。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/10/25/hexo-equations/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/24/linear-nonlinear-regression/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Liu Jinxue">
-      <meta itemprop="description" content="路漫漫其修远兮，吾将上下而求索">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="兔八哥的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/10/24/linear-nonlinear-regression/" class="post-title-link" itemprop="url">线性回归与非线性回归</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-10-24 17:09:35" itemprop="dateCreated datePublished" datetime="2021-10-24T17:09:35+08:00">2021-10-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-27 00:02:58" itemprop="dateModified" datetime="2021-10-27T00:02:58+08:00">2021-10-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Math/" itemprop="url" rel="index"><span itemprop="name">Math</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>最近在看矩阵分析中的投影矩阵，进而区看了最小二乘法，然后有学习了线性回归和非线性回归，发现和自己的认知不太一样，在这里总结一下线性回归和非线性回归的概念。</p>
-<p>线性回归和非线性回归中，线性和非线性的意思并不是用来描述因变量和自变量之间的关系是线性还是非线性的，而是用来描述模型函数与待估计参数之间的关系。我们首先来看非线性回归，明白了非线性回归，自然就知道线性回归的含义了。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/10/24/linear-nonlinear-regression/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1195,20 +1270,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
