@@ -13,6 +13,10 @@ categories: keywords
 
 ### 2. const
 
+**const修饰普通变量**
+
+使用cosnt修饰普通变量意味着该变量在后续的使用中是不可以被修改的（即只读的）。**因此，在使用const修饰普通变量时，必须要对其进行初始化。**
+
 **const修饰指针**
 
 ```c++
@@ -31,7 +35,64 @@ p2 = &b;     // 错误，指针的指向不可以修改
 const int* const p3 = &a;
 ```
 
-### 3. nullptr
+**const修饰引用**
+
+使用const修饰引用后，就无法使用引用来修改被引用对象的值。因此，常引用的作用就是防止被引用对象被错误修改。
+
+```c++
+int a = 100;
+const int &b = a;    // b为a的常引用
+b = 50;    // 错误，b为常引用，不能修改
+a = 50;    // 修改被引用对象a后，引用b的值也会改变
+```
+
+**cosnt与#define的区别**
+
+- #define为宏定义，在预处理阶段进行处理，是简单的替换，没有类型检查
+- const在编译阶段进行处理，会进行类型检查
+
+### 3. constexpr
+
+constexpr表明被修饰的对象是在编译阶段就可以被确定的，而const仅能保障被修饰的对象在运行阶段不被修改。由于constexpr表示被其修饰的对象在编译器就是能确定下来的常量，计算该对象所依赖的东西同样在编译器就能确定下来。
+
+**constexpr修饰变量**
+
+```c++
+constexpr int a = 100;
+constexpr int b = a + 100;
+int num = 10;
+constexpr int c = num + 10;    // 错误，num并不是常量，不能用来初始化c
+```
+
+**constexpr修饰指针**
+
+使用constexpr修饰指针时，该指针指向的对象必须有固定的地址，即在编译阶段即可确定地址。需要注意的是，constexpr修饰的是指针本省，只能放在最前面。
+
+```c++
+const int num = 100;
+
+int main() {
+    int
+    constexpr int * p = &num;
+}
+```
+
+**constexpr修饰函数**
+
+```c++
+constexpr int sum(int num) {
+    return num + 100;
+}
+
+int main() {
+    constexpr int a = sum(100);
+    int b = 10;
+    constexpr int c = sum(b);    // 错误，b不是常量
+    return 0;
+}
+```
+
+### 4. nullptr
 
 空指针，可以用于指针的初始化，但是不可对其访问（nullptr实际上就是0，内存0为操作系统占用内存，应用程序无权限访问）。
 
@@ -43,7 +104,7 @@ std::cout << p << std::endl;      // 输出0
 
 **注意：**对于创建的指针变量，必须对其进行初始化，可以使用nullptr对指针变量进行初始化。
 
-### 4. extern
+### 5. extern
 
 **修饰变量**
 
