@@ -28,7 +28,7 @@
 <meta property="og:description" content="1. sizeof 作用：统计数据类型所占内存大小 语法：sizeof(数据类型 &#x2F; 变量) 2. const const修饰普通变量 使用cosnt修饰普通变量意味着该变量在后续的使用中是不可以被修改的（即只读的）。因此，在使用const修饰普通变量时，必须要对其进行初始化。 const修饰指针 12345678910111213&#x2F;&#x2F; 常量指针：指针的指向可以修改，指针指向的值不可以">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-12-21T14:12:13.000Z">
-<meta property="article:modified_time" content="2022-03-11T15:19:06.328Z">
+<meta property="article:modified_time" content="2022-03-12T08:20:22.653Z">
 <meta property="article:author" content="Liu Jinxue">
 <meta property="article:tag" content="C++">
 <meta name="twitter:card" content="summary">
@@ -122,7 +122,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">23</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">24</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -220,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-11 23:19:06" itemprop="dateModified" datetime="2022-03-11T23:19:06+08:00">2022-03-11</time>
+                <time title="修改时间：2022-03-12 16:20:22" itemprop="dateModified" datetime="2022-03-12T16:20:22+08:00">2022-03-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -245,7 +245,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>
+              <span>2.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -288,11 +288,13 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> num = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span></span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> * p = &amp;num;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><strong>constexpr修饰函数</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num + <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> a = <span class="built_in">sum</span>(<span class="number">100</span>);</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> c = <span class="built_in">sum</span>(b);    <span class="comment">// 错误，b不是常量</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="nullptr">4. nullptr</h3>
+<h3 id="volatile">4. volatile</h3>
+<p>volatiel提醒编译器它后面所定义的变量随时都有可能发生变化，因此，编译后的程序每次需要存储或读取这个变量的时候，都会直接从变量所在的地址进行读取。如果没有volatiel关键字，编译器在编译时可能会对程序进行优化，可能会暂时使用寄存器中的值。如果这个变量被别的程序修改了，将会出现不一致的现象。</p>
+<h3 id="nullptr">5. nullptr</h3>
 <p>空指针，可以用于指针的初始化，但是不可对其访问（nullptr实际上就是0，内存0为操作系统占用内存，应用程序无权限访问）。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>* p = <span class="literal">nullptr</span>;</span><br><span class="line">std::cout &lt;&lt; p &lt;&lt; std::endl;      <span class="comment">// 输出0</span></span><br><span class="line">*p = <span class="number">100</span>;    <span class="comment">// 报错，Linux平台显示Segmentation Fault</span></span><br></pre></td></tr></table></figure>
 <p><strong>注意：</strong>对于创建的指针变量，必须对其进行初始化，可以使用nullptr对指针变量进行初始化。</p>
-<h3 id="extern">5. extern</h3>
+<h3 id="extern">6. extern</h3>
 <p><strong>修饰变量</strong></p>
 <p>extern可以用来修饰变量。例如：要在b.c中使用a.c中定义变量，则可以在b.c中使用extern。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.c</span></span><br><span class="line"><span class="keyword">int</span> num = <span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.c</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">int</span> num;   <span class="comment">// 表明num已经在其他源文件中有过定义</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -386,7 +388,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#sizeof"><span class="nav-text">1. sizeof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#const"><span class="nav-text">2. const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#constexpr"><span class="nav-text">3. constexpr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nullptr"><span class="nav-text">4. nullptr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extern"><span class="nav-text">5. extern</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#sizeof"><span class="nav-text">1. sizeof</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#const"><span class="nav-text">2. const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#constexpr"><span class="nav-text">3. constexpr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile"><span class="nav-text">4. volatile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nullptr"><span class="nav-text">5. nullptr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extern"><span class="nav-text">6. extern</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -415,7 +417,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
