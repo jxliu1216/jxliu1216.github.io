@@ -36,31 +36,44 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux Bash之cut命令</title>
-    <url>/2021/10/18/cut/</url>
-    <content><![CDATA[<p>cut是Linux中的一个重要数据选取工具，cut以“行”单位，从中提取出我们想要的信息。cut命令非常适用于处理格式上非常具有规律的数据。</p>
-<span id="more"></span>
-<h3 id="指定分隔符">1. 指定分隔符</h3>
-<p>通过指定分隔符来选取我们想要的信息是cut命令的第一种用法，命令格式如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ cut -d <span class="string">&quot;分隔符&quot;</span> -f field</span><br></pre></td></tr></table></figure>
-<p>通过-d来指定分隔符（<strong>如果不指定，默认的分割符为tab</strong>）,通过-f后添加数字，来选取分割后的第几段内容。以环境变量PATH为例，它是以“:”来分隔每个字段的，我们可以使用cut来截取其中的部分字段。例如：</p>
-<figure>
-<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211019230857154.png" alt="image-20211019230857154" /><figcaption aria-hidden="true">image-20211019230857154</figcaption>
-</figure>
-<p>cut是以行为单位进行处理的，即对每一行都进行相同的处理，例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">export</span> | cut -d <span class="string">&quot; &quot;</span> -f 3</span><br></pre></td></tr></table></figure>
-<p>这个示例内容过长，就不截图展示了。</p>
-<p>需要注意的是：使用cut命令的时候不建议使用空格符作为分隔符，当有多个连续的空格符时，比较容易出问题。</p>
-<h3 id="以字符的形式截取">2. 以字符的形式截取</h3>
-<p>cut可以通过-c以字符为单位截取信息，例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">export</span> | cut -c 12-         <span class="comment"># 截取从第12个字符开始到结尾的所有字符</span></span><br><span class="line">$ <span class="built_in">export</span> | cut -c 10-15       <span class="comment"># 截取第10个字符到第15个字符</span></span><br></pre></td></tr></table></figure>
+    <title>C/C++编译注意事项</title>
+    <url>/2022/03/05/c_compile/</url>
+    <content><![CDATA[<h3 id="头文件搜索路径">1. 头文件搜索路径</h3>
+<p><strong>#include "headfile.h"</strong>，通过双引号包含头文件，搜索顺序为：</p>
+<ol type="1">
+<li>当前目录</li>
+<li>-I指定的目录</li>
+<li>GCC/G++的环境变量指定的目录，C程序使用的是C_INCLUDE_PATH，C++程序使用的是CPP_INCLUDE_PATH</li>
+<li>GCC/G++内定目录（在编译GCC/G++时指定的目录）</li>
+</ol>
+<p><strong>#include &lt;headfile.h&gt;</strong>，通过&lt;&gt;包含头文件，搜索顺序为：</p>
+<ol type="1">
+<li>-I指定的目录</li>
+<li>GCC/G++的环境变量指定的目录，C程序使用的是C_INCLUDE_PATH，C++程序使用的是CPP_INCLUDE_PATH</li>
+<li>GCC/G++内定目录（在编译GCC/G++时指定的目录）</li>
+</ol>
+<p>当上述目录均存在目标头文件时，先搜索到哪一个就用哪一个。</p>
+<h3 id="静态库搜索路径">2. 静态库搜索路径</h3>
+<ol type="1">
+<li>-L指定的目录</li>
+<li>gcc/g++的环境变量LIBRARY_PATH</li>
+<li>内定目录（编译GCC/G++时指定的目录）</li>
+</ol>
+<h3 id="动态库搜索路径">3. 动态库搜索路径</h3>
+<ol type="1">
+<li>编译目标代码时指定的动态库搜索路径</li>
+<li>环境变量LD_LIBRARY_PATH指定的路径</li>
+<li>配置文件/etc/ld.so.conf中指定的动态库路径</li>
+<li>默认的动态库搜索路径/lib</li>
+<li>默认的动态库搜索路径/usr/lib</li>
+</ol>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>C/C++</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
-        <tag>Bash</tag>
+        <tag>C++</tag>
+        <tag>C</tag>
       </tags>
   </entry>
   <entry>
@@ -123,31 +136,124 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo博客公式渲染</title>
-    <url>/2021/10/25/hexo-equations/</url>
-    <content><![CDATA[<p>NexT提供了两个渲染引擎（MathJax和Katex）用来显示公式，本文介绍Hexo NexT主题下配置MathJax进行数学公式渲染。</p>
+    <title>Linux Bash之cut命令</title>
+    <url>/2021/10/18/cut/</url>
+    <content><![CDATA[<p>cut是Linux中的一个重要数据选取工具，cut以“行”单位，从中提取出我们想要的信息。cut命令非常适用于处理格式上非常具有规律的数据。</p>
 <span id="more"></span>
-<h3 id="安装插件">1. 安装插件</h3>
-<p>如果使用MathJax进行公式渲染，需要安装如下两个插件之一：hexo-renderer-pandoc或者hexo-renderer-kramed（不推荐），本文采用hexo-renderer-pandoc，运行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save         <span class="comment"># 卸载原有的渲染插件</span></span><br><span class="line">npm install hexo-renderer-pandoc --save           <span class="comment"># 安装hexo-renderer-pandoc插件</span></span><br></pre></td></tr></table></figure>
-<p>hexo-renderer-pandoc正常运行还需要安装pandoc软件，软件下载链接如下：<a href="https://github.com/jgm/pandoc/releases">pandoc</a>。安装完成后，重启电脑，使得相关配置生效。</p>
-<h3 id="配置">2. 配置</h3>
-<p>对next/_config.yml中的math部分进行如下配置：</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line">  <span class="attr">mathjax:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-<p>per_page参数的含义是：是否对每一篇博客都按需进行数学公式渲染。如果设置为false，则默认对每篇博客都进行数学公式渲染。若设置为true，则按需对博客进行数学公式渲染。对于需要开启数学公式渲染的博客，在其Markdown文件的Front-matter部分添加mathjax: true，如下所示：</p>
-<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;!-- This post will render the Math Equations --&gt;</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">title: &#x27;Will Render Math&#x27;</span><br><span class="line"><span class="section">mathjax: true</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">....</span><br></pre></td></tr></table></figure>
-<p>上述两步执行完毕后，执行如下命令，即可正常渲染公式：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<h3 id="注意事项">3. 注意事项</h3>
-<ol type="1">
-<li>行内数学公式显示（$...$）：在第一个$后和第二个$前，不要有空格，否则无法正常渲染公式。</li>
-</ol>
+<h3 id="指定分隔符">1. 指定分隔符</h3>
+<p>通过指定分隔符来选取我们想要的信息是cut命令的第一种用法，命令格式如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ cut -d <span class="string">&quot;分隔符&quot;</span> -f field</span><br></pre></td></tr></table></figure>
+<p>通过-d来指定分隔符（<strong>如果不指定，默认的分割符为tab</strong>）,通过-f后添加数字，来选取分割后的第几段内容。以环境变量PATH为例，它是以“:”来分隔每个字段的，我们可以使用cut来截取其中的部分字段。例如：</p>
+<figure>
+<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211019230857154.png" alt="image-20211019230857154" /><figcaption aria-hidden="true">image-20211019230857154</figcaption>
+</figure>
+<p>cut是以行为单位进行处理的，即对每一行都进行相同的处理，例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">export</span> | cut -d <span class="string">&quot; &quot;</span> -f 3</span><br></pre></td></tr></table></figure>
+<p>这个示例内容过长，就不截图展示了。</p>
+<p>需要注意的是：使用cut命令的时候不建议使用空格符作为分隔符，当有多个连续的空格符时，比较容易出问题。</p>
+<h3 id="以字符的形式截取">2. 以字符的形式截取</h3>
+<p>cut可以通过-c以字符为单位截取信息，例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">export</span> | cut -c 12-         <span class="comment"># 截取从第12个字符开始到结尾的所有字符</span></span><br><span class="line">$ <span class="built_in">export</span> | cut -c 10-15       <span class="comment"># 截取第10个字符到第15个字符</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>Hexo</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>Hexo</tag>
+        <tag>Linux</tag>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C/C++函数调用分析</title>
+    <url>/2022/03/04/func-call/</url>
+    <content><![CDATA[<p>本文记录C/C++中函数调用的栈帧变化过程。</p>
+<h3 id="相关寄存器">1.相关寄存器</h3>
+<p>x86_64中的常见寄存器和位数如下两幅图所示。</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/Intel_x86寄存器用途-2022-03-04.jpeg" /></p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/x86-64寄存器位数-2022-03-04.png" /></p>
+<p>从图中可以看出64位是向前兼容32位，16位和8位寄存器的。</p>
+<h2 id="相关汇编指令">2.相关汇编指令</h2>
+<p>分析函数调用过程中的栈帧变化主要涉及到mov，push，pop，call，ret，leave这几条汇编指令，这几条指令的作用如下表所示</p>
+<table>
+<thead>
+<tr class="header">
+<th>汇编指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>mov</td>
+<td>移动指令</td>
+</tr>
+<tr class="even">
+<td>push</td>
+<td>入栈指令</td>
+</tr>
+<tr class="odd">
+<td>pop</td>
+<td>出站指令</td>
+</tr>
+<tr class="even">
+<td>call</td>
+<td>函数调用指令</td>
+</tr>
+<tr class="odd">
+<td>ret</td>
+<td>返回指令</td>
+</tr>
+<tr class="even">
+<td>leave</td>
+<td>返回指令</td>
+</tr>
+</tbody>
+</table>
+<p>有时候会在指令后面加上后缀，表明操作数的大小。常见的后缀有b，w，l，q，分别表示操作数大小位1字节，2字节，4字节，8字节。</p>
+<p><strong>call指令</strong></p>
+<p>call指令虽然是一条函数调用指令，但实际上它包含两步。第一步：将函数的返回地址入栈，即将函数调用后的第一条指令地址入栈；第二步：将被调用函数的地址装载入rip，从而跳转到被调函数。</p>
+<p><strong>ret指令</strong></p>
+<p>当执行ret指令时，rsp指向的栈顶被弹出值rip，完成被调函数返回</p>
+<p><strong>leave指令</strong></p>
+<p>leave指令是将栈顶指针指向帧指针，然后POP备份的原帧指针到%rbp，相当于如下两条指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mov %rbp %rsp</span><br><span class="line">pop %rbp</span><br></pre></td></tr></table></figure>
+<h2 id="代码分析">3.代码分析</h2>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2, <span class="keyword">int</span> num3, <span class="keyword">int</span> num4, <span class="keyword">int</span> num5, <span class="keyword">int</span> num6, <span class="keyword">int</span> num7, <span class="keyword">int</span> num8)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans;</span><br><span class="line">    ans = num1 + num2 + num3 + num4 + num5 + num6 + num7 + num8;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="built_in">sum</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对其进行编译后，然后进行反汇编，得到对应的反汇编文件。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gcc func_call.c -o func_call</span><br><span class="line">$ objdump -d func_call &gt; func_call.txt</span><br></pre></td></tr></table></figure>
+<p>涉及到的相关核心部分如下所示：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220305203907-2022-03-05.png" /></p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220304235301-2022-03-04.png" /></p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+        <tag>操作系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C/C++函数指针</title>
+    <url>/2022/03/19/func-pointer/</url>
+    <content><![CDATA[<span id="more"></span>
+<h3 id="什么是函数指针">1.什么是函数指针</h3>
+<p>每个函数在内存的程序段都占用一段存储单元，这段存储单元的首地址称为函数入口地址，指向这个函数入口地址的指针称为函数指针。</p>
+<h3 id="函数指针的声明">2.函数指针的声明</h3>
+<p>声明一个函数指针有两种方式：</p>
+<ol type="1">
+<li>直接声明一个函数指针</li>
+<li>先定义一个函数指针类型，再通过该类型声明一个函数指针</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 直接声明一个函数指针</span></span><br><span class="line"><span class="built_in"><span class="keyword">int</span></span> (*pf1)(<span class="keyword">int</span>, <span class="keyword">int</span>);     <span class="comment">// pf1是一个指向返回类型为int，含有两个int类型参数的函数的函数指针</span></span><br><span class="line"><span class="built_in"><span class="keyword">double</span></span> (*pf2)();          <span class="comment">// pf2是一个指向返回类型为double，无参数的函数的函数指针</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义函数指针类型</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*PF)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;  <span class="comment">// PF为一个函数指针类型</span></span><br><span class="line">PF pf3;    <span class="comment">// pf3为一个函数指针</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="函数指针的使用">3.函数指针的使用</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*PF)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num1 + num2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 直接声明函数指针</span></span><br><span class="line">    <span class="built_in"><span class="keyword">int</span></span> (*pf1)(<span class="keyword">int</span>, <span class="keyword">int</span>) = add;</span><br><span class="line">    <span class="comment">// 通过函数指针调用</span></span><br><span class="line">    <span class="keyword">int</span> res1 = <span class="built_in">pf1</span>(<span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">    <span class="keyword">int</span> res2 = (*pf1)(<span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过PF类型声明函数指针</span></span><br><span class="line">    PF pf2 = add;</span><br><span class="line">    <span class="comment">// 通过函数指针调用</span></span><br><span class="line">    <span class="keyword">int</span> res3 = <span class="built_in">pf2</span>(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">    <span class="keyword">int</span> res4 = (*pf2)(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+        <tag>函数指针</tag>
       </tags>
   </entry>
   <entry>
@@ -232,36 +338,31 @@
       </tags>
   </entry>
   <entry>
-    <title>线性回归与非线性回归</title>
-    <url>/2021/10/24/linear-nonlinear-regression/</url>
-    <content><![CDATA[<p>最近在看矩阵分析中的投影矩阵，进而区看了最小二乘法，然后有学习了线性回归和非线性回归，发现和自己的认知不太一样，在这里总结一下线性回归和非线性回归的概念。</p>
-<p>线性回归和非线性回归中，线性和非线性的意思并不是用来描述因变量和自变量之间的关系是线性还是非线性的，而是用来描述模型函数与待估计参数之间的关系。我们首先来看非线性回归，明白了非线性回归，自然就知道线性回归的含义了。</p>
+    <title>hexo博客公式渲染</title>
+    <url>/2021/10/25/hexo-equations/</url>
+    <content><![CDATA[<p>NexT提供了两个渲染引擎（MathJax和Katex）用来显示公式，本文介绍Hexo NexT主题下配置MathJax进行数学公式渲染。</p>
 <span id="more"></span>
-<h3 id="非线性回归">1. 非线性回归</h3>
-<p>我们首先来看维基百科中对于非线性回归的定义：</p>
-<p>In statistics, <a href="https://en.wikipedia.org/wiki/Nonlinear_regression"><strong>nonlinear regression</strong></a> is a form of regression analysis in which observational data are modeled by a function which is a nonlinear combination of the model parameters and depends on one or more independent variables.</p>
-<p>这段话的意思是：非线性回归是采用一个函数模型对观测数据进行建模，并且该函数是由<strong>模型参数的非线性组合</strong>构成的，并且可以通过观测数据（自变量和因变量）对模型参数进行估计。</p>
-<p>这里需要注意的是：非线性估计中的非线性指的是模型函数是由<strong>模型参数的非线性组合</strong>构成，而并不是描述函数和自变量之间的关系。</p>
-<p>举个例子，我们采用如下的模型：</p>
-<p><span class="math display">\[
-\mathbf{y} \sim f(\mathbf{x},\mathbf{\beta})
-\]</span> 其中，<span class="math inline">\(\mathbf{x}=\{x_1,x_2,\cdots,x_n\}\)</span> 为自变量向量，<span class="math inline">\(\mathbf{y}=\{y_1,y_2,\cdots,y_n\}\)</span>为观测因变量向量，<span class="math inline">\(\mathbf{\beta}=\{\beta_1,\beta_2,\cdots,\beta_n\}\)</span>为模型参数向量。</p>
-<p>假设某个模型由一个自变量，和两个参数构成，即： <span class="math display">\[
-f(\mathbf{x},\mathbf{\beta})=\frac{\beta_1x}{\beta_2+x}
-\]</span> 显然，函数模型<span class="math inline">\(f\)</span>无法表示成模型参数<span class="math inline">\(\beta_1\)</span>和<span class="math inline">\(\beta_2\)</span>的线性组合，因此，这个函数是非线性的。</p>
-<h3 id="线性回归">2. 线性回归</h3>
-<p>如果我们考虑如下的模型： <span class="math display">\[
-f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
-\]</span> 这看似是一个非线性函数，但是实际上，函数<span class="math inline">\(f\)</span>对于模型参数<span class="math inline">\(\{\beta_0,\beta_1,\cdots,\beta_n\}\)</span>而言是线性的，即是由<span class="math inline">\(\{\beta_0,\beta_1,\cdots,\beta_n\}\)</span>的线性组合构成的，系数分别为<span class="math inline">\(1,x_1,x_2,\cdots,x_n\)</span>。因此，这个函数是线性的。</p>
-<h3 id="总结">3. 总结</h3>
-<p>线性还是非线性是要根据分析的目标来决定的，在线性回归和非线性回归中，我们需要求解的是模型参数，因而，线性与非线性描述的是函数模型与模型参数之间的关系，而非因变量与自变量之间的关系。</p>
+<h3 id="安装插件">1. 安装插件</h3>
+<p>如果使用MathJax进行公式渲染，需要安装如下两个插件之一：hexo-renderer-pandoc或者hexo-renderer-kramed（不推荐），本文采用hexo-renderer-pandoc，运行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked --save         <span class="comment"># 卸载原有的渲染插件</span></span><br><span class="line">npm install hexo-renderer-pandoc --save           <span class="comment"># 安装hexo-renderer-pandoc插件</span></span><br></pre></td></tr></table></figure>
+<p>hexo-renderer-pandoc正常运行还需要安装pandoc软件，软件下载链接如下：<a href="https://github.com/jgm/pandoc/releases">pandoc</a>。安装完成后，重启电脑，使得相关配置生效。</p>
+<h3 id="配置">2. 配置</h3>
+<p>对next/_config.yml中的math部分进行如下配置：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">math:</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line">  <span class="attr">per_page:</span> <span class="literal">true</span></span><br><span class="line">  <span class="string">...</span></span><br><span class="line">  <span class="attr">mathjax:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>per_page参数的含义是：是否对每一篇博客都按需进行数学公式渲染。如果设置为false，则默认对每篇博客都进行数学公式渲染。若设置为true，则按需对博客进行数学公式渲染。对于需要开启数学公式渲染的博客，在其Markdown文件的Front-matter部分添加mathjax: true，如下所示：</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"><span class="section">&lt;!-- This post will render the Math Equations --&gt;</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">title: &#x27;Will Render Math&#x27;</span><br><span class="line"><span class="section">mathjax: true</span></span><br><span class="line"><span class="section">---</span></span><br><span class="line">....</span><br></pre></td></tr></table></figure>
+<p>上述两步执行完毕后，执行如下命令，即可正常渲染公式：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<h3 id="注意事项">3. 注意事项</h3>
+<ol type="1">
+<li>行内数学公式显示（$...$）：在第一个$后和第二个$前，不要有空格，否则无法正常渲染公式。</li>
+</ol>
 ]]></content>
       <categories>
-        <category>Math</category>
+        <category>Hexo</category>
       </categories>
       <tags>
-        <tag>linear regression</tag>
-        <tag>non-linear regression</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -293,6 +394,91 @@ f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
       </categories>
       <tags>
         <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++关键字</title>
+    <url>/2021/12/21/keywords_cpp/</url>
+    <content><![CDATA[<h3 id="sizeof">1. sizeof</h3>
+<p><strong>作用：</strong>统计数据类型所占内存大小 <strong>语法：</strong>sizeof(数据类型 / 变量)</p>
+<h3 id="const">2. const</h3>
+<p><strong>const修饰普通变量</strong></p>
+<p>使用cosnt修饰普通变量意味着该变量在后续的使用中是不可以被修改的（即只读的）。<strong>因此，在使用const修饰普通变量时，必须要对其进行初始化。</strong></p>
+<p><strong>const修饰指针</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 常量指针：指针的指向可以修改，指针指向的值不可以修改</span></span><br><span class="line"><span class="keyword">int</span> a, b;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* p1 = &amp;a;</span><br><span class="line">p1 = &amp;b;   <span class="comment">// 正确，指针指向可以修改</span></span><br><span class="line">*p1 = <span class="number">1000</span>;   <span class="comment">// 错误，指针指向的值不可以修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 指针常量：指针的指向不可以修改，指针指向的值可以修改</span></span><br><span class="line"><span class="keyword">int</span>* <span class="keyword">const</span> p2 = &amp;a;</span><br><span class="line">p2 = &amp;b;     <span class="comment">// 错误，指针的指向不可以修改</span></span><br><span class="line">*p2 = <span class="number">2000</span>;  <span class="comment">// 正确，指针指向的值可以修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 常量指针&amp;指针常量：指针的指向和指针指向的值均不可以修改</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* <span class="keyword">const</span> p3 = &amp;a;</span><br></pre></td></tr></table></figure>
+<p><strong>const修饰引用</strong></p>
+<p>使用const修饰引用后，就无法使用引用来修改被引用对象的值。因此，常引用的作用就是防止被引用对象被错误修改。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;b = a;    <span class="comment">// b为a的常引用</span></span><br><span class="line">b = <span class="number">50</span>;    <span class="comment">// 错误，b为常引用，不能修改</span></span><br><span class="line">a = <span class="number">50</span>;    <span class="comment">// 修改被引用对象a后，引用b的值也会改变</span></span><br></pre></td></tr></table></figure>
+<p><strong>cosnt与#define的区别</strong></p>
+<ul>
+<li>#define为宏定义，在预处理阶段进行处理，是简单的替换，没有类型检查</li>
+<li>const在编译阶段进行处理，会进行类型检查</li>
+</ul>
+<h3 id="constexpr">3. constexpr</h3>
+<p>constexpr表明被修饰的对象是在编译阶段就可以被确定的，而const仅能保障被修饰的对象在运行阶段不被修改。由于constexpr表示被其修饰的对象在编译器就是能确定下来的常量，计算该对象所依赖的东西同样在编译器就能确定下来。</p>
+<p><strong>constexpr修饰变量</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> b = a + <span class="number">100</span>;</span><br><span class="line"><span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> c = num + <span class="number">10</span>;    <span class="comment">// 错误，num并不是常量，不能用来初始化c</span></span><br></pre></td></tr></table></figure>
+<p><strong>constexpr修饰指针</strong></p>
+<p>使用constexpr修饰指针时，该指针指向的对象必须有固定的地址，即在编译阶段即可确定地址。需要注意的是，constexpr修饰的是指针本省，只能放在最前面。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> num = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span></span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> * p = &amp;num;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>constexpr修饰函数</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num + <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> a = <span class="built_in">sum</span>(<span class="number">100</span>);</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> c = <span class="built_in">sum</span>(b);    <span class="comment">// 错误，b不是常量</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="volatile">4. volatile</h3>
+<p>volatiel提醒编译器它后面所定义的变量随时都有可能发生变化，因此，编译后的程序每次需要存储或读取这个变量的时候，都会直接从变量所在的地址进行读取。如果没有volatiel关键字，编译器在编译时可能会对程序进行优化，可能会暂时使用寄存器中的值。如果这个变量被别的程序修改了，将会出现不一致的现象。</p>
+<h3 id="nullptr">5. nullptr</h3>
+<p>空指针，可以用于指针的初始化，但是不可对其访问（nullptr实际上就是0，内存0为操作系统占用内存，应用程序无权限访问）。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span>* p = <span class="literal">nullptr</span>;</span><br><span class="line">std::cout &lt;&lt; p &lt;&lt; std::endl;      <span class="comment">// 输出0</span></span><br><span class="line">*p = <span class="number">100</span>;    <span class="comment">// 报错，Linux平台显示Segmentation Fault</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>对于创建的指针变量，必须对其进行初始化，可以使用nullptr对指针变量进行初始化。</p>
+<h3 id="extern">6. extern</h3>
+<p><strong>修饰变量</strong></p>
+<p>extern可以用来修饰变量。例如：要在b.c中使用a.c中定义变量，则可以在b.c中使用extern。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// a.c</span></span><br><span class="line"><span class="keyword">int</span> num = <span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.c</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">int</span> num;   <span class="comment">// 表明num已经在其他源文件中有过定义</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的时，并不是所有变量都可以在其他源文件中使用extern进行引用。能够被引用的变量一定是具有外部链接性的，外部链接性可以理解为要能够被别的源文件“看到”。因此，全局变量通常可以在别的源文件中使用extern进行应用，而局部变量和static修饰的变量通常无法在别的文件中使用extern进行引用。</p>
+<p><strong>修饰函数</strong></p>
+<p>除了修饰变量，extern还可以用来修饰函数。extern修饰函数和修饰变量类似，可以通过使用extern使用另外一个源文件中定义的函数。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// a.c</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.c</span></span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="title">func1</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">func1</span>();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用头文件包含同样可以实现在别的源文件调用，那和extern有什么区别呢？使用头文件包含的话，有预处理的过程，而使用extern的话，需要使用哪个函数就引用哪个函数。在大型软件开发过程中，这种编译效率上的差异是非常明显的。</p>
+<p><strong>extern "C"</strong></p>
+<p>在C＋＋中调用C库函数，就需要在C＋＋程序中用extern “C”声明要引用的函数。</p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>线性回归与非线性回归</title>
+    <url>/2021/10/24/linear-nonlinear-regression/</url>
+    <content><![CDATA[<p>最近在看矩阵分析中的投影矩阵，进而区看了最小二乘法，然后有学习了线性回归和非线性回归，发现和自己的认知不太一样，在这里总结一下线性回归和非线性回归的概念。</p>
+<p>线性回归和非线性回归中，线性和非线性的意思并不是用来描述因变量和自变量之间的关系是线性还是非线性的，而是用来描述模型函数与待估计参数之间的关系。我们首先来看非线性回归，明白了非线性回归，自然就知道线性回归的含义了。</p>
+<span id="more"></span>
+<h3 id="非线性回归">1. 非线性回归</h3>
+<p>我们首先来看维基百科中对于非线性回归的定义：</p>
+<p>In statistics, <a href="https://en.wikipedia.org/wiki/Nonlinear_regression"><strong>nonlinear regression</strong></a> is a form of regression analysis in which observational data are modeled by a function which is a nonlinear combination of the model parameters and depends on one or more independent variables.</p>
+<p>这段话的意思是：非线性回归是采用一个函数模型对观测数据进行建模，并且该函数是由<strong>模型参数的非线性组合</strong>构成的，并且可以通过观测数据（自变量和因变量）对模型参数进行估计。</p>
+<p>这里需要注意的是：非线性估计中的非线性指的是模型函数是由<strong>模型参数的非线性组合</strong>构成，而并不是描述函数和自变量之间的关系。</p>
+<p>举个例子，我们采用如下的模型：</p>
+<p><span class="math display">\[
+\mathbf{y} \sim f(\mathbf{x},\mathbf{\beta})
+\]</span> 其中，<span class="math inline">\(\mathbf{x}=\{x_1,x_2,\cdots,x_n\}\)</span> 为自变量向量，<span class="math inline">\(\mathbf{y}=\{y_1,y_2,\cdots,y_n\}\)</span>为观测因变量向量，<span class="math inline">\(\mathbf{\beta}=\{\beta_1,\beta_2,\cdots,\beta_n\}\)</span>为模型参数向量。</p>
+<p>假设某个模型由一个自变量，和两个参数构成，即： <span class="math display">\[
+f(\mathbf{x},\mathbf{\beta})=\frac{\beta_1x}{\beta_2+x}
+\]</span> 显然，函数模型<span class="math inline">\(f\)</span>无法表示成模型参数<span class="math inline">\(\beta_1\)</span>和<span class="math inline">\(\beta_2\)</span>的线性组合，因此，这个函数是非线性的。</p>
+<h3 id="线性回归">2. 线性回归</h3>
+<p>如果我们考虑如下的模型： <span class="math display">\[
+f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
+\]</span> 这看似是一个非线性函数，但是实际上，函数<span class="math inline">\(f\)</span>对于模型参数<span class="math inline">\(\{\beta_0,\beta_1,\cdots,\beta_n\}\)</span>而言是线性的，即是由<span class="math inline">\(\{\beta_0,\beta_1,\cdots,\beta_n\}\)</span>的线性组合构成的，系数分别为<span class="math inline">\(1,x_1,x_2,\cdots,x_n\)</span>。因此，这个函数是线性的。</p>
+<h3 id="总结">3. 总结</h3>
+<p>线性还是非线性是要根据分析的目标来决定的，在线性回归和非线性回归中，我们需要求解的是模型参数，因而，线性与非线性描述的是函数模型与模型参数之间的关系，而非因变量与自变量之间的关系。</p>
+]]></content>
+      <categories>
+        <category>Math</category>
+      </categories>
+      <tags>
+        <tag>linear regression</tag>
+        <tag>non-linear regression</tag>
       </tags>
   </entry>
   <entry>
@@ -583,6 +769,67 @@ f(\mathbf{x},\mathbf{\beta})=\beta_0+\beta_1x_1+\beta_2x_2^2+\cdots+\beta_nx_n^2
       </tags>
   </entry>
   <entry>
+    <title>操作系统相关概念</title>
+    <url>/2022/02/13/os-concepts/</url>
+    <content><![CDATA[<p>本篇博客记录在学习操作系统过程中，总结的一些概念和相关知识点。</p>
+<span id="more"></span>
+<h3 id="用户态和内核态">1.用户态和内核态</h3>
+<p>用户态运行的是用户程序，而内核态下运行的是操作系统程序。从特权级的角度来说，内核态运行在0级特权级（最高特权级），用户态应用程序运行在3级特权级（最低特权级）。</p>
+<p>CPU的保护环如下图所示：</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220215225710-2022-02-15.png" width="40%"></p>
+<p>那么操作系统是如何区分内核态和用户态的呢？这就涉及到CPL，DPL和RPL，以及CPU硬件实现的相关知识了。我们知道一条指令是通过CS:IP来进行取指的，</p>
+<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220213165004-2022-02-13.png" width="40%"></p>
+<p>由用户态进入内核态通常有三种方式：</p>
+<ul>
+<li><p><strong>系统调用：</strong> 这是用户态进程主动要求切换到内核态的一种方式，用户态进程通过系统调用申请使用操作系统提供的服务程序完成工作。系统调用的核心是通过中断来实现的，Linux中将0x80中断分配给系统调用。</p></li>
+<li><p><strong>异常：</strong> 当CPU在执行运行在用户态下的程序时，发生了某些事先不可知的异常，这时会触发由当前运行进程切换到处理此异常的内核相关程序中，也就转到了内核态，比如缺页异常。</p></li>
+<li><p><strong>外围设备中断：</strong> 当外围设备完成用户请求的操作后，会向CPU发出相应的中断信号。</p></li>
+</ul>
+<p>这三种方式是由用户态进入内核态的最主要方式。其中，系统调用可以认为是用户进程主要发起的，异常和外围设备中断则是被动的。从中断的角度来看，系统调用和异常可以认为是软中断，而外围设备中断则可以认为是硬中断。</p>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>operating system</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++随笔记录</title>
+    <url>/2022/02/22/otherthings-cpp/</url>
+    <content><![CDATA[<h3 id="一维数组名的作用">1.一维数组名的作用</h3>
+<ul>
+<li>对数组名进行sizeof()，可以获得整个数组占用的内存空间大小。再除以元素占用的内存空间大小，即可获得数组中的元素个数。</li>
+<li>数组名是数组占用内存空间的首地址，也是第一个元素所在的内存地址</li>
+</ul>
+<h3 id="二维数组名的作用">2. 二维数组名的作用</h3>
+<ul>
+<li>对数组名进行sizeof()，可以获得二位数组占用的内存空间大小，再除以元素占用的内存空间大小，即可获得二位数组中的元素个数</li>
+<li>数组名是二维数组占用内存空间的首地址</li>
+<li>数组名加上行号，可以获得每一行占用内存空间的首地址；取sizeof()，可以获得一行占用的内存空间</li>
+</ul>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux Bash之进程信息查看</title>
+    <url>/2022/03/19/process-info/</url>
+    <content><![CDATA[
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>快速幂算法</title>
     <url>/2021/12/05/quick-pow/</url>
     <content><![CDATA[<p>快速幂算法是用来计算<span class="math inline">\(x^n\)</span>的算法，它是分治算法的典型应用之一。</p>
@@ -851,6 +1098,12 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
       </tags>
   </entry>
   <entry>
+    <title>thread_func</title>
+    <url>/2022/03/18/thread-func/</url>
+    <content><![CDATA[
+]]></content>
+  </entry>
+  <entry>
     <title>STL容器之vector</title>
     <url>/2021/11/15/vector/</url>
     <content><![CDATA[<h3 id="vector">1. Vector</h3>
@@ -971,9 +1224,9 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
       </categories>
       <tags>
         <tag>Linux</tag>
+        <tag>操作系统</tag>
         <tag>内存管理</tag>
         <tag>虚拟内存</tag>
-        <tag>操作系统</tag>
       </tags>
   </entry>
   <entry>
@@ -1033,259 +1286,6 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
 <h3 id="输入重定向">3. 输入重定向</h3>
 <p>输入重定向可以理解为将原来需要由键盘进行输入的数据改由文件输入，使用&lt;，如法如下：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">command</span> &lt; file</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Bash</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>操作系统相关概念</title>
-    <url>/2022/02/13/os-concepts/</url>
-    <content><![CDATA[<p>本篇博客记录在学习操作系统过程中，总结的一些概念和相关知识点。</p>
-<span id="more"></span>
-<h3 id="用户态和内核态">1.用户态和内核态</h3>
-<p>用户态运行的是用户程序，而内核态下运行的是操作系统程序。从特权级的角度来说，内核态运行在0级特权级（最高特权级），用户态应用程序运行在3级特权级（最低特权级）。</p>
-<p>CPU的保护环如下图所示：</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220215225710-2022-02-15.png" width="40%"></p>
-<p>那么操作系统是如何区分内核态和用户态的呢？这就涉及到CPL，DPL和RPL，以及CPU硬件实现的相关知识了。我们知道一条指令是通过CS:IP来进行取指的，</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220213165004-2022-02-13.png" width="40%"></p>
-<p>由用户态进入内核态通常有三种方式：</p>
-<ul>
-<li><p><strong>系统调用：</strong> 这是用户态进程主动要求切换到内核态的一种方式，用户态进程通过系统调用申请使用操作系统提供的服务程序完成工作。系统调用的核心是通过中断来实现的，Linux中将0x80中断分配给系统调用。</p></li>
-<li><p><strong>异常：</strong> 当CPU在执行运行在用户态下的程序时，发生了某些事先不可知的异常，这时会触发由当前运行进程切换到处理此异常的内核相关程序中，也就转到了内核态，比如缺页异常。</p></li>
-<li><p><strong>外围设备中断：</strong> 当外围设备完成用户请求的操作后，会向CPU发出相应的中断信号。</p></li>
-</ul>
-<p>这三种方式是由用户态进入内核态的最主要方式。其中，系统调用可以认为是用户进程主要发起的，异常和外围设备中断则是被动的。从中断的角度来看，系统调用和异常可以认为是软中断，而外围设备中断则可以认为是硬中断。</p>
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>operating system</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C/C++函数调用分析</title>
-    <url>/2022/03/04/func-call/</url>
-    <content><![CDATA[<p>本文记录C/C++中函数调用的栈帧变化过程。</p>
-<h3 id="相关寄存器">1.相关寄存器</h3>
-<p>x86_64中的常见寄存器和位数如下两幅图所示。</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/Intel_x86寄存器用途-2022-03-04.jpeg" /></p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/x86-64寄存器位数-2022-03-04.png" /></p>
-<p>从图中可以看出64位是向前兼容32位，16位和8位寄存器的。</p>
-<h2 id="相关汇编指令">2.相关汇编指令</h2>
-<p>分析函数调用过程中的栈帧变化主要涉及到mov，push，pop，call，ret，leave这几条汇编指令，这几条指令的作用如下表所示</p>
-<table>
-<thead>
-<tr class="header">
-<th>汇编指令</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>mov</td>
-<td>移动指令</td>
-</tr>
-<tr class="even">
-<td>push</td>
-<td>入栈指令</td>
-</tr>
-<tr class="odd">
-<td>pop</td>
-<td>出站指令</td>
-</tr>
-<tr class="even">
-<td>call</td>
-<td>函数调用指令</td>
-</tr>
-<tr class="odd">
-<td>ret</td>
-<td>返回指令</td>
-</tr>
-<tr class="even">
-<td>leave</td>
-<td>返回指令</td>
-</tr>
-</tbody>
-</table>
-<p>有时候会在指令后面加上后缀，表明操作数的大小。常见的后缀有b，w，l，q，分别表示操作数大小位1字节，2字节，4字节，8字节。</p>
-<p><strong>call指令</strong></p>
-<p>call指令虽然是一条函数调用指令，但实际上它包含两步。第一步：将函数的返回地址入栈，即将函数调用后的第一条指令地址入栈；第二步：将被调用函数的地址装载入rip，从而跳转到被调函数。</p>
-<p><strong>ret指令</strong></p>
-<p>当执行ret指令时，rsp指向的栈顶被弹出值rip，完成被调函数返回</p>
-<p><strong>leave指令</strong></p>
-<p>leave指令是将栈顶指针指向帧指针，然后POP备份的原帧指针到%rbp，相当于如下两条指令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mov %rbp %rsp</span><br><span class="line">pop %rbp</span><br></pre></td></tr></table></figure>
-<h2 id="代码分析">3.代码分析</h2>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2, <span class="keyword">int</span> num3, <span class="keyword">int</span> num4, <span class="keyword">int</span> num5, <span class="keyword">int</span> num6, <span class="keyword">int</span> num7, <span class="keyword">int</span> num8)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans;</span><br><span class="line">    ans = num1 + num2 + num3 + num4 + num5 + num6 + num7 + num8;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="built_in">sum</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对其进行编译后，然后进行反汇编，得到对应的反汇编文件。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ gcc func_call.c -o func_call</span><br><span class="line">$ objdump -d func_call &gt; func_call.txt</span><br></pre></td></tr></table></figure>
-<p>涉及到的相关核心部分如下所示：</p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220305203907-2022-03-05.png" /></p>
-<p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220304235301-2022-03-04.png" /></p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>操作系统</tag>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C++关键字</title>
-    <url>/2021/12/21/keywords_cpp/</url>
-    <content><![CDATA[<h3 id="sizeof">1. sizeof</h3>
-<p><strong>作用：</strong>统计数据类型所占内存大小 <strong>语法：</strong>sizeof(数据类型 / 变量)</p>
-<h3 id="const">2. const</h3>
-<p><strong>const修饰普通变量</strong></p>
-<p>使用cosnt修饰普通变量意味着该变量在后续的使用中是不可以被修改的（即只读的）。<strong>因此，在使用const修饰普通变量时，必须要对其进行初始化。</strong></p>
-<p><strong>const修饰指针</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 常量指针：指针的指向可以修改，指针指向的值不可以修改</span></span><br><span class="line"><span class="keyword">int</span> a, b;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* p1 = &amp;a;</span><br><span class="line">p1 = &amp;b;   <span class="comment">// 正确，指针指向可以修改</span></span><br><span class="line">*p1 = <span class="number">1000</span>;   <span class="comment">// 错误，指针指向的值不可以修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 指针常量：指针的指向不可以修改，指针指向的值可以修改</span></span><br><span class="line"><span class="keyword">int</span>* <span class="keyword">const</span> p2 = &amp;a;</span><br><span class="line">p2 = &amp;b;     <span class="comment">// 错误，指针的指向不可以修改</span></span><br><span class="line">*p2 = <span class="number">2000</span>;  <span class="comment">// 正确，指针指向的值可以修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 常量指针&amp;指针常量：指针的指向和指针指向的值均不可以修改</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* <span class="keyword">const</span> p3 = &amp;a;</span><br></pre></td></tr></table></figure>
-<p><strong>const修饰引用</strong></p>
-<p>使用const修饰引用后，就无法使用引用来修改被引用对象的值。因此，常引用的作用就是防止被引用对象被错误修改。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;b = a;    <span class="comment">// b为a的常引用</span></span><br><span class="line">b = <span class="number">50</span>;    <span class="comment">// 错误，b为常引用，不能修改</span></span><br><span class="line">a = <span class="number">50</span>;    <span class="comment">// 修改被引用对象a后，引用b的值也会改变</span></span><br></pre></td></tr></table></figure>
-<p><strong>cosnt与#define的区别</strong></p>
-<ul>
-<li>#define为宏定义，在预处理阶段进行处理，是简单的替换，没有类型检查</li>
-<li>const在编译阶段进行处理，会进行类型检查</li>
-</ul>
-<h3 id="constexpr">3. constexpr</h3>
-<p>constexpr表明被修饰的对象是在编译阶段就可以被确定的，而const仅能保障被修饰的对象在运行阶段不被修改。由于constexpr表示被其修饰的对象在编译器就是能确定下来的常量，计算该对象所依赖的东西同样在编译器就能确定下来。</p>
-<p><strong>constexpr修饰变量</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> b = a + <span class="number">100</span>;</span><br><span class="line"><span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> c = num + <span class="number">10</span>;    <span class="comment">// 错误，num并不是常量，不能用来初始化c</span></span><br></pre></td></tr></table></figure>
-<p><strong>constexpr修饰指针</strong></p>
-<p>使用constexpr修饰指针时，该指针指向的对象必须有固定的地址，即在编译阶段即可确定地址。需要注意的是，constexpr修饰的是指针本省，只能放在最前面。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> num = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span></span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> * p = &amp;num;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>constexpr修饰函数</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num + <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> a = <span class="built_in">sum</span>(<span class="number">100</span>);</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> c = <span class="built_in">sum</span>(b);    <span class="comment">// 错误，b不是常量</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="volatile">4. volatile</h3>
-<p>volatiel提醒编译器它后面所定义的变量随时都有可能发生变化，因此，编译后的程序每次需要存储或读取这个变量的时候，都会直接从变量所在的地址进行读取。如果没有volatiel关键字，编译器在编译时可能会对程序进行优化，可能会暂时使用寄存器中的值。如果这个变量被别的程序修改了，将会出现不一致的现象。</p>
-<h3 id="nullptr">5. nullptr</h3>
-<p>空指针，可以用于指针的初始化，但是不可对其访问（nullptr实际上就是0，内存0为操作系统占用内存，应用程序无权限访问）。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span>* p = <span class="literal">nullptr</span>;</span><br><span class="line">std::cout &lt;&lt; p &lt;&lt; std::endl;      <span class="comment">// 输出0</span></span><br><span class="line">*p = <span class="number">100</span>;    <span class="comment">// 报错，Linux平台显示Segmentation Fault</span></span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>对于创建的指针变量，必须对其进行初始化，可以使用nullptr对指针变量进行初始化。</p>
-<h3 id="extern">6. extern</h3>
-<p><strong>修饰变量</strong></p>
-<p>extern可以用来修饰变量。例如：要在b.c中使用a.c中定义变量，则可以在b.c中使用extern。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// a.c</span></span><br><span class="line"><span class="keyword">int</span> num = <span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.c</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">int</span> num;   <span class="comment">// 表明num已经在其他源文件中有过定义</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>需要注意的时，并不是所有变量都可以在其他源文件中使用extern进行引用。能够被引用的变量一定是具有外部链接性的，外部链接性可以理解为要能够被别的源文件“看到”。因此，全局变量通常可以在别的源文件中使用extern进行应用，而局部变量和static修饰的变量通常无法在别的文件中使用extern进行引用。</p>
-<p><strong>修饰函数</strong></p>
-<p>除了修饰变量，extern还可以用来修饰函数。extern修饰函数和修饰变量类似，可以通过使用extern使用另外一个源文件中定义的函数。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// a.c</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.c</span></span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="title">func1</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">func1</span>();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用头文件包含同样可以实现在别的源文件调用，那和extern有什么区别呢？使用头文件包含的话，有预处理的过程，而使用extern的话，需要使用哪个函数就引用哪个函数。在大型软件开发过程中，这种编译效率上的差异是非常明显的。</p>
-<p><strong>extern "C"</strong></p>
-<p>在C＋＋中调用C库函数，就需要在C＋＋程序中用extern “C”声明要引用的函数。</p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C++随笔记录</title>
-    <url>/2022/02/22/otherthings-cpp/</url>
-    <content><![CDATA[<h3 id="一维数组名的作用">1.一维数组名的作用</h3>
-<ul>
-<li>对数组名进行sizeof()，可以获得整个数组占用的内存空间大小。再除以元素占用的内存空间大小，即可获得数组中的元素个数。</li>
-<li>数组名是数组占用内存空间的首地址，也是第一个元素所在的内存地址</li>
-</ul>
-<h3 id="二维数组名的作用">2. 二维数组名的作用</h3>
-<ul>
-<li>对数组名进行sizeof()，可以获得二位数组占用的内存空间大小，再除以元素占用的内存空间大小，即可获得二位数组中的元素个数</li>
-<li>数组名是二维数组占用内存空间的首地址</li>
-<li>数组名加上行号，可以获得每一行占用内存空间的首地址；取sizeof()，可以获得一行占用的内存空间</li>
-</ul>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>C/C++编译注意事项</title>
-    <url>/2022/03/05/c_compile/</url>
-    <content><![CDATA[<h3 id="头文件搜索路径">1. 头文件搜索路径</h3>
-<p><strong>#include "headfile.h"</strong>，通过双引号包含头文件，搜索顺序为：</p>
-<ol type="1">
-<li>当前目录</li>
-<li>-I指定的目录</li>
-<li>GCC/G++的环境变量指定的目录，C程序使用的是C_INCLUDE_PATH，C++程序使用的是CPP_INCLUDE_PATH</li>
-<li>GCC/G++内定目录（在编译GCC/G++时指定的目录）</li>
-</ol>
-<p><strong>#include &lt;headfile.h&gt;</strong>，通过&lt;&gt;包含头文件，搜索顺序为：</p>
-<ol type="1">
-<li>-I指定的目录</li>
-<li>GCC/G++的环境变量指定的目录，C程序使用的是C_INCLUDE_PATH，C++程序使用的是CPP_INCLUDE_PATH</li>
-<li>GCC/G++内定目录（在编译GCC/G++时指定的目录）</li>
-</ol>
-<p>当上述目录均存在目标头文件时，先搜索到哪一个就用哪一个。</p>
-<h3 id="静态库搜索路径">2. 静态库搜索路径</h3>
-<ol type="1">
-<li>-L指定的目录</li>
-<li>gcc/g++的环境变量LIBRARY_PATH</li>
-<li>内定目录（编译GCC/G++时指定的目录）</li>
-</ol>
-<h3 id="动态库搜索路径">3. 动态库搜索路径</h3>
-<ol type="1">
-<li>编译目标代码时指定的动态库搜索路径</li>
-<li>环境变量LD_LIBRARY_PATH指定的路径</li>
-<li>配置文件/etc/ld.so.conf中指定的动态库路径</li>
-<li>默认的动态库搜索路径/lib</li>
-<li>默认的动态库搜索路径/usr/lib</li>
-</ol>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-        <tag>C</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>thread_func</title>
-    <url>/2022/03/18/thread-func/</url>
-    <content><![CDATA[
-]]></content>
-  </entry>
-  <entry>
-    <title>C/C++函数指针</title>
-    <url>/2022/03/19/func-pointer/</url>
-    <content><![CDATA[<span id="more"></span>
-<h3 id="什么是函数指针">1.什么是函数指针</h3>
-<p>每个函数在内存的程序段都占用一段存储单元，这段存储单元的首地址称为函数入口地址，指向这个函数入口地址的指针称为函数指针。</p>
-<h3 id="函数指针的声明">2.函数指针的声明</h3>
-<p>声明一个函数指针有两种方式：</p>
-<ol type="1">
-<li>直接声明一个函数指针</li>
-<li>先定义一个函数指针类型，再通过该类型声明一个函数指针</li>
-</ol>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 直接声明一个函数指针</span></span><br><span class="line"><span class="built_in"><span class="keyword">int</span></span> (*pf1)(<span class="keyword">int</span>, <span class="keyword">int</span>);     <span class="comment">// pf1是一个指向返回类型为int，含有两个int类型参数的函数的函数指针</span></span><br><span class="line"><span class="built_in"><span class="keyword">double</span></span> (*pf2)();          <span class="comment">// pf2是一个指向返回类型为double，无参数的函数的函数指针</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义函数指针类型</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*PF)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;  <span class="comment">// PF为一个函数指针类型</span></span><br><span class="line">PF pf3;    <span class="comment">// pf3为一个函数指针</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="函数指针的使用">3.函数指针的使用</h3>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*PF)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num1 + num2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 直接声明函数指针</span></span><br><span class="line">    <span class="built_in"><span class="keyword">int</span></span> (*pf1)(<span class="keyword">int</span>, <span class="keyword">int</span>) = add;</span><br><span class="line">    <span class="comment">// 通过函数指针调用</span></span><br><span class="line">    <span class="keyword">int</span> res1 = <span class="built_in">pf1</span>(<span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">    <span class="keyword">int</span> res2 = (*pf1)(<span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过PF类型声明函数指针</span></span><br><span class="line">    PF pf2 = add;</span><br><span class="line">    <span class="comment">// 通过函数指针调用</span></span><br><span class="line">    <span class="keyword">int</span> res3 = <span class="built_in">pf2</span>(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">    <span class="keyword">int</span> res4 = (*pf2)(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-        <tag>函数指针</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux Bash之进程信息查看</title>
-    <url>/2022/03/19/process-info/</url>
-    <content><![CDATA[
 ]]></content>
       <categories>
         <category>Linux</category>
