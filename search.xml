@@ -1062,7 +1062,7 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
 <p>这三种方式是由用户态进入内核态的最主要方式。其中，系统调用可以认为是用户进程主要发起的，异常和外围设备中断则是被动的。从中断的角度来看，系统调用和异常可以认为是软中断，而外围设备中断则可以认为是硬中断。</p>
 ]]></content>
       <categories>
-        <category>operating system</category>
+        <category>操作系统</category>
       </categories>
       <tags>
         <tag>operating system</tag>
