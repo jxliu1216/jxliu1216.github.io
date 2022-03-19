@@ -36,7 +36,7 @@
       </tags>
   </entry>
   <entry>
-    <title>cut</title>
+    <title>Linux Bash之cut命令</title>
     <url>/2021/10/18/cut/</url>
     <content><![CDATA[<p>cut是Linux中的一个重要数据选取工具，cut以“行”单位，从中提取出我们想要的信息。cut命令非常适用于处理格式上非常具有规律的数据。</p>
 <span id="more"></span>
