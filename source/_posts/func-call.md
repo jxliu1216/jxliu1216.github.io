@@ -3,10 +3,8 @@ title: C/C++函数调用分析
 date: 2022-03-04 22:22:03
 tags: 
 - C/C++
-- Operating System
-categories:
-- C/C++
-- Operating System
+- 操作系统
+categories: C/C++
 ---
 
 本文记录C/C++中函数调用的栈帧变化过程。

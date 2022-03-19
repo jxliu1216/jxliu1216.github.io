@@ -4,7 +4,7 @@ date: 2021-12-04 14:57:11
 tags:
 - iostream
 - cin
-categories: C++
+categories: C/C++
 ---
 
 本文主要介绍C++标准输入流的使用，重点介绍cin，cin.get()，cin.getline()的区别和使用。

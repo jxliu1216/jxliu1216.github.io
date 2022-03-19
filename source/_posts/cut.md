@@ -1,5 +1,5 @@
 ---
-title: cut
+title: Linux Bash之cut命令
 date: 2021-10-18 00:14:47
 tags:
 - Linux

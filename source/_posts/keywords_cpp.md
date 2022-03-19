@@ -2,8 +2,8 @@
 title: C++关键字
 date: 2021-12-21 22:12:13
 tags:
-- C++
-categories: keywords
+- C/C++
+categories: C/C++
 ---
 
 ### 1. sizeof

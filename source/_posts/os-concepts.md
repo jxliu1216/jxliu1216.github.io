@@ -2,7 +2,7 @@
 title: 操作系统相关概念
 date: 2022-02-13 16:56:32
 tags: operating system
-categories: operating system
+categories: 操作系统
 ---
 
 本篇博客记录在学习操作系统过程中，总结的一些概念和相关知识点。
@@ -11,9 +11,15 @@ categories: operating system
 
 ### 1.用户态和内核态
 
-用户态运行的是用户程序，而内核态下运行的是操作系统程序。从特权级的角度来说，内核态运行在0级特权级（最高特权级），用户态运行在3级特权级（最低特权级）。
+用户态运行的是用户程序，而内核态下运行的是操作系统程序。从特权级的角度来说，内核态运行在0级特权级（最高特权级），用户态应用程序运行在3级特权级（最低特权级）。
 
-![](https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220213165004-2022-02-13.png)
+CPU的保护环如下图所示：
+
+<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220215225710-2022-02-15.png" width="40%">
+
+那么操作系统是如何区分内核态和用户态的呢？这就涉及到CPL，DPL和RPL，以及CPU硬件实现的相关知识了。我们知道一条指令是通过CS:IP来进行取指的，
+
+<img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com//img/20220213165004-2022-02-13.png" width="40%">
 
 由用户态进入内核态通常有三种方式：
 
