@@ -1184,10 +1184,10 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
 <p>在C＋＋中调用C库函数，就需要在C＋＋程序中用extern “C”声明要引用的函数。</p>
 ]]></content>
       <categories>
-        <category>keywords</category>
+        <category>C/C++</category>
       </categories>
       <tags>
-        <tag>C++</tag>
+        <tag>C/C++</tag>
       </tags>
   </entry>
   <entry>
