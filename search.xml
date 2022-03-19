@@ -1131,11 +1131,10 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
 ]]></content>
       <categories>
         <category>C/C++</category>
-        <category>Operating System</category>
       </categories>
       <tags>
+        <tag>操作系统</tag>
         <tag>C/C++</tag>
-        <tag>Operating System</tag>
       </tags>
   </entry>
   <entry>
