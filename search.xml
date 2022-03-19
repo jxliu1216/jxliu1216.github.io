@@ -1258,4 +1258,41 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
     <content><![CDATA[
 ]]></content>
   </entry>
+  <entry>
+    <title>C/C++函数指针</title>
+    <url>/2022/03/19/func-pointer/</url>
+    <content><![CDATA[<span id="more"></span>
+<h3 id="什么是函数指针">1.什么是函数指针</h3>
+<p>每个函数在内存的程序段都占用一段存储单元，这段存储单元的首地址称为函数入口地址，指向这个函数入口地址的指针称为函数指针。</p>
+<h3 id="函数指针的声明">2.函数指针的声明</h3>
+<p>声明一个函数指针有两种方式：</p>
+<ol type="1">
+<li>直接声明一个函数指针</li>
+<li>先定义一个函数指针类型，再通过该类型声明一个函数指针</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 直接声明一个函数指针</span></span><br><span class="line"><span class="built_in"><span class="keyword">int</span></span> (*pf1)(<span class="keyword">int</span>, <span class="keyword">int</span>);     <span class="comment">// pf1是一个指向返回类型为int，含有两个int类型参数的函数的函数指针</span></span><br><span class="line"><span class="built_in"><span class="keyword">double</span></span> (*pf2)();          <span class="comment">// pf2是一个指向返回类型为double，无参数的函数的函数指针</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义函数指针类型</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*PF)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;  <span class="comment">// PF为一个函数指针类型</span></span><br><span class="line">PF pf3;    <span class="comment">// pf3为一个函数指针</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="函数指针的使用">3.函数指针的使用</h3>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*PF)</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> num1, <span class="keyword">int</span> num2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num1 + num2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 直接声明函数指针</span></span><br><span class="line">    <span class="built_in"><span class="keyword">int</span></span> (*pf1)(<span class="keyword">int</span>, <span class="keyword">int</span>) = add;</span><br><span class="line">    <span class="comment">// 通过函数指针调用</span></span><br><span class="line">    <span class="keyword">int</span> res1 = <span class="built_in">pf1</span>(<span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line">    <span class="keyword">int</span> res2 = (*pf1)(<span class="number">100</span>, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过PF类型声明函数指针</span></span><br><span class="line">    PF pf2 = add;</span><br><span class="line">    <span class="comment">// 通过函数指针调用</span></span><br><span class="line">    <span class="keyword">int</span> res3 = <span class="built_in">pf2</span>(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">    <span class="keyword">int</span> res4 = (*pf2)(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+        <tag>函数指针</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux Bash之进程信息查看</title>
+    <url>/2022/03/19/process-info/</url>
+    <content><![CDATA[
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
 </search>
