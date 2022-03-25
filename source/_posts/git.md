@@ -1,5 +1,5 @@
 ---
-title: git使用（一）
+title: git使用
 date: 2021-10-23 00:01:59
 tags:
 - Git
@@ -8,18 +8,37 @@ categories: Git
 
 本文主要记录git中的一些常见概念原理和命令的使用，包含如下内容：
 
-- [git仓库初始化](#git_init)
-- [工作区，暂存区，本地仓库和远程仓库](#git_add)
-- [git diff](#git_diff)
+- [<a name="git_config"> 1. git相关设置 </a>](#-1-git相关设置-)
+- [<a name="git_init"> 2. git仓库初始化 </a>](#-2-git仓库初始化)
+- [<a name="git_add"> 3. 工作区，暂存区，本地仓库和远程仓库 </a>](#-3-工作区暂存区本地仓库和远程仓库)
+- [<a name="git_push">3. 推送至远程仓库 </a>](#3-推送至远程仓库-)
+- [<a name="git_diff">3. git diff </a>](#3-git-diff)
 
 <!--more-->
 
-### <a name="git_init"> 1. git仓库初始化 </a>
+### <a name="git_config"> 1. git相关设置 </a>
+
+在完成git的安装后，需要进行一些设置才可以正常使用git的相关功能。
+
+- **设置姓名和邮箱**
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "Your Email"
+```
+
+- **设置UI配色，提高命令的可读性**
+
+```bash
+git config --global color.ui auto
+```
+
+### <a name="git_init"> 2. git仓库初始化 </a>
 
 构建一个git仓库通常有两种形式，第一种是clone一个已有的git仓库，第二种是将自己的工作目录初始化为一个git仓库。clone一个已有的git仓库可以通过git clone命令加仓库地址来实现，例如：
 
 ```bash
-$ git clone https://github.com/tensorflow/tensorflow.git
+$ git clone https://github.com/tensorflow/tensorflow.git    // clone TensorFlow远程仓库到本地
 ```
 
 将自己的工作目录初始化为git仓库，通过git init命令实现。首先切换到自己的项目根目录下，然后运行git init命令即可。
@@ -29,9 +48,15 @@ $ cd "the root dir of your project"
 $ git init
 ```
 
-初始化为git仓库后，项目根目录下会多出一个名为**.git**的影藏文件夹，这个文件夹内记录了关于这个git仓库的所有信息。
+初始化为git仓库后，项目根目录下会多出一个名为**.git**的影藏文件夹，这个文件夹内记录了关于这个git仓库的所有信息。运行git init命令后，仅是初始化了一个本地git仓库，如果需要添加远程仓库，则需要使用git remote add命令：
 
-### <a name="git_add"> 2. 工作区，暂存区，本地仓库和远程仓库 </a>
+```bash
+git remote add [NAME] [remote URL]
+```
+
+通过上述命令可以添加一个远程仓库，并且指定该远程仓库的名字。
+
+### <a name="git_add"> 3. 工作区，暂存区，本地仓库和远程仓库 </a>
 
 工作区，暂存区，本地仓库和远程仓库是git中非常重要的四个概念：
 
@@ -67,6 +92,35 @@ git的工作流程一般有如下4步：
 <img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211023162808917.png" alt="image-20211023162808917" style="zoom:80%;" />
 
 其中？表示文件尚未被跟踪，M表示文件已被修改，A表示文件被刚纳入版本管理并且已加入至暂存区。共有两列内容，第一列表示暂存区中的状态，第二列表示工作区中的状态。git_1.md为什么在暂存区和工作区都被显示为已修改呢？这是因为：我对git_1.md文件进行修改了之后，将其加入暂存区，然后又对其进行了修改，所以在暂存区和工作区都显示其为已修改状态。
+
+
+### <a name="git_push">3. 推送至远程仓库 </a>
+
+- **添加远程仓库**
+
+在将本地仓库推送至远程仓库前，需要为本地仓库添加远程仓库，这通过git remote add命令实现：
+
+```bash
+git remote add origin git@github.com:github-book/git-tutorial.git
+```
+
+执行上述命令后，将会添加远程仓库，并将远程仓库命名为origin。
+
+- **推送至远程仓库**
+
+使用git push命令将本地仓库中的分支推送至远程仓库中的分支，git push命令的语法如下：
+
+```bash
+git push [remote_name] [local branch name] : [remote brach name]
+```
+
+如果远程分支名与本地分支名相同，则可以省略远程分支名，例如将本地的master分支推送至origin远程仓库的master分支，可以使用如下命令：
+
+```bash
+git push -u origin master
+```
+
+其中，-u选项会将远程仓库的master设置为本地master分支的upstream，这样后续的推送和拉取会方便很多
 
 ### <a name="git_diff">3. git diff </a>
 
