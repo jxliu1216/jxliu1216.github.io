@@ -6,17 +6,11 @@ tags:
 categories: Git
 ---
 
-本文主要记录git中的一些常见概念原理和命令的使用，包含如下内容：
-
-- [<a name="git_config"> 1. git相关设置 </a>](#-1-git相关设置-)
-- [<a name="git_init"> 2. git仓库初始化 </a>](#-2-git仓库初始化)
-- [<a name="git_add"> 3. 工作区，暂存区，本地仓库和远程仓库 </a>](#-3-工作区暂存区本地仓库和远程仓库)
-- [<a name="git_push">3. 推送至远程仓库 </a>](#3-推送至远程仓库-)
-- [<a name="git_diff">3. git diff </a>](#3-git-diff)
+本文主要记录git中的一些常见概念原理和命令的使用。
 
 <!--more-->
 
-### <a name="git_config"> 1. git相关设置 </a>
+### 1. git相关设置
 
 在完成git的安装后，需要进行一些设置才可以正常使用git的相关功能。
 
@@ -33,7 +27,7 @@ git config --global user.email "Your Email"
 git config --global color.ui auto
 ```
 
-### <a name="git_init"> 2. git仓库初始化 </a>
+### 2. git仓库初始化
 
 构建一个git仓库通常有两种形式，第一种是clone一个已有的git仓库，第二种是将自己的工作目录初始化为一个git仓库。clone一个已有的git仓库可以通过git clone命令加仓库地址来实现，例如：
 
@@ -56,7 +50,7 @@ git remote add [NAME] [remote URL]
 
 通过上述命令可以添加一个远程仓库，并且指定该远程仓库的名字。
 
-### <a name="git_add"> 3. 工作区，暂存区，本地仓库和远程仓库 </a>
+### 3. 工作区，暂存区，本地仓库和远程仓库
 
 工作区，暂存区，本地仓库和远程仓库是git中非常重要的四个概念：
 
@@ -94,7 +88,7 @@ git的工作流程一般有如下4步：
 其中？表示文件尚未被跟踪，M表示文件已被修改，A表示文件被刚纳入版本管理并且已加入至暂存区。共有两列内容，第一列表示暂存区中的状态，第二列表示工作区中的状态。git_1.md为什么在暂存区和工作区都被显示为已修改呢？这是因为：我对git_1.md文件进行修改了之后，将其加入暂存区，然后又对其进行了修改，所以在暂存区和工作区都显示其为已修改状态。
 
 
-### <a name="git_push">3. 推送至远程仓库 </a>
+### 4. 推送至远程仓库
 
 - **添加远程仓库**
 
@@ -122,7 +116,7 @@ git push -u origin master
 
 其中，-u选项会将远程仓库的master设置为本地master分支的upstream，这样后续的推送和拉取会方便很多
 
-### <a name="git_diff">3. git diff </a>
+### 5. git diff
 
 git diff用于比较文件之间的差异，通常有如下几种用法：
 
