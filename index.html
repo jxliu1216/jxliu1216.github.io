@@ -129,7 +129,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">22</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">23</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -182,6 +182,92 @@
 
           <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/26/attribute/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Liu Jinxue">
+      <meta itemprop="description" content="路漫漫其修远兮，吾将上下而求索">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="兔八哥的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/26/attribute/" class="post-title-link" itemprop="url">神奇的__attribute__</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-26 21:07:26 / 修改时间：21:19:02" itemprop="dateCreated datePublished" datetime="2022-03-26T21:07:26+08:00">2022-03-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-C/" itemprop="url" rel="index"><span itemprop="name">C/C++</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>344</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>__attribute__机制是GNU C的一大特色，__attribute__可以设置函数属性（Function Attribute ）、变量属性（Variable Attribute ）和类型属性（Type Attribute ）。使用__attribute__的语法格式为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__attribute__((attribute_list))</span><br></pre></td></tr></table></figure>
+<h3 id="attribute__noreturn">1. __attribute__((noreturn))</h3>
+<p><strong>作用：</strong> 定义有返回值的函数时，而实际情况有可能没有返回值，此时编译器会报错。加上attribute((noreturn))则可以很好的处理类似这种问题。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">err_quit</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> * fmt, ...)</span> __<span class="title">attribute__</span><span class="params">((noreturn))</span></span>;   <span class="comment">// err_quit为一无返回值的函数</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
       
   
   
@@ -835,7 +921,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-19 13:34:17" itemprop="dateModified" datetime="2022-03-19T13:34:17+08:00">2022-03-19</time>
+                <time title="修改时间：2022-03-27 17:53:49" itemprop="dateModified" datetime="2022-03-27T17:53:49+08:00">2022-03-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -853,7 +939,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.2k</span>
+              <span>2.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -872,48 +958,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="sizeof">1. sizeof</h3>
-<p><strong>作用：</strong>统计数据类型所占内存大小 <strong>语法：</strong>sizeof(数据类型 / 变量)</p>
-<h3 id="const">2. const</h3>
-<p><strong>const修饰普通变量</strong></p>
-<p>使用cosnt修饰普通变量意味着该变量在后续的使用中是不可以被修改的（即只读的）。<strong>因此，在使用const修饰普通变量时，必须要对其进行初始化。</strong></p>
-<p><strong>const修饰指针</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 常量指针：指针的指向可以修改，指针指向的值不可以修改</span></span><br><span class="line"><span class="keyword">int</span> a, b;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* p1 = &amp;a;</span><br><span class="line">p1 = &amp;b;   <span class="comment">// 正确，指针指向可以修改</span></span><br><span class="line">*p1 = <span class="number">1000</span>;   <span class="comment">// 错误，指针指向的值不可以修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 指针常量：指针的指向不可以修改，指针指向的值可以修改</span></span><br><span class="line"><span class="keyword">int</span>* <span class="keyword">const</span> p2 = &amp;a;</span><br><span class="line">p2 = &amp;b;     <span class="comment">// 错误，指针的指向不可以修改</span></span><br><span class="line">*p2 = <span class="number">2000</span>;  <span class="comment">// 正确，指针指向的值可以修改</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 常量指针&amp;指针常量：指针的指向和指针指向的值均不可以修改</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* <span class="keyword">const</span> p3 = &amp;a;</span><br></pre></td></tr></table></figure>
-<p><strong>const修饰引用</strong></p>
-<p>使用const修饰引用后，就无法使用引用来修改被引用对象的值。因此，常引用的作用就是防止被引用对象被错误修改。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;b = a;    <span class="comment">// b为a的常引用</span></span><br><span class="line">b = <span class="number">50</span>;    <span class="comment">// 错误，b为常引用，不能修改</span></span><br><span class="line">a = <span class="number">50</span>;    <span class="comment">// 修改被引用对象a后，引用b的值也会改变</span></span><br></pre></td></tr></table></figure>
-<p><strong>cosnt与#define的区别</strong></p>
-<ul>
-<li>#define为宏定义，在预处理阶段进行处理，是简单的替换，没有类型检查</li>
-<li>const在编译阶段进行处理，会进行类型检查</li>
+          <ul>
+<li><a href="#5-static"><a name="sec_static"> 1.static </a></a></li>
 </ul>
-<h3 id="constexpr">3. constexpr</h3>
-<p>constexpr表明被修饰的对象是在编译阶段就可以被确定的，而const仅能保障被修饰的对象在运行阶段不被修改。由于constexpr表示被其修饰的对象在编译器就是能确定下来的常量，计算该对象所依赖的东西同样在编译器就能确定下来。</p>
-<p><strong>constexpr修饰变量</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> b = a + <span class="number">100</span>;</span><br><span class="line"><span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> c = num + <span class="number">10</span>;    <span class="comment">// 错误，num并不是常量，不能用来初始化c</span></span><br></pre></td></tr></table></figure>
-<p><strong>constexpr修饰指针</strong></p>
-<p>使用constexpr修饰指针时，该指针指向的对象必须有固定的地址，即在编译阶段即可确定地址。需要注意的是，constexpr修饰的是指针本省，只能放在最前面。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> num = <span class="number">100</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span></span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> * p = &amp;num;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>constexpr修饰函数</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num + <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> a = <span class="built_in">sum</span>(<span class="number">100</span>);</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> c = <span class="built_in">sum</span>(b);    <span class="comment">// 错误，b不是常量</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="volatile">4. volatile</h3>
-<p>volatiel提醒编译器它后面所定义的变量随时都有可能发生变化，因此，编译后的程序每次需要存储或读取这个变量的时候，都会直接从变量所在的地址进行读取。如果没有volatiel关键字，编译器在编译时可能会对程序进行优化，可能会暂时使用寄存器中的值。如果这个变量被别的程序修改了，将会出现不一致的现象。</p>
-<h3 id="nullptr">5. nullptr</h3>
-<p>空指针，可以用于指针的初始化，但是不可对其访问（nullptr实际上就是0，内存0为操作系统占用内存，应用程序无权限访问）。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>* p = <span class="literal">nullptr</span>;</span><br><span class="line">std::cout &lt;&lt; p &lt;&lt; std::endl;      <span class="comment">// 输出0</span></span><br><span class="line">*p = <span class="number">100</span>;    <span class="comment">// 报错，Linux平台显示Segmentation Fault</span></span><br></pre></td></tr></table></figure>
-<p><strong>注意：</strong>对于创建的指针变量，必须对其进行初始化，可以使用nullptr对指针变量进行初始化。</p>
-<h3 id="extern">6. extern</h3>
-<p><strong>修饰变量</strong></p>
-<p>extern可以用来修饰变量。例如：要在b.c中使用a.c中定义变量，则可以在b.c中使用extern。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.c</span></span><br><span class="line"><span class="keyword">int</span> num = <span class="number">100</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.c</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">int</span> num;   <span class="comment">// 表明num已经在其他源文件中有过定义</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>需要注意的时，并不是所有变量都可以在其他源文件中使用extern进行引用。能够被引用的变量一定是具有外部链接性的，外部链接性可以理解为要能够被别的源文件“看到”。因此，全局变量通常可以在别的源文件中使用extern进行应用，而局部变量和static修饰的变量通常无法在别的文件中使用extern进行引用。</p>
-<p><strong>修饰函数</strong></p>
-<p>除了修饰变量，extern还可以用来修饰函数。extern修饰函数和修饰变量类似，可以通过使用extern使用另外一个源文件中定义的函数。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.c</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// b.c</span></span><br><span class="line"><span class="function"><span class="keyword">extern</span> <span class="title">func1</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">fun2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">func1</span>();</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用头文件包含同样可以实现在别的源文件调用，那和extern有什么区别呢？使用头文件包含的话，有预处理的过程，而使用extern的话，需要使用哪个函数就引用哪个函数。在大型软件开发过程中，这种编译效率上的差异是非常明显的。</p>
-<p><strong>extern "C"</strong></p>
-<p>在C＋＋中调用C库函数，就需要在C＋＋程序中用extern “C”声明要引用的函数。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/21/keywords_cpp/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1112,104 +1167,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/11/15/vector/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Liu Jinxue">
-      <meta itemprop="description" content="路漫漫其修远兮，吾将上下而求索">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="兔八哥的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/11/15/vector/" class="post-title-link" itemprop="url">STL容器之vector</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-11-15 22:03:37" itemprop="dateCreated datePublished" datetime="2021-11-15T22:03:37+08:00">2021-11-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-18 21:41:21" itemprop="dateModified" datetime="2021-11-18T21:41:21+08:00">2021-11-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/STL/" itemprop="url" rel="index"><span itemprop="name">STL</span></a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="vector">1. Vector</h3>
-<p>vector的函数原型如下：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt; <span class="class"><span class="keyword">class</span> <span class="title">T</span>, <span class="keyword">class</span> <span class="title">Alloc</span> =</span> allocator&lt;T&gt; &gt; <span class="class"><span class="keyword">class</span> <span class="title">vector</span>;</span></span><br></pre></td></tr></table></figure>
-<p>vector可以采用如下方式进行声明：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/11/15/vector/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1281,7 +1238,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

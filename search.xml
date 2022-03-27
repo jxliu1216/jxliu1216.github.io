@@ -318,7 +318,11 @@
   <entry>
     <title>C++关键字</title>
     <url>/2021/12/21/keywords_cpp/</url>
-    <content><![CDATA[<h3 id="sizeof">1. sizeof</h3>
+    <content><![CDATA[<ul>
+<li><a href="#5-static"><a name="sec_static"> 1.static </a></a></li>
+</ul>
+<span id="more"></span>
+<h3 id="sizeof">1. sizeof</h3>
 <p><strong>作用：</strong>统计数据类型所占内存大小 <strong>语法：</strong>sizeof(数据类型 / 变量)</p>
 <h3 id="const">2. const</h3>
 <p><strong>const修饰普通变量</strong></p>
@@ -334,7 +338,7 @@
 <li>const在编译阶段进行处理，会进行类型检查</li>
 </ul>
 <h3 id="constexpr">3. constexpr</h3>
-<p>constexpr表明被修饰的对象是在编译阶段就可以被确定的，而const仅能保障被修饰的对象在运行阶段不被修改。由于constexpr表示被其修饰的对象在编译器就是能确定下来的常量，计算该对象所依赖的东西同样在编译器就能确定下来。</p>
+<p>constexpr表明被修饰的对象是在编译阶段就可以被确定的，而const仅能保障被修饰的对象在运行阶段不被修改。由于constexpr表示被其修饰的对象在编译期就是能确定下来的常量，计算该对象所依赖的东西同样在编译器就能确定下来。</p>
 <p><strong>constexpr修饰变量</strong></p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> b = a + <span class="number">100</span>;</span><br><span class="line"><span class="keyword">int</span> num = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> c = num + <span class="number">10</span>;    <span class="comment">// 错误，num并不是常量，不能用来初始化c</span></span><br></pre></td></tr></table></figure>
 <p><strong>constexpr修饰指针</strong></p>
@@ -343,7 +347,14 @@
 <p><strong>constexpr修饰函数</strong></p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num + <span class="number">100</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> a = <span class="built_in">sum</span>(<span class="number">100</span>);</span><br><span class="line">    <span class="keyword">int</span> b = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">constexpr</span> <span class="keyword">int</span> c = <span class="built_in">sum</span>(b);    <span class="comment">// 错误，b不是常量</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="volatile">4. volatile</h3>
-<p>volatiel提醒编译器它后面所定义的变量随时都有可能发生变化，因此，编译后的程序每次需要存储或读取这个变量的时候，都会直接从变量所在的地址进行读取。如果没有volatiel关键字，编译器在编译时可能会对程序进行优化，可能会暂时使用寄存器中的值。如果这个变量被别的程序修改了，将会出现不一致的现象。</p>
+<p>volatiel提醒编译器它后面所定义的变量随时都有可能发生变化，因此，编译后的程序每次需要存储或读取这个变量的时候，都会直接从变量所在的地址进行读取。如果没有volatile关键字，编译器在编译时可能会对程序进行优化，可能会暂时使用寄存器中的值。如果这个变量被别的程序修改了，将会出现不一致的现象。</p>
+<h3 id="static"><a name="sec_static">5. static </a></h3>
+<ul>
+<li><p><strong>static修饰普通函数</strong></p>
+<p>static修饰的普通函数称为静态函数。与普通函数相比，它有如下两个特点：</p>
+<p>（1）静态函数仅在当前源代码文件可见，不能被本源代码文件以外的其他源代码文件调用</p>
+<p>（2）其他文件可以定义相同名字的函数，不会发生冲突</p></li>
+</ul>
 <h3 id="nullptr">5. nullptr</h3>
 <p>空指针，可以用于指针的初始化，但是不可对其访问（nullptr实际上就是0，内存0为操作系统占用内存，应用程序无权限访问）。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span>* p = <span class="literal">nullptr</span>;</span><br><span class="line">std::cout &lt;&lt; p &lt;&lt; std::endl;      <span class="comment">// 输出0</span></span><br><span class="line">*p = <span class="number">100</span>;    <span class="comment">// 报错，Linux平台显示Segmentation Fault</span></span><br></pre></td></tr></table></figure>
@@ -1206,14 +1217,14 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
     <url>/2021/10/23/git/</url>
     <content><![CDATA[<p>本文主要记录git中的一些常见概念原理和命令的使用，包含如下内容：</p>
 <ul>
-<li><a href="#-1-git相关设置-"><a name="git_config"> 1. git相关设置 </a></a></li>
-<li><a href="#-2-git仓库初始化"><a name="git_init"> 2. git仓库初始化 </a></a></li>
-<li><a href="#-3-工作区暂存区本地仓库和远程仓库"><a name="git_add"> 3. 工作区，暂存区，本地仓库和远程仓库 </a></a></li>
-<li><a href="#3-推送至远程仓库-"><a name="git_push">3. 推送至远程仓库 </a></a></li>
-<li><a href="#3-git-diff"><a name="git_diff">3. git diff </a></a></li>
+<li><a href="#1-git相关设置"><a name="git_config">1. git相关设置</a></a></li>
+<li><a href="#2-git仓库初始化"><a name="git_init">2. git仓库初始化</a></a></li>
+<li><a href="#3-工作区暂存区本地仓库和远程仓库"><a name="git_add">3. 工作区，暂存区，本地仓库和远程仓库</a></a></li>
+<li><a href="#4-推送至远程仓库"><a name="git_push">4. 推送至远程仓库</a></a></li>
+<li><a href="#5-git-diff"><a name="git_diff">5. git diff</a></a></li>
 </ul>
 <span id="more"></span>
-<h3 id="git相关设置"><a name="git_config"> 1. git相关设置 </a></h3>
+<h3 id="git相关设置"><a name="git_config">1. git相关设置</a></h3>
 <p>在完成git的安装后，需要进行一些设置才可以正常使用git的相关功能。</p>
 <ul>
 <li><strong>设置姓名和邮箱</strong></li>
@@ -1223,7 +1234,7 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
 <li><strong>设置UI配色，提高命令的可读性</strong></li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global color.ui auto</span><br></pre></td></tr></table></figure>
-<h3 id="git仓库初始化"><a name="git_init"> 2. git仓库初始化 </a></h3>
+<h3 id="git仓库初始化"><a name="git_init">2. git仓库初始化</a></h3>
 <p>构建一个git仓库通常有两种形式，第一种是clone一个已有的git仓库，第二种是将自己的工作目录初始化为一个git仓库。clone一个已有的git仓库可以通过git clone命令加仓库地址来实现，例如：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/tensorflow/tensorflow.git    // <span class="built_in">clone</span> TensorFlow远程仓库到本地</span><br></pre></td></tr></table></figure>
 <p>将自己的工作目录初始化为git仓库，通过git init命令实现。首先切换到自己的项目根目录下，然后运行git init命令即可。</p>
@@ -1231,7 +1242,7 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
 <p>初始化为git仓库后，项目根目录下会多出一个名为<strong>.git</strong>的影藏文件夹，这个文件夹内记录了关于这个git仓库的所有信息。运行git init命令后，仅是初始化了一个本地git仓库，如果需要添加远程仓库，则需要使用git remote add命令：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git remote add [NAME] [remote URL]</span><br></pre></td></tr></table></figure>
 <p>通过上述命令可以添加一个远程仓库，并且指定该远程仓库的名字。</p>
-<h3 id="工作区暂存区本地仓库和远程仓库"><a name="git_add"> 3. 工作区，暂存区，本地仓库和远程仓库 </a></h3>
+<h3 id="工作区暂存区本地仓库和远程仓库"><a name="git_add">3. 工作区，暂存区，本地仓库和远程仓库</a></h3>
 <p>工作区，暂存区，本地仓库和远程仓库是git中非常重要的四个概念：</p>
 <ul>
 <li>工作区（Workspace）：当前工作区域，可以理解为日常编辑工程文件的地方</li>
@@ -1262,7 +1273,7 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
 <p>可以使用git status查看文件状态，git status -s可以简略的状态信息，结果如下：</p>
 <p><img src="https://jxliu-picbed.oss-cn-shanghai.aliyuncs.com/img/image-20211023162808917.png" alt="image-20211023162808917" style="zoom:80%;" /></p>
 <p>其中？表示文件尚未被跟踪，M表示文件已被修改，A表示文件被刚纳入版本管理并且已加入至暂存区。共有两列内容，第一列表示暂存区中的状态，第二列表示工作区中的状态。git_1.md为什么在暂存区和工作区都被显示为已修改呢？这是因为：我对git_1.md文件进行修改了之后，将其加入暂存区，然后又对其进行了修改，所以在暂存区和工作区都显示其为已修改状态。</p>
-<h3 id="推送至远程仓库"><a name="git_push">3. 推送至远程仓库 </a></h3>
+<h3 id="推送至远程仓库"><a name="git_push">4. 推送至远程仓库</a></h3>
 <ul>
 <li><strong>添加远程仓库</strong></li>
 </ul>
@@ -1277,7 +1288,7 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
 <p>如果远程分支名与本地分支名相同，则可以省略远程分支名，例如将本地的master分支推送至origin远程仓库的master分支，可以使用如下命令：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
 <p>其中，-u选项会将远程仓库的master设置为本地master分支的upstream，这样后续的推送和拉取会方便很多</p>
-<h3 id="git-diff"><a name="git_diff">3. git diff </a></h3>
+<h3 id="git-diff"><a name="git_diff">5. git diff</a></h3>
 <p>git diff用于比较文件之间的差异，通常有如下几种用法：</p>
 <ul>
 <li>git diff [filename]：用于比较当前工作区和暂存区之间的差异</li>
@@ -1309,6 +1320,22 @@ x^n=x^{\sum_{i=0}^{m-1}10^{m-1-i}*b_i}=\prod_{i=0}^{m-1}x^{10^{m-1-i}*b_i}=\prod
       </categories>
       <tags>
         <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>神奇的__attribute__</title>
+    <url>/2022/03/26/attribute/</url>
+    <content><![CDATA[<p>__attribute__机制是GNU C的一大特色，__attribute__可以设置函数属性（Function Attribute ）、变量属性（Variable Attribute ）和类型属性（Type Attribute ）。使用__attribute__的语法格式为：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">__attribute__((attribute_list))</span><br></pre></td></tr></table></figure>
+<h3 id="attribute__noreturn">1. __attribute__((noreturn))</h3>
+<p><strong>作用：</strong> 定义有返回值的函数时，而实际情况有可能没有返回值，此时编译器会报错。加上attribute((noreturn))则可以很好的处理类似这种问题。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">err_quit</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> * fmt, ...)</span> __<span class="title">attribute__</span><span class="params">((noreturn))</span></span>;   <span class="comment">// err_quit为一无返回值的函数</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
       </tags>
   </entry>
 </search>
